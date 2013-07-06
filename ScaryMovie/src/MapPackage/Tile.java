@@ -5,6 +5,7 @@
 package MapPackage;
 
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.tiled.TileSet;
 
 /**
  *
@@ -35,7 +36,7 @@ public class Tile extends scarymovie.GameEntity {
     boolean m_spawn = false;
 
     //Construtor:
-    public Tile(Vector2f position, TILE_TYPES type, boolean passable){
+    public Tile(Vector2f position, TILE_TYPES type, boolean passable, TileSet tileset){
         
     }
 }
