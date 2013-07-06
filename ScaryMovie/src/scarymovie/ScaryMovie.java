@@ -18,5 +18,7 @@ public class ScaryMovie {
         System.out.println("Testando essa Porra! HUE HUA HUE HUA");
         
         int temp = 10;
+        
+        System.out.println("O Andsu É: " + temp);
     }
 }
