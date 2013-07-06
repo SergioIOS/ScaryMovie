@@ -4,6 +4,8 @@
  */
 package scarymovie;
 
+import java.io.File;
+
 /**
  *
  * @author CarlosEduardo
@@ -14,6 +16,8 @@ public class ScaryMovie {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+        
         // TODO code application logic here
         System.out.println("Testando essa Porra! HUE HUA HUE HUA");
         
