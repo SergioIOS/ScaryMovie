@@ -12,7 +12,7 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class Tile extends scarymovie.GameEntity {
     //Tipos de Tiles:
-    enum TILE_TYPES{
+    public enum TILE_TYPES{
         TILE_GRASS(0),
         TILE_SAND(1),
         TILE_INSIDE_FLOOR(2),
