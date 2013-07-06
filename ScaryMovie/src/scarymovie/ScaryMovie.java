@@ -15,5 +15,8 @@ public class ScaryMovie {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("Testando essa Porra!");
+        
+        int temp = 10;
     }
 }
