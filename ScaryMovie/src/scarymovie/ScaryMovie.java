@@ -20,5 +20,7 @@ public class ScaryMovie {
         int temp = 10;
         
         System.out.println("O Andsu É: " + temp);
+        
+        String Cadu = "awesome!";
     }
 }
