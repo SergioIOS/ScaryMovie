@@ -16,6 +16,7 @@ public class ScaryMovie {
     public static void main(String[] args) {
         // TODO code application logic here
         System.out.println("Testando essa Porra!");
+        System.out.println("Parece que funciocou! HUE");
         
         int temp = 10;
     }
