@@ -11,7 +11,7 @@ import org.newdawn.slick.tiled.TileSet;
  *
  * @author Anderson
  */
-public class Tile extends scarymovie.GameEntity {
+public class Tile {
     //Tipos de Tiles:
     public enum TILE_TYPES{
         TILE_GRASS(0),
@@ -34,6 +34,7 @@ public class Tile extends scarymovie.GameEntity {
     int m_mapRelX, m_mapRelY;
     boolean m_passable = true;
     boolean m_spawn = false;
+    Vector2f m_position;
 
     //Construtor:
     public Tile(Vector2f position, TILE_TYPES type, boolean passable, TileSet tileset){
