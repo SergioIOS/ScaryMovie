@@ -4,6 +4,7 @@
  */
 package TrapPackage;
 
+import CharacterPackage.Teenager;
 import org.newdawn.slick.geom.Vector2f;
 import scarymovie.GameEntity;
 
@@ -13,7 +14,7 @@ import scarymovie.GameEntity;
  */
 public class MovableTrap extends GameEntity implements Trap{
     //Membros:
-    CharacterPackage.Teenager.MOVEMENT_STATES m_movementState;
+    Teenager.MOVEMENT_STATES m_movementState;
     
     //Contrutor:
     public MovableTrap(Vector2f position, TrapType type){
