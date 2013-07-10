@@ -6,12 +6,13 @@ package CharacterPackage;
 
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
+import scarymovie.GameEntity;
 
 /**
  *
  * @author CarlosEduardo
  */
-public class Killer {
+public class Killer extends GameEntity{
     //States do Killer:
     public enum KILLER_STATES{
         STATE_ATTACKING (0),
@@ -50,7 +51,7 @@ public class Killer {
     
     //Construtor:
     public Killer(Vector2f position){
-        
+        this.m_position = position;
     }
     
     //Atualiza o Killer:

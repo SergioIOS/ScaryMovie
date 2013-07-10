@@ -13,11 +13,11 @@ import org.newdawn.slick.geom.Vector2f;
  * @author CarlosEduardo
  */
 public class GameEntity {
-    private Vector2f m_position;
-    private Vector2f m_speed;
-    private Rectangle m_colisionBox;
-    private Rectangle m_targetPosition;
-    private Animation m_sprite = null;
+    protected Vector2f m_position;
+    protected Vector2f m_speed;
+    protected Rectangle m_colisionBox;
+    protected Rectangle m_targetPosition;
+    protected Animation m_sprite = null;
     
     //Verifica a colisão desta entidade com uma entidade externa:
     public boolean checkColision(Rectangle entityRect){

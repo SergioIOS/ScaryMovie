@@ -5,12 +5,13 @@
 package CharacterPackage;
 
 import org.newdawn.slick.geom.Vector2f;
+import scarymovie.GameEntity;
 
 /**
  *
  * @author CarlosEduardo
  */
-public class Teenager {
+public class Teenager extends GameEntity{
     //States de Movimentos:
     public enum MOVEMENT_STATES{
         STATE_WALKING_LEFT (0),
@@ -54,7 +55,9 @@ public class Teenager {
     
     //Construtor:
     public Teenager(TeenagerSpriteManager sm, Vector2f position){
+        //Tratativa do TeenagerSpriteManager
         
+        this.m_position = position;
     }
     
     //Atualiza o teenager:
