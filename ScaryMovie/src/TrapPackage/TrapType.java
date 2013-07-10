@@ -34,7 +34,11 @@ public class TrapType {
     private float m_triggerDistance = 0;
     
     public TrapType(TRAP_ID type, String description, int fearFactor, int curiosityFactor, float triggerDistance){
-        
+        this.m_ID = type;
+        this.m_description = description;
+        this.m_fearFactor = fearFactor;
+        this.m_curiosityFactor = curiosityFactor;
+        this.m_triggerDistance = triggerDistance;
     }
     
 

@@ -18,7 +18,9 @@ public class MovableTrap extends GameEntity implements Trap{
     
     //Contrutor:
     public MovableTrap(Vector2f position, TrapType type){
+        this.m_position = position;
         
+        //Tratativa para o tipo
     }
     
     //Atualiza todos os dados da Trap:

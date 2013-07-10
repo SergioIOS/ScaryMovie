@@ -25,13 +25,13 @@ public class TeenagerManager {
     }
     
     //Adiciona Teenager
-    public void addTeenager(){
-        
+    public void addTeenager(Teenager teenager){
+        this.m_teenagers.add(teenager);
     }
     
     //Remove Teenager
     public void removeTeenager(Teenager teenager){
-        
+        this.m_teenagers.remove(teenager);
     } 
 
     /**

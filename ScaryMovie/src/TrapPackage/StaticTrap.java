@@ -15,6 +15,8 @@ public class StaticTrap extends GameEntity implements Trap{
     
     //Construtor:
     public StaticTrap(Vector2f position, TrapType type){
+        this.m_position = position;
         
+        //Tratativa para o tipo
     }
 }
