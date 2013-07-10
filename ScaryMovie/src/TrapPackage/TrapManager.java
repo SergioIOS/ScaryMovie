@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class TrapManager {
     //Membros:
-    ArrayList<Trap> m_Traps;
+    private ArrayList<Trap> m_Traps;
     
     //Atualiza todas as Traps:
     public void updateTraps(){
@@ -32,5 +32,19 @@ public class TrapManager {
     //Remove Trap:
     public void removeTrap(Trap trap){
         
+    }
+
+    /**
+     * @return the m_Traps
+     */
+    public ArrayList<Trap> getM_Traps() {
+        return m_Traps;
+    }
+
+    /**
+     * @param m_Traps the m_Traps to set
+     */
+    public void setM_Traps(ArrayList<Trap> m_Traps) {
+        this.m_Traps = m_Traps;
     }
 }

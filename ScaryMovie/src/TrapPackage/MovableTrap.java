@@ -14,17 +14,30 @@ import scarymovie.GameEntity;
  */
 public class MovableTrap extends GameEntity implements Trap{
     //Membros:
-    Teenager.MOVEMENT_STATES m_movementState;
+    private Teenager.MOVEMENT_STATES m_movementState;
     
     //Contrutor:
     public MovableTrap(Vector2f position, TrapType type){
-        //Membros:
         
     }
     
     //Atualiza todos os dados da Trap:
     public void update(){
         
+    }
+
+    /**
+     * @return the m_movementState
+     */
+    public Teenager.MOVEMENT_STATES getM_movementState() {
+        return m_movementState;
+    }
+
+    /**
+     * @param m_movementState the m_movementState to set
+     */
+    public void setM_movementState(Teenager.MOVEMENT_STATES m_movementState) {
+        this.m_movementState = m_movementState;
     }
             
 }

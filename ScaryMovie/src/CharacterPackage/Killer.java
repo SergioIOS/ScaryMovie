@@ -43,10 +43,10 @@ public class Killer {
     }
     
     //Membros:
-    boolean m_spawned = false;
-    KILLER_STATES m_state;
-    Teenager.MOVEMENT_STATES m_movementState;
-    SpriteSheet m_spriteSheet = null;
+    private boolean m_spawned = false;
+    private KILLER_STATES m_state;
+    private Teenager.MOVEMENT_STATES m_movementState;
+    private SpriteSheet m_spriteSheet = null;
     
     //Construtor:
     public Killer(Vector2f position){
@@ -67,4 +67,61 @@ public class Killer {
     public void attack(){
         
     }   
+    
+    
+    /**
+     * @return the m_spawned
+     */
+    public boolean isM_spawned() {
+        return m_spawned;
+    }
+
+    /**
+     * @param m_spawned the m_spawned to set
+     */
+    public void setM_spawned(boolean m_spawned) {
+        this.m_spawned = m_spawned;
+    }
+
+    /**
+     * @return the m_state
+     */
+    public KILLER_STATES getM_state() {
+        return m_state;
+    }
+
+    /**
+     * @param m_state the m_state to set
+     */
+    public void setM_state(KILLER_STATES m_state) {
+        this.m_state = m_state;
+    }
+
+    /**
+     * @return the m_movementState
+     */
+    public Teenager.MOVEMENT_STATES getM_movementState() {
+        return m_movementState;
+    }
+
+    /**
+     * @param m_movementState the m_movementState to set
+     */
+    public void setM_movementState(Teenager.MOVEMENT_STATES m_movementState) {
+        this.m_movementState = m_movementState;
+    }
+
+    /**
+     * @return the m_spriteSheet
+     */
+    public SpriteSheet getM_spriteSheet() {
+        return m_spriteSheet;
+    }
+
+    /**
+     * @param m_spriteSheet the m_spriteSheet to set
+     */
+    public void setM_spriteSheet(SpriteSheet m_spriteSheet) {
+        this.m_spriteSheet = m_spriteSheet;
+    }
 }

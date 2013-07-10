@@ -12,7 +12,7 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class Camera {
     //Membros:
-    Vector2f m_position;
+    private Vector2f m_position;
     
     //Construtor:
     public Camera(){
@@ -22,5 +22,19 @@ public class Camera {
     //Atualiza a posição da camera:
     public void update(){
         
+    }
+
+    /**
+     * @return the m_position
+     */
+    public Vector2f getM_position() {
+        return m_position;
+    }
+
+    /**
+     * @param m_position the m_position to set
+     */
+    public void setM_position(Vector2f m_position) {
+        this.m_position = m_position;
     }
 }

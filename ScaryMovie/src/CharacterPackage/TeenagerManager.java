@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class TeenagerManager {
     //Membros:
-    ArrayList<Teenager> m_teenagers;
+    private ArrayList<Teenager> m_teenagers;
     
     //Atualiza os Teenagers
     public void updateTeens(){
@@ -33,5 +33,19 @@ public class TeenagerManager {
     public void removeTeenager(Teenager teenager){
         
     } 
+
+    /**
+     * @return the m_teenagers
+     */
+    public ArrayList<Teenager> getM_teenagers() {
+        return m_teenagers;
+    }
+
+    /**
+     * @param m_teenagers the m_teenagers to set
+     */
+    public void setM_teenagers(ArrayList<Teenager> m_teenagers) {
+        this.m_teenagers = m_teenagers;
+    }
             
 }

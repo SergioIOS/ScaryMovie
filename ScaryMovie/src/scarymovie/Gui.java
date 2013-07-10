@@ -15,7 +15,7 @@ import TrapPackage.TrapManager;
  */
 public class Gui {
     //Membros:
-    int m_score = 0;
+    private int m_score = 0;
     
     //Desenha a Gui:
     public void draw(){
@@ -25,5 +25,19 @@ public class Gui {
     //Atualiza os componentes do jogo:
     public void update(Killer killer, Map map, TeenagerManager teenManager, TrapManager trapsManager){
         
+    }
+
+    /**
+     * @return the m_score
+     */
+    public int getM_score() {
+        return m_score;
+    }
+
+    /**
+     * @param m_score the m_score to set
+     */
+    public void setM_score(int m_score) {
+        this.m_score = m_score;
     }
 }
