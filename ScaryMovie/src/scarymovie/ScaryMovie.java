@@ -4,27 +4,57 @@
  */
 package scarymovie;
 
+import StatesPackage.Intro;
+import StatesPackage.MainMenu;
 import java.io.File;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 /**
  *
  * @author CarlosEduardo
  */
-public class ScaryMovie {
-
+public class ScaryMovie extends StateBasedGame {
+    //Estados:
+    public static final int INTRO_STATE = 0;
+    public static final int MAINMENU_STATE = 1;
+    public static final int OPTIONS_STATE = 2;
+    public static final int SHOP_STATE = 3;
+    public static final int MAPCHOOSER_STATE = 4;
+    public static final int GAMEPLAY_STATE = 5;
+    public static final int PAUSE_STATE = 6;
+    public static final int SCORETABLE_STATE = 7;
+    public static final int GAMEOVER_STATE = 8;
+    
+    //Construtor:
+    public ScaryMovie(String tituloDaJanela){
+        super(tituloDaJanela);
+        
+        this.addState(new Intro(INTRO_STATE));
+        this.addState(new MainMenu(MAINMENU_STATE));
+    }
+    
+    //Inicializa os estados armazenados:
+    @Override
+    public void initStatesList(GameContainer gc) throws SlickException{
+        this.getState(INTRO_STATE).init(gc, this);
+        this.getState(MAINMENU_STATE).init(gc, this);
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SlickException {
         System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         
-        // TODO code application logic here
-        System.out.println("Testando essa Porra! HUE HUA HUE HUA");
+        AppGameContainer appgc;
         
-        int temp = 10;
-        
-        System.out.println("O Andsu É: " + temp);
-        
-        String Cadu = "awesome!";
+        appgc = new AppGameContainer(new ScaryMovie("Scary Movie"));
+        appgc.setDisplayMode(800, 600, false);
+        appgc.setTargetFrameRate(60);
+        appgc.start();
     }
 }
