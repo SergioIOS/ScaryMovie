@@ -4,8 +4,15 @@
  */
 package scarymovie;
 
+import StatesPackage.GameOver;
+import StatesPackage.GamePlay;
 import StatesPackage.Intro;
 import StatesPackage.MainMenu;
+import StatesPackage.MapChooser;
+import StatesPackage.Options;
+import StatesPackage.Pause;
+import StatesPackage.ScoreTable;
+import StatesPackage.Shop;
 import java.io.File;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -34,13 +41,13 @@ public class ScaryMovie extends StateBasedGame {
         
         this.addState(new Intro(INTRO_STATE));
         this.addState(new MainMenu(MAINMENU_STATE));
-        this.addState(new MainMenu(OPTIONS_STATE));
-        this.addState(new MainMenu(SHOP_STATE));
-        this.addState(new MainMenu(MAPCHOOSER_STATE));
-        this.addState(new MainMenu(GAMEPLAY_STATE));
-        this.addState(new MainMenu(PAUSE_STATE));
-        this.addState(new MainMenu(SCORETABLE_STATE));
-        this.addState(new MainMenu(GAMEOVER_STATE));
+        this.addState(new Options(OPTIONS_STATE));
+        this.addState(new Shop(SHOP_STATE));
+        this.addState(new MapChooser(MAPCHOOSER_STATE));
+        this.addState(new GamePlay(GAMEPLAY_STATE));
+        this.addState(new Pause(PAUSE_STATE));
+        this.addState(new ScoreTable(SCORETABLE_STATE));
+        this.addState(new GameOver(GAMEOVER_STATE));
     }
     
     //Inicializa os estados armazenados:

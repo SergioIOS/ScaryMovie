@@ -32,7 +32,7 @@ public class GameEntity {
     
     //Desenha o sprite:
     public void draw(){
-        
+        m_sprite.draw(m_position.x, m_position.y);
     }
 
     /**
