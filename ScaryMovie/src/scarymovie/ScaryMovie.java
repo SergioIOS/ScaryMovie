@@ -34,6 +34,13 @@ public class ScaryMovie extends StateBasedGame {
         
         this.addState(new Intro(INTRO_STATE));
         this.addState(new MainMenu(MAINMENU_STATE));
+        this.addState(new MainMenu(OPTIONS_STATE));
+        this.addState(new MainMenu(SHOP_STATE));
+        this.addState(new MainMenu(MAPCHOOSER_STATE));
+        this.addState(new MainMenu(GAMEPLAY_STATE));
+        this.addState(new MainMenu(PAUSE_STATE));
+        this.addState(new MainMenu(SCORETABLE_STATE));
+        this.addState(new MainMenu(GAMEOVER_STATE));
     }
     
     //Inicializa os estados armazenados:
@@ -41,6 +48,13 @@ public class ScaryMovie extends StateBasedGame {
     public void initStatesList(GameContainer gc) throws SlickException{
         this.getState(INTRO_STATE).init(gc, this);
         this.getState(MAINMENU_STATE).init(gc, this);
+        this.getState(OPTIONS_STATE).init(gc, this);
+        this.getState(SHOP_STATE).init(gc, this);
+        this.getState(MAPCHOOSER_STATE).init(gc, this);
+        this.getState(GAMEPLAY_STATE).init(gc, this);
+        this.getState(PAUSE_STATE).init(gc, this);
+        this.getState(SCORETABLE_STATE).init(gc, this);
+        this.getState(GAMEOVER_STATE).init(gc, this);
     }
     
     

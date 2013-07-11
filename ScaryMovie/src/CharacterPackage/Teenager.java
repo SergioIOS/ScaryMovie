@@ -4,6 +4,7 @@
  */
 package CharacterPackage;
 
+import java.util.Random;
 import org.newdawn.slick.Animation;
 import scarymovie.ResourceManager;
 import org.newdawn.slick.geom.Vector2f;
@@ -52,15 +53,26 @@ public class Teenager extends GameEntity{
     private int m_fear = 0;
     private int m_curiosity = 0;
     private MOVEMENT_STATES m_movementState;
-    private float viewDistance = 0;
+    private float m_viewDistance = 0;
     
     
     //Construtor:
     public Teenager(ResourceManager sm, Vector2f position){
-        //Tratativa do TeenagerSpriteManager
-        m_sprite = new Animation(sm.getTeenAnimation(m_gender), 200);
+        //Gerando o gênero aleatoriamente:
+        Random rand = new Random();
+        int number = rand.nextInt(2);
+        if(number == 0){
+            this.m_gender = TEENAGER_GENDER.GENDER_MALE;
+        }
+        else{
+            this.m_gender = TEENAGER_GENDER.GENDER_FEMALE;
+        }      
         
+        //Tratativa do TeenagerSpriteManager
+        this.m_sprite = new Animation(sm.getTeenAnimation(m_gender), 200);
+                
         this.m_position = position;
+        this.m_viewDistance = 150;
     }
     
     //Atualiza o teenager:
@@ -144,14 +156,14 @@ public class Teenager extends GameEntity{
      * @return the viewDistance
      */
     public float getViewDistance() {
-        return viewDistance;
+        return m_viewDistance;
     }
 
     /**
      * @param viewDistance the viewDistance to set
      */
-    public void setViewDistance(float viewDistance) {
-        this.viewDistance = viewDistance;
+    public void setM_viewDistance(float m_viewDistance) {
+        this.m_viewDistance = m_viewDistance;
     }
     
 }
