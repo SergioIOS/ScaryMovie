@@ -4,6 +4,8 @@
  */
 package CharacterPackage;
 
+import org.newdawn.slick.Animation;
+import scarymovie.ResourceManager;
 import org.newdawn.slick.geom.Vector2f;
 import scarymovie.GameEntity;
 
@@ -54,8 +56,9 @@ public class Teenager extends GameEntity{
     
     
     //Construtor:
-    public Teenager(TeenagerSpriteManager sm, Vector2f position){
+    public Teenager(ResourceManager sm, Vector2f position){
         //Tratativa do TeenagerSpriteManager
+        m_sprite = new Animation(sm.getTeenAnimation(m_gender), 200);
         
         this.m_position = position;
     }
