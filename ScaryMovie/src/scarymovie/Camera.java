@@ -23,6 +23,25 @@ public class Camera {
     public void update(){
         
     }
+    
+    public void move(CharacterPackage.Killer.DIRECTIONS dir){
+        switch(dir){
+            case DIR_LEFT:
+                m_position.x -= 32;
+                break;
+            case DIR_RIGHT:
+                m_position.x += 32;
+                break;
+            case DIR_UP:
+                m_position.y -= 32;
+                break;
+            case DIR_DOWN:
+                m_position.y += 32;
+                break;
+            default:
+                throw new AssertionError(dir.name());
+        }
+    }
 
     /**
      * @return the m_position

@@ -68,6 +68,7 @@ public class MainMenu extends BasicGameState{
                     
                 case 1:
                     System.out.println("Carregar Jogo!");
+                    sbg.enterState(scarymovie.ScaryMovie.MAPCHOOSER_STATE);
                 break;
                     
                 case 2:

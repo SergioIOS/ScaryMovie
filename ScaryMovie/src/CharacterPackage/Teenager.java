@@ -69,7 +69,7 @@ public class Teenager extends GameEntity{
         }      
         
         //Tratativa do TeenagerSpriteManager
-        this.m_sprite = new Animation(sm.getTeenAnimation(m_gender), 200);
+        this.m_sprite = new Animation(sm.getTeenAnimation(m_gender), 400);
                 
         this.m_position = position;
         this.m_viewDistance = 150;

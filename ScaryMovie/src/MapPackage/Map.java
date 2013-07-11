@@ -4,9 +4,11 @@
  */
 package MapPackage;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
+import scarymovie.Camera;
 
 /**
  *
@@ -22,15 +24,35 @@ public class Map {
     private int m_tileSizeH;
     
     //Construtor:
-    public Map(){
+    public Map() throws SlickException{
+        //Carregando o mapa:
+        m_drawableMap = new TiledMap("data/BeachStage.tmx");
         
+        //Agora, percorrendo o mapa e criando os tiles:
+        for(int x = 0; x < m_drawableMap.getWidth();x++){
+            for(int y = 0; y < m_drawableMap.getHeight();y++){
+                
+            }
+        }
     }
     
     //Desenha o mapa:
-    public void drawMap() throws SlickException{
-        setM_drawableMap(new TiledMap("data/TestStage.tmx"));
+    public void drawMap(GameContainer gc, Camera camera){
+        //Calculado a posição para começar a desenhar:
+        int tileOffsetX = (int) - (camera.getM_position().x % 32);
+        int tileOffsetY = (int) - (camera.getM_position().y % 32);
         
+        //Calculando o indice do tile mais pra esquerda:
+        int tileIndexX = (int) (camera.getM_position().x / 32);
+        int tileIndexY = (int) (camera.getM_position().y / 32);
         
+        //Finalmente, desenhado:
+        m_drawableMap.render(tileOffsetX + 0,
+                     tileOffsetY + 0,
+                     tileIndexX,
+                     tileIndexY,
+                     (gc.getWidth() - tileOffsetX) / 32 + 1,
+                     (gc.getHeight()- tileOffsetY) / 32 + 1);
     }
     
     //Retorna um tile baseado em um ponto no mapa:
