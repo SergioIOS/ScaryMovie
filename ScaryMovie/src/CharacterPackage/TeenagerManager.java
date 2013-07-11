@@ -5,6 +5,8 @@
 package CharacterPackage;
 
 import java.util.ArrayList;
+import org.newdawn.slick.geom.Vector2f;
+import scarymovie.ResourceManager;
 
 /**
  *
@@ -14,18 +16,28 @@ public class TeenagerManager {
     //Membros:
     private ArrayList<Teenager> m_teenagers;
     
+    //Construtor:
+    public TeenagerManager(){
+        m_teenagers = new ArrayList<>();
+    }
+    
     //Atualiza os Teenagers
     public void updateTeens(){
-        
+        for(int x = 0; x < m_teenagers.size(); x++){
+            m_teenagers.get(x).update();
+        }
     }
     
     //Desenha os Teenagers
     public void drawTeenagers(){
-        
+        for(int x = 0; x < m_teenagers.size(); x++){
+            m_teenagers.get(x).draw();
+        }
     }
     
     //Adiciona Teenager
-    public void addTeenager(Teenager teenager){
+    public void addTeenager(ResourceManager rm, Vector2f position){        
+        Teenager teenager = new Teenager(rm, position);
         this.m_teenagers.add(teenager);
     }
     
