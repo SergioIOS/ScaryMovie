@@ -4,6 +4,7 @@
  */
 package MapPackage;
 
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TileSet;
 
@@ -14,11 +15,8 @@ import org.newdawn.slick.tiled.TileSet;
 public class Tile {
     //Tipos de Tiles:
     public enum TILE_TYPES{
-        TILE_GRASS(0),
-        TILE_SAND(1),
-        TILE_INSIDE_FLOOR(2),
-        TILE_WALL(3),
-        TILE_WATER(4);
+        TILE_WALKABLE(0),
+        TILE_WATER(1);
         
         //O ID de cada objeto:
         public int m_id;
@@ -36,10 +34,19 @@ public class Tile {
     private boolean m_passable = true;
     private boolean m_spawn = false;
     private Vector2f m_position;
+    private Rectangle m_colisionBox = null;
 
     //Construtor:
-    public Tile(Vector2f position, TILE_TYPES type, boolean passable, TileSet tileset){
+    public Tile(Vector2f position, TILE_TYPES type, boolean passable){
+        m_position = position;
+        m_mapRelX = (int)position.x / 32;
+        m_mapRelY = (int)position.y / 32;
         
+        m_passable = passable;
+        m_spawn = false;
+        m_type = type;
+        
+        m_colisionBox = new Rectangle(m_position.x, m_position.y, 32, 32);
     }
     
 
@@ -125,5 +132,19 @@ public class Tile {
      */
     public void setM_position(Vector2f m_position) {
         this.m_position = m_position;
+    }
+    
+    /**
+     * @return the m_colisionBox
+     */
+    public Rectangle getM_colisionBox() {
+        return m_colisionBox;
+    }
+
+    /**
+     * @param m_colisionBox the m_colisionBox to set
+     */
+    public void setM_colisionBox(Rectangle m_colisionBox) {
+        this.m_colisionBox = m_colisionBox;
     }
 }
