@@ -93,6 +93,9 @@ public class GamePlay extends BasicGameState{
             m_camera.move(Killer.DIRECTIONS.DIR_RIGHT);
         }
         
+        //Atualizando os teens:
+        tm.updateTeens();
+        
         //Atualizando a camera:
         m_camera.update();
     }
