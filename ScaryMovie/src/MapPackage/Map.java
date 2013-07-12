@@ -27,11 +27,31 @@ public class Map {
     public Map() throws SlickException{
         //Carregando o mapa:
         m_drawableMap = new TiledMap("data/BeachStage.tmx");
+        m_tiles = new Tile[m_drawableMap.getWidth()][m_drawableMap.getHeight()];
         
         //Agora, percorrendo o mapa e criando os tiles:
+        for(int y = 0; y < m_drawableMap.getWidth();y++){
+            for(int x = 0; x < m_drawableMap.getHeight();x++){
+                String temp = m_drawableMap.getTileProperty(m_drawableMap.getTileId(x, y, 0), "type", "1");
+                
+                if("0".equals(temp)){
+                    m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_WATER, false);
+                }else{
+                    m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_WALKABLE, true);
+                }
+                
+                System.out.print(temp);
+            }
+            
+            System.out.println();
+        }
+        
+        //Lendo a camada de colisão:
         for(int x = 0; x < m_drawableMap.getWidth();x++){
             for(int y = 0; y < m_drawableMap.getHeight();y++){
-                
+                if(m_drawableMap.getTileId(x, y, 1) > 0){
+                    
+                }
             }
         }
     }
@@ -58,6 +78,15 @@ public class Map {
     //Retorna um tile baseado em um ponto no mapa:
     public Tile getTileByPosition(Vector2f position){
         Tile temp = null;
+        
+        //Procurando o tile:
+        for(int x = 0; x < m_drawableMap.getWidth();x++){
+            for(int y = 0; y < m_drawableMap.getHeight();y++){
+                if(m_tiles[x][y].getM_colisionBox().contains(position.x, position.y)){
+                    return m_tiles[x][y];
+                }
+            }
+        }
         
         return temp;
     }
