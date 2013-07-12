@@ -4,8 +4,10 @@
  */
 package CharacterPackage;
 
+import MapPackage.Map;
 import java.util.ArrayList;
 import org.newdawn.slick.geom.Vector2f;
+import scarymovie.Camera;
 import scarymovie.ResourceManager;
 
 /**
@@ -15,10 +17,12 @@ import scarymovie.ResourceManager;
 public class TeenagerManager {
     //Membros:
     private ArrayList<Teenager> m_teenagers;
+    private Camera m_camera = null;
     
     //Construtor:
-    public TeenagerManager(){
+    public TeenagerManager(Camera camera){
         m_teenagers = new ArrayList<>();
+        m_camera = camera;
     }
     
     //Atualiza os Teenagers
@@ -31,13 +35,13 @@ public class TeenagerManager {
     //Desenha os Teenagers
     public void drawTeenagers(){
         for(int x = 0; x < m_teenagers.size(); x++){
-            m_teenagers.get(x).draw();
+            m_teenagers.get(x).draw(m_camera);
         }
     }
     
     //Adiciona Teenager
-    public void addTeenager(ResourceManager rm, Vector2f position){        
-        Teenager teenager = new Teenager(rm, position);
+    public void addTeenager(ResourceManager rm, Vector2f position, Map map){        
+        Teenager teenager = new Teenager(rm, position, map.getTileByPosition(position));
         this.m_teenagers.add(teenager);
     }
     
