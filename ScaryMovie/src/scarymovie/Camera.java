@@ -13,10 +13,15 @@ import org.newdawn.slick.geom.Vector2f;
 public class Camera {
     //Membros:
     private Vector2f m_position;
+    private float m_speed = 16f;
+    private int m_mapSizeW, m_mapSizeH;
     
     //Construtor:
-    public Camera(){
-        m_position = new Vector2f(0, 0);
+    public Camera(MapPackage.Map map){
+        m_mapSizeW = map.getM_drawableMap().getWidth() * 32;
+        m_mapSizeH = map.getM_drawableMap().getHeight() * 32;
+        
+        m_position = new Vector2f((m_mapSizeW/ 2) - (800 / 2), (m_mapSizeH / 2) - (600 / 2));
     }
     
     //Atualiza a posição da camera:
@@ -27,16 +32,36 @@ public class Camera {
     public void move(CharacterPackage.Killer.DIRECTIONS dir){
         switch(dir){
             case DIR_LEFT:
-                m_position.x -= 32;
+                m_position.x -= m_speed;
+                
+                //Saímos do mapa?
+                if(m_position.x < 0){
+                    m_position.x = 0;
+                }
                 break;
             case DIR_RIGHT:
-                m_position.x += 32;
+                m_position.x += m_speed;
+                
+                //Saímos do mapa?
+                if((m_position.x + 800) > m_mapSizeW){
+                    m_position.x = m_mapSizeW - 800;
+                }
                 break;
             case DIR_UP:
-                m_position.y -= 32;
+                m_position.y -= m_speed;
+                
+                //Saímos do mapa?
+                if(m_position.y < 0){
+                    m_position.y = 0;
+                }
                 break;
             case DIR_DOWN:
-                m_position.y += 32;
+                m_position.y += m_speed;
+                
+                //Saímos do mapa?
+                if((m_position.y + 600) > m_mapSizeH){
+                    m_position.y = m_mapSizeH - 600;
+                }
                 break;
             default:
                 throw new AssertionError(dir.name());
