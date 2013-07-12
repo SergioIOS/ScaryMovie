@@ -4,6 +4,8 @@
  */
 package CharacterPackage;
 
+import MapPackage.Tile;
+import java.util.ArrayList;
 import java.util.Random;
 import org.newdawn.slick.Animation;
 import scarymovie.ResourceManager;
@@ -17,11 +19,12 @@ import scarymovie.GameEntity;
 public class Teenager extends GameEntity{
     //States de Movimentos:
     public enum MOVEMENT_STATES{
-        STATE_WALKING_LEFT (0),
-        STATE_WALKING_RIGHT (1),
-        STATE_WALKING_UP (2),
-        STATE_WALKING_DOWN (3),
-        STATE_STANDING (4);
+        STATE_STANDING (0),
+        STATE_SWIMMING (1),
+        STATE_WALKING_LEFT (2),
+        STATE_WALKING_RIGHT (3),
+        STATE_WALKING_UP (4),
+        STATE_WALKING_DOWN (5);
         
         //O ID de cada objeto:
         public int m_id;
@@ -52,12 +55,16 @@ public class Teenager extends GameEntity{
     private boolean m_panicMode = false;
     private int m_fear = 0;
     private int m_curiosity = 0;
-    private MOVEMENT_STATES m_movementState;
     private float m_viewDistance = 0;
     
     
     //Construtor:
-    public Teenager(ResourceManager sm, Vector2f position){
+    public Teenager(ResourceManager sm, Vector2f position, Tile tile){
+        //Salvando valores:
+        m_currentTile = tile;
+        this.m_position = position;
+        this.m_viewDistance = 150;
+        
         //Gerando o gênero aleatoriamente:
         Random rand = new Random();
         int number = rand.nextInt(2);
@@ -66,21 +73,37 @@ public class Teenager extends GameEntity{
         }
         else{
             this.m_gender = TEENAGER_GENDER.GENDER_FEMALE;
-        }      
+        }
         
-        //Tratativa do TeenagerSpriteManager
-        this.m_sprite = new Animation(sm.getTeenAnimation(m_gender), 400);
-                
-        this.m_position = position;
-        this.m_viewDistance = 150;
+        //Definindo o estado atual:
+        if(m_currentTile.getM_type() == Tile.TILE_TYPES.TILE_WALKABLE){
+            m_movementState = MOVEMENT_STATES.STATE_STANDING;
+        }else{
+            m_movementState = MOVEMENT_STATES.STATE_SWIMMING;
+        }
+        
+        m_sprites = new ArrayList<>();
+        
+        //Carregando as animações:
+        this.m_sprites.add(MOVEMENT_STATES.STATE_STANDING.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_STANDING), 100));
+        m_sprites.get(MOVEMENT_STATES.STATE_STANDING.m_id).setPingPong(true);
+        
+        this.m_sprites.add(MOVEMENT_STATES.STATE_SWIMMING.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_SWIMMING), 400));
+        m_sprites.get(MOVEMENT_STATES.STATE_STANDING.m_id).setPingPong(true);
+        
+        System.out.println(m_movementState.m_id);
     }
     
     //Atualiza o teenager:
     public void update(){
-        
-    }    
-    
-    
+        //Verificando o tipo do tile que estamos:
+        if(m_currentTile.getM_type() == Tile.TILE_TYPES.TILE_WATER){
+            m_movementState = MOVEMENT_STATES.STATE_SWIMMING;
+        }
+        else{
+            m_movementState = MOVEMENT_STATES.STATE_STANDING;
+        }
+    }
 
     /**
      * @return the m_gender
