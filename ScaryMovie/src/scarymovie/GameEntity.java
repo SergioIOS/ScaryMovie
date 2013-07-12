@@ -4,6 +4,9 @@
  */
 package scarymovie;
 
+import CharacterPackage.Teenager;
+import MapPackage.Tile;
+import java.util.ArrayList;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -17,7 +20,9 @@ public class GameEntity {
     protected Vector2f m_speed;
     protected Rectangle m_colisionBox;
     protected Rectangle m_targetPosition;
-    protected Animation m_sprite = null;
+    protected Teenager.MOVEMENT_STATES m_movementState;
+    protected ArrayList<Animation> m_sprites = null;
+    protected Tile m_currentTile;
     
     //Verifica a colisão desta entidade com uma entidade externa:
     public boolean checkColision(Rectangle entityRect){
@@ -31,8 +36,10 @@ public class GameEntity {
     }
     
     //Desenha o sprite:
-    public void draw(){
-        m_sprite.draw(m_position.x, m_position.y);
+    public void draw(Camera camera){
+        m_sprites.get(m_movementState.m_id).draw(m_position.x - camera.getM_position().x, m_position.y - camera.getM_position().y);
+        
+        //System.out.println("X/Y: " + (m_position.x - camera.getM_position().x) + "/" + (m_position.y - camera.getM_position().y));
     }
 
     /**
@@ -94,14 +101,14 @@ public class GameEntity {
     /**
      * @return the m_sprite
      */
-    public Animation getM_sprite() {
-        return m_sprite;
-    }
+//    public Animation getM_sprite() {
+//        return m_sprites;
+//    }
 
     /**
      * @param m_sprite the m_sprite to set
      */
-    public void setM_sprite(Animation m_sprite) {
-        this.m_sprite = m_sprite;
-    }
+//    public void setM_sprite(Animation m_sprite) {
+//        this.m_sprite = m_sprite;
+//    }
 }
