@@ -58,6 +58,8 @@ public class Teenager extends GameEntity{
     private float m_viewDistance = 0;
     
     
+    
+    
     //Construtor:
     public Teenager(ResourceManager sm, Vector2f position, Tile tile){
         //Salvando valores:
@@ -94,6 +96,11 @@ public class Teenager extends GameEntity{
         System.out.println(m_movementState.m_id);
     }
     
+    //TEMP:
+    int distWalked = 0;
+    int distStanding = 400;
+    int dir = -1;
+    
     //Atualiza o teenager:
     public void update(){
         //Verificando o tipo do tile que estamos:
@@ -102,6 +109,46 @@ public class Teenager extends GameEntity{
         }
         else{
             m_movementState = MOVEMENT_STATES.STATE_STANDING;
+        }
+        
+        //Testando movimentos aleatórios:
+        if(m_movementState == MOVEMENT_STATES.STATE_STANDING){
+            
+            if(distWalked == 0){
+                Random rand = new Random();
+                dir = rand.nextInt(4);
+            }
+            if(distWalked < 80){
+                switch(dir){
+                    //Andando para esquerda:
+                    case 0:
+                        this.m_position.x -= 2;
+                        break;
+
+                    //Andando para direita:
+                    case 1:
+                        this.m_position.x += 2;
+                        break;
+
+                    //Andando para cima:
+                    case 2:
+                        this.m_position.y -= 2;
+                        break;
+
+                    //Andando para baixo:
+                    default:
+                        this.m_position.y += 2;
+                        break;
+                }
+                distWalked += 2;
+            }
+            else{
+                distStanding -= 5;
+                if(distStanding == 0){
+                    distWalked = 0;
+                    distStanding = 400; 
+                }
+            }
         }
     }
 
