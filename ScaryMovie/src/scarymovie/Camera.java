@@ -21,7 +21,7 @@ public class Camera {
         m_mapSizeW = map.getM_drawableMap().getWidth() * 32;
         m_mapSizeH = map.getM_drawableMap().getHeight() * 32;
         
-        m_position = new Vector2f((m_mapSizeW/ 2) - (800 / 2), (m_mapSizeH / 2) - (600 / 2));
+        m_position = new Vector2f((getM_mapSizeW()/ 2) - (800 / 2), (getM_mapSizeH() / 2) - (600 / 2));
     }
     
     //Atualiza a posição da camera:
@@ -32,7 +32,7 @@ public class Camera {
     public void move(CharacterPackage.Killer.DIRECTIONS dir){
         switch(dir){
             case DIR_LEFT:
-                m_position.x -= m_speed;
+                m_position.x -= getM_speed();
                 
                 //Saímos do mapa?
                 if(m_position.x < 0){
@@ -40,15 +40,15 @@ public class Camera {
                 }
                 break;
             case DIR_RIGHT:
-                m_position.x += m_speed;
+                m_position.x += getM_speed();
                 
                 //Saímos do mapa?
-                if((m_position.x + 800) > m_mapSizeW){
-                    m_position.x = m_mapSizeW - 800;
+                if((m_position.x + 800) > getM_mapSizeW()){
+                    m_position.x = getM_mapSizeW() - 800;
                 }
                 break;
             case DIR_UP:
-                m_position.y -= m_speed;
+                m_position.y -= getM_speed();
                 
                 //Saímos do mapa?
                 if(m_position.y < 0){
@@ -56,11 +56,11 @@ public class Camera {
                 }
                 break;
             case DIR_DOWN:
-                m_position.y += m_speed;
+                m_position.y += getM_speed();
                 
                 //Saímos do mapa?
-                if((m_position.y + 600) > m_mapSizeH){
-                    m_position.y = m_mapSizeH - 600;
+                if((m_position.y + 600) > getM_mapSizeH()){
+                    m_position.y = getM_mapSizeH() - 600;
                 }
                 break;
             default:
@@ -80,5 +80,47 @@ public class Camera {
      */
     public void setM_position(Vector2f m_position) {
         this.m_position = m_position;
+    }
+
+    /**
+     * @return the m_speed
+     */
+    public float getM_speed() {
+        return m_speed;
+    }
+
+    /**
+     * @param m_speed the m_speed to set
+     */
+    public void setM_speed(float m_speed) {
+        this.m_speed = m_speed;
+    }
+
+    /**
+     * @return the m_mapSizeW
+     */
+    public int getM_mapSizeW() {
+        return m_mapSizeW;
+    }
+
+    /**
+     * @param m_mapSizeW the m_mapSizeW to set
+     */
+    public void setM_mapSizeW(int m_mapSizeW) {
+        this.m_mapSizeW = m_mapSizeW;
+    }
+
+    /**
+     * @return the m_mapSizeH
+     */
+    public int getM_mapSizeH() {
+        return m_mapSizeH;
+    }
+
+    /**
+     * @param m_mapSizeH the m_mapSizeH to set
+     */
+    public void setM_mapSizeH(int m_mapSizeH) {
+        this.m_mapSizeH = m_mapSizeH;
     }
 }
