@@ -98,11 +98,11 @@ public class Teenager extends GameEntity{
     
     //TEMP:
     int distWalked = 0;
-    int distStanding = 400;
+    int timeStanding = 400;
     int dir = -1;
     
     //Atualiza o teenager:
-    public void update(){
+    public void update(int mapSizeW, int mapSizeH){
         //Verificando o tipo do tile que estamos:
         if(m_currentTile.getM_type() == Tile.TILE_TYPES.TILE_WATER){
             m_movementState = MOVEMENT_STATES.STATE_SWIMMING;
@@ -121,31 +121,51 @@ public class Teenager extends GameEntity{
                 switch(dir){
                     //Andando para esquerda:
                     case 0:
-                        this.m_position.x -= 2;
+                        if(this.m_position.x - 2 >= 0){
+                            this.m_position.x -= 2;
+                        }
+                        else{
+                            distWalked = 800;
+                        }
                         break;
 
                     //Andando para direita:
                     case 1:
-                        this.m_position.x += 2;
+                        if(this.m_position.x + 2 <= mapSizeW - 32){
+                            this.m_position.x += 2;
+                        }
+                        else{
+                            distWalked = 800;
+                        }
                         break;
 
                     //Andando para cima:
                     case 2:
-                        this.m_position.y -= 2;
+                        if(this.m_position.y - 2 >= 0){
+                            this.m_position.y -= 2;
+                        }
+                        else{
+                            distWalked = 800;
+                        }
                         break;
 
                     //Andando para baixo:
                     default:
-                        this.m_position.y += 2;
+                        if(this.m_position.y + 2 <= mapSizeH - 64){
+                            this.m_position.y += 2;
+                        }
+                        else{
+                            distWalked = 800;
+                        }
                         break;
                 }
                 distWalked += 2;
             }
             else{
-                distStanding -= 5;
-                if(distStanding == 0){
+                timeStanding -= 5;
+                if(timeStanding == 0){
                     distWalked = 0;
-                    distStanding = 400; 
+                    timeStanding = 400; 
                 }
             }
         }
