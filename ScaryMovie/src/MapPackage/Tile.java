@@ -6,7 +6,6 @@ package MapPackage;
 
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.tiled.TileSet;
 
 /**
  *
@@ -16,7 +15,8 @@ public class Tile {
     //Tipos de Tiles:
     public enum TILE_TYPES{
         TILE_WALKABLE(0),
-        TILE_WATER(1);
+        TILE_WATER(1),
+        TILE_NON_WALKABLE(2);
         
         //O ID de cada objeto:
         public int m_id;

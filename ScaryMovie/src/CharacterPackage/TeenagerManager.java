@@ -6,6 +6,7 @@ package CharacterPackage;
 
 import MapPackage.Map;
 import java.util.ArrayList;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Vector2f;
 import scarymovie.Camera;
 import scarymovie.ResourceManager;
@@ -33,10 +34,13 @@ public class TeenagerManager {
     }
     
     //Desenha os Teenagers
-    public void drawTeenagers(){
+    public void drawTeenagers(Graphics grphcs){
         for(int x = 0; x < m_teenagers.size(); x++){
             m_teenagers.get(x).draw(m_camera);
         }
+        
+        //Desenhando as informações de debug:
+        grphcs.drawString("Nbr of Teens: " + String.valueOf(m_teenagers.size()), 600, 15);
     }
     
     //Adiciona Teenager

@@ -113,7 +113,6 @@ public class Teenager extends GameEntity{
         
         //Testando movimentos aleatórios:
         if(m_movementState == MOVEMENT_STATES.STATE_STANDING){
-            
             if(distWalked == 0){
                 Random rand = new Random();
                 dir = rand.nextInt(4);

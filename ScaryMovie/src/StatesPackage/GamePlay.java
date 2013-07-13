@@ -53,7 +53,7 @@ public class GamePlay extends BasicGameState{
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
         m_map.drawMap(gc, m_camera);
-        tm.drawTeenagers();
+        tm.drawTeenagers(grphcs);
     }
 
     @Override
