@@ -94,7 +94,7 @@ public class GamePlay extends BasicGameState{
         }
         
         //Atualizando os teens:
-        tm.updateTeens();
+        tm.updateTeens(m_camera.getM_mapSizeW(), m_camera.getM_mapSizeH());
         
         //Atualizando a camera:
         m_camera.update();
