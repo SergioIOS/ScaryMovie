@@ -66,6 +66,7 @@ public class Teenager extends GameEntity{
         m_currentTile = tile;
         this.m_position = position;
         this.m_viewDistance = 150;
+        this.m_speed = new Vector2f(0, 0);
         
         //Gerando o gênero aleatoriamente:
         Random rand = new Random();
@@ -122,7 +123,8 @@ public class Teenager extends GameEntity{
                     //Andando para esquerda:
                     case 0:
                         if(this.m_position.x - 2 >= 0){
-                            this.m_position.x -= 2;
+                            this.m_speed.x = -2;
+                            this.m_speed.y = 0;
                         }
                         else{
                             distWalked = 800;
@@ -132,7 +134,8 @@ public class Teenager extends GameEntity{
                     //Andando para direita:
                     case 1:
                         if(this.m_position.x + 2 <= mapSizeW - 32){
-                            this.m_position.x += 2;
+                            this.m_speed.x = 2;
+                            this.m_speed.y = 0;
                         }
                         else{
                             distWalked = 800;
@@ -142,7 +145,8 @@ public class Teenager extends GameEntity{
                     //Andando para cima:
                     case 2:
                         if(this.m_position.y - 2 >= 0){
-                            this.m_position.y -= 2;
+                            this.m_speed.x = 0;
+                            this.m_speed.y = -2;
                         }
                         else{
                             distWalked = 800;
@@ -152,13 +156,15 @@ public class Teenager extends GameEntity{
                     //Andando para baixo:
                     default:
                         if(this.m_position.y + 2 <= mapSizeH - 64){
-                            this.m_position.y += 2;
+                            this.m_speed.x = 0;
+                            this.m_speed.y = 2;
                         }
                         else{
                             distWalked = 800;
                         }
                         break;
                 }
+                this.m_position.add(m_speed);
                 distWalked += 2;
             }
             else{
