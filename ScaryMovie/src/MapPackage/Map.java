@@ -4,8 +4,10 @@
  */
 package MapPackage;
 
+import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 import scarymovie.Camera;
@@ -20,8 +22,9 @@ public class Map {
     private TiledMap m_drawableMap;
     private int m_mapSizeW;
     private int m_mapSizeH;
-    private int m_tileSizeW;
-    private int m_tileSizeH;
+    
+    //Array de rects para colisão:
+    ArrayList<Rectangle> m_colisionArray;
     
     //Construtor:
     public Map() throws SlickException{
@@ -32,28 +35,36 @@ public class Map {
         //Agora, percorrendo o mapa e criando os tiles:
         for(int y = 0; y < m_drawableMap.getWidth();y++){
             for(int x = 0; x < m_drawableMap.getHeight();x++){
-                String temp = m_drawableMap.getTileProperty(m_drawableMap.getTileId(x, y, 0), "type", "1");
+                String temp = m_drawableMap.getTileProperty(m_drawableMap.getTileId(x, y, 0), "type", "-1");
                 
-                if("0".equals(temp)){
-                    m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_WATER, false);
-                }else{
-                    m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_WALKABLE, true);
+                switch(temp){
+                    case "0":
+                        m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_WALKABLE, false);
+                    break;
+                        
+                    case "1":
+                        m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_WATER, true);
+                    break;
+                        
+                    default: 
+                        m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_NON_WALKABLE, false);
+                    break;
                 }
-                
-                System.out.print(temp);
             }
-            
-            System.out.println();
         }
         
         //Lendo a camada de colisão:
-        for(int x = 0; x < m_drawableMap.getWidth();x++){
-            for(int y = 0; y < m_drawableMap.getHeight();y++){
-                if(m_drawableMap.getTileId(x, y, 1) > 0){
-                    
-                }
-            }
+        m_colisionArray = new ArrayList<>();
+        
+        for(int x = 0; x < m_drawableMap.getObjectCount(0);x++){
+            m_colisionArray.add(new Rectangle(m_drawableMap.getObjectX(0, x), m_drawableMap.getObjectY(0, x), m_drawableMap.getObjectWidth(0, x), m_drawableMap.getObjectHeight(0, x)));
+            
+            System.out.println("ColisionRect Criado (X/Y/W/H): " + m_drawableMap.getObjectX(0, x) + "/" + m_drawableMap.getObjectY(0, x) + "/" + m_drawableMap.getObjectWidth(0, x) + "/" + m_drawableMap.getObjectHeight(0, x));
         }
+        
+        //Salvando as variáveis restantes:
+        m_mapSizeW = m_drawableMap.getWidth() * 32;
+        m_mapSizeH = m_drawableMap.getHeight()* 32;
     }
     
     //Desenha o mapa:
@@ -94,6 +105,16 @@ public class Map {
     //Atualiza todos os tiles na array:
     public void updateTiles(){
         
+    }
+    
+    public boolean checkMapColision(Rectangle rect){
+        for(Rectangle tileRect : m_colisionArray){
+            if(rect.intersects(tileRect)){
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -150,33 +171,5 @@ public class Map {
      */
     public void setM_mapSizeH(int m_mapSizeH) {
         this.m_mapSizeH = m_mapSizeH;
-    }
-
-    /**
-     * @return the m_tileSizeW
-     */
-    public int getM_tileSizeW() {
-        return m_tileSizeW;
-    }
-
-    /**
-     * @param m_tileSizeW the m_tileSizeW to set
-     */
-    public void setM_tileSizeW(int m_tileSizeW) {
-        this.m_tileSizeW = m_tileSizeW;
-    }
-
-    /**
-     * @return the m_tileSizeH
-     */
-    public int getM_tileSizeH() {
-        return m_tileSizeH;
-    }
-
-    /**
-     * @param m_tileSizeH the m_tileSizeH to set
-     */
-    public void setM_tileSizeH(int m_tileSizeH) {
-        this.m_tileSizeH = m_tileSizeH;
     }
 }
