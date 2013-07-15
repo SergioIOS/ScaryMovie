@@ -19,7 +19,6 @@ public class GameEntity {
     protected Vector2f m_position;
     protected Vector2f m_speed;
     protected Rectangle m_colisionBox;
-    protected Rectangle m_targetPosition;
     protected Teenager.MOVEMENT_STATES m_movementState;
     protected ArrayList<Animation> m_sprites = null;
     protected Tile m_currentTile;
@@ -83,32 +82,4 @@ public class GameEntity {
     public void setM_colisionBox(Rectangle m_colisionBox) {
         this.m_colisionBox = m_colisionBox;
     }
-
-    /**
-     * @return the m_targetPosition
-     */
-    public Rectangle getM_targetPosition() {
-        return m_targetPosition;
-    }
-
-    /**
-     * @param m_targetPosition the m_targetPosition to set
-     */
-    public void setM_targetPosition(Rectangle m_targetPosition) {
-        this.m_targetPosition = m_targetPosition;
-    }
-
-    /**
-     * @return the m_sprite
-     */
-//    public Animation getM_sprite() {
-//        return m_sprites;
-//    }
-
-    /**
-     * @param m_sprite the m_sprite to set
-     */
-//    public void setM_sprite(Animation m_sprite) {
-//        this.m_sprite = m_sprite;
-//    }
 }
