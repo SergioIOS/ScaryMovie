@@ -4,10 +4,12 @@
  */
 package CharacterPackage;
 
+import MapPackage.Map;
 import MapPackage.Tile;
 import java.util.ArrayList;
 import java.util.Random;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.geom.Rectangle;
 import scarymovie.ResourceManager;
 import org.newdawn.slick.geom.Vector2f;
 import scarymovie.GameEntity;
@@ -57,16 +59,17 @@ public class Teenager extends GameEntity{
     private int m_curiosity = 0;
     private float m_viewDistance = 0;
     
-    
-    
-    
     //Construtor:
     public Teenager(ResourceManager sm, Vector2f position, Tile tile){
         //Salvando valores:
         m_currentTile = tile;
-        this.m_position = position;
         this.m_viewDistance = 150;
         this.m_speed = new Vector2f(0, 0);
+        
+        //Salvando a posição com os valores corrigidos (Usando apenas um quadrado de 32x32 nos pés da figura para colisão):
+        m_position = position;
+        
+        m_colisionBox = new Rectangle(m_position.x, m_position.y + 32, 32, 32);
         
         //Gerando o gênero aleatoriamente:
         Random rand = new Random();
@@ -103,7 +106,7 @@ public class Teenager extends GameEntity{
     int dir = -1;
     
     //Atualiza o teenager:
-    public void update(int mapSizeW, int mapSizeH){
+    public void update(Map map){
         //Verificando o tipo do tile que estamos:
         if(m_currentTile.getM_type() == Tile.TILE_TYPES.TILE_WATER){
             m_movementState = MOVEMENT_STATES.STATE_SWIMMING;
@@ -111,6 +114,10 @@ public class Teenager extends GameEntity{
         else{
             m_movementState = MOVEMENT_STATES.STATE_STANDING;
         }
+        
+        //Zerando a velocidade:
+        m_speed.x = 0;
+        m_speed.y = 0;
         
         //Testando movimentos aleatórios:
         if(m_movementState == MOVEMENT_STATES.STATE_STANDING){
@@ -124,7 +131,6 @@ public class Teenager extends GameEntity{
                     case 0:
                         if(this.m_position.x - 2 >= 0){
                             this.m_speed.x = -2;
-                            this.m_speed.y = 0;
                         }
                         else{
                             distWalked = 800;
@@ -133,9 +139,8 @@ public class Teenager extends GameEntity{
 
                     //Andando para direita:
                     case 1:
-                        if(this.m_position.x + 2 <= mapSizeW - 32){
+                        if(this.m_position.x + 2 <= map.getM_mapSizeW() - 32){
                             this.m_speed.x = 2;
-                            this.m_speed.y = 0;
                         }
                         else{
                             distWalked = 800;
@@ -145,7 +150,6 @@ public class Teenager extends GameEntity{
                     //Andando para cima:
                     case 2:
                         if(this.m_position.y - 2 >= 0){
-                            this.m_speed.x = 0;
                             this.m_speed.y = -2;
                         }
                         else{
@@ -155,8 +159,7 @@ public class Teenager extends GameEntity{
 
                     //Andando para baixo:
                     default:
-                        if(this.m_position.y + 2 <= mapSizeH - 64){
-                            this.m_speed.x = 0;
+                        if(this.m_position.y + 2 <= map.getM_mapSizeH() - 64){
                             this.m_speed.y = 2;
                         }
                         else{
@@ -164,8 +167,24 @@ public class Teenager extends GameEntity{
                         }
                         break;
                 }
-                this.m_position.add(m_speed);
-                distWalked += 2;
+                
+                //Atualizando a posição desejada:
+                m_position.add(m_speed);
+                
+                //Colidimos com algo?
+                if(map.checkMapColision(new Rectangle(m_position.x, m_position.y + 32, 32, 32))){
+                    //Colidimos! Voltando para trás!
+                    m_position.sub(m_speed);
+                    distWalked = 0;
+                    timeStanding = 400;
+                }
+                else{
+                    //Sem colisão! Continuando o movimento...
+                    distWalked += 2;
+                    
+                    //Atualizando as colision boxes:
+                    m_colisionBox.setLocation(m_position.x, m_position.y + 32);
+                }
             }
             else{
                 timeStanding -= 5;
