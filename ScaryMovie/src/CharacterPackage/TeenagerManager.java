@@ -27,9 +27,9 @@ public class TeenagerManager {
     }
     
     //Atualiza os Teenagers
-    public void updateTeens(int mapSizeW, int mapSizeH){
-        for(int x = 0; x < m_teenagers.size(); x++){
-            m_teenagers.get(x).update(mapSizeW, mapSizeH);
+    public void updateTeens(Map map){
+        for(Teenager teen : m_teenagers){
+            teen.update(map);
         }
     }
     
