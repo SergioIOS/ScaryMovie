@@ -9,6 +9,7 @@ import MapPackage.Map;
 import java.util.ArrayList;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import scarymovie.Camera;
 import scarymovie.ResourceManager;
@@ -31,7 +32,7 @@ public class TeenagerManager {
     //Atualiza os Teenagers
     public void updateTeens(Map map){
         for(Teenager teen : m_teenagers){
-            teen.update(map);
+            teen.update(map, this);
         }
     }
     
@@ -58,6 +59,19 @@ public class TeenagerManager {
     public void removeTeenager(Teenager teenager){
         this.m_teenagers.remove(teenager);
     } 
+    
+    //Verifica colisão do Teenager com todos os outros:
+    public boolean checkTeenColision(Rectangle rect, Teenager teen){
+        for(Teenager targetTeen : this.m_teenagers){
+            if(!(teen == targetTeen)){
+                if(rect.intersects(targetTeen.getM_colisionBox())){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
 
     /**
      * @return the m_teenagers
