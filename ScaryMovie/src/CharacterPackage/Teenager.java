@@ -4,6 +4,7 @@
  */
 package CharacterPackage;
 
+import GuiPackage.BubbleManager;
 import MapPackage.Map;
 import MapPackage.Tile;
 import java.util.ArrayList;
@@ -19,6 +20,20 @@ import scarymovie.GameEntity;
  * @author CarlosEduardo
  */
 public class Teenager extends GameEntity{
+
+    /**
+     * @return the m_curentEmotion
+     */
+    public BubbleManager.EMOTIONS getM_curentEmotion() {
+        return m_curentEmotion;
+    }
+
+    /**
+     * @param m_curentEmotion the m_curentEmotion to set
+     */
+    public void setM_curentEmotion(BubbleManager.EMOTIONS m_curentEmotion) {
+        this.m_curentEmotion = m_curentEmotion;
+    }
     //States de Movimentos:
     public enum MOVEMENT_STATES{
         STATE_STANDING (0),
@@ -58,6 +73,7 @@ public class Teenager extends GameEntity{
     private int m_fear = 0;
     private int m_curiosity = 0;
     private float m_viewDistance = 0;
+    private BubbleManager.EMOTIONS m_curentEmotion;
     
     //Construtor:
     public Teenager(ResourceManager sm, Vector2f position, Tile tile){
@@ -194,6 +210,40 @@ public class Teenager extends GameEntity{
                 }
             }
         }
+    }
+    
+    //Função que processa as emoções e randomiza as mesmas:
+    public void updateEmotions(BubbleManager bm){
+        Random temp = new Random();
+        
+        //Decidindo a emoção atual:
+        int tempID = temp.nextInt(6);
+        
+        switch(tempID){
+            case 0:
+                m_curentEmotion = BubbleManager.EMOTIONS.EMOTION_NO;
+                break;
+            case 1:
+                m_curentEmotion = BubbleManager.EMOTIONS.EMOTION_YES;
+                break;
+            case 2:
+                m_curentEmotion = BubbleManager.EMOTIONS.EMOTION_CURIOSITY;
+                break;
+            case 3:
+                m_curentEmotion = BubbleManager.EMOTIONS.EMOTION_SCARED;
+                break;
+            case 4:
+                m_curentEmotion = BubbleManager.EMOTIONS.EMOTION_HAPPY;
+                break;
+            case 5:
+                m_curentEmotion = BubbleManager.EMOTIONS.EMOTION_SAD;
+                break;
+            default:
+                throw new AssertionError(getM_curentEmotion().name());
+        }
+        
+        //Adicionando a bolha:
+        bm.addBubble(this);
     }
 
     /**
