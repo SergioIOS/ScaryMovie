@@ -2,20 +2,80 @@
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="Beach" tilewidth="32" tileheight="32">
   <image source="Charset.png" width="512" height="512"/>
-  <tile id="68">
+  <terraintypes>
+   <terrain name="Novo Terreno" tile="-1"/>
+  </terraintypes>
+  <tile id="64">
    <properties>
     <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="65">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="66">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="68">
+   <properties>
+    <property name="type" value="1"/>
    </properties>
   </tile>
  </tileset>
  <layer name="Chao" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt3EtuwkAQRVFvDVD2v6VMYiUgE4xpu163z+AMkbrq0uIjxGWapgsAAAAAsMn1R/U5zu76RPW5zmje/e2BJvXmFtXn6Mnj8/ho1fOn0SOLHhnm11Y96j17D6RHXY/qDnr8ttAjhx559MiSdEeqd5HC+91MemQ5S49ezq9HH+cfjR5Z9MiiR7ZX+9Rj217e2d07O9bj3trPq3oc02Lt9zl6HNNjj93pse/d0EOPs/WYm6zdS089tpwjwd/fluqRQY/7PaQ4c4/blPc79KoeFbP816S6Q3WPlPuRdkf00EMPPfTI7zE/JqWFHll3Q4+sFqP1GIEeWVrvWg89RqJHlpa706Neix1qoMfIWvznU9rn5J7pAQAAAMBRnv03/BrVZx/FJw166ZI8S+v9p3ZJnueoBgldUuepbPDJHFseXz1bz7buU4MsGgBAW18Lqs90VkstdMlsoUleC03yWvTQpOdZtvZImqfFDNVztJph7Syt99D6/FVtKubYs+UReuywdP7qPaa2qZ5hVDoAAKm+AUQyDQM=
+   eJzt3FFuwjAQRdFsjSL2wv5X0H40qkAJtZ2x3xv7fpw/Qj1zmxYqldu2bTcAAAAAAADgx71Aj2sz+/pFD48O7+iha/E+X3QTerTvrOdz1+619ToHzwvXHM3Y8nyr9Sg9Xy+u56aH17lHd9h/t2btMZOz10D00PVQd6DHXwt6+KCHH3p4cbpH1LtwwetdT/TwQg8vq/TIfv7ZZO5R83VKH6v+XsrcY0b08PbfPunRf/c1O6bHq9L3qy37pkd9i9K/59BjTI8eu6NH33uDHvRYrcfepHQv9Bh3j8zWo+UcLujxugcXK/e4b33/ZyNTD8Usn5qoO6h7uNwfbvcIPehBD3rQw7/Hfo1LC3p43Rv08GoxW48Z0MNL9K7pQY+Z0MNL5O7ooRexQxqc76X2MSN+tqFOxGc+ub1PzoweAAAAAAAAGOXss+FLqM8+iysNsnRxniV6/65dnOcZ1cChi+s8ygZX5mi5Xj1bZq37pIEXGgAAEOtxQH2mVR21oItnC5r4taCJX4sMTTLP0trDaZ6IGdRzRM1QOkv0HqLPr2qjmKNnyxEydjg6v3qPrm3UM8yKDgAAwNU33N8ORg==
   </data>
  </layer>
- <layer name="Colision" width="100" height="100">
+ <layer name="Colision" width="100" height="100" opacity="0">
   <data encoding="base64" compression="zlib">
-   eJzt2klywyAQBdAcLhfIvM58/xvELi/iUtnWQAMt6b0qdkFgfkpqIe7uAAAAAACA3u4rt6njcHJci9eCdqv/29k4LyPX4OS4Fj8F7Vb/37NxvkeuwUnpWkSspTz+ySOX58L+8oj1VdhfHrnIIxd5xPI8z0UeuZSuRWl9FjGHLSldi9L6LGIOU8dosU8XMc/eWuVRsk83tocXOc/eWuVRsk83tocXOc8MrbaaY0Re++HQHju3p8Dfc81a8ng/tI/O7TPw91yzljyya3GPLL2H7i2Pkm+US79dyuOyKXXRktpp7NulPC6b8v5fYz3kcdmU93955CKPXNaSR9Z35TmmzGdNefTcG4uwtTx67o1F2FoeNefRgjxy6ZlH9DN3yTwjvr9G6plH9DN3yTynvH+11DOP6GdutnvPEnt/fmSz9zyyZSiPXOSRizxy2Voe9hPrjTv3b5ec5Wlx9maOXv8fNfJYcpanxdmbObaUxxbII5ctPT+2YGlNcqtGKb1G9hqopojzxcMapbTOGfbPVgPVFHG+eFijlNY5w/7ZaiAAAAAAAAAAAAAAAAAAAGCf/gC6zOPJ
+   eJzt21tOwzAQheEurhso91duJa/ACoAVABvGlagUWXYytsf2JPk/yVKbxknqA83EaXc7AAAAAAC2Y5/QNPsi7DRWN//tbvTYfx7LI7cvwk5jdRS0WB65fREmHatYHpr7AHlYkzKm+4nnGvvQlFJr5DTpfnKOW+LatduJ5xr70DRVa0iW7QPLzo/9cYitVzOPZ9deJp5r7EOTtNaYqkFir/njoFnHtBirXnn07J+7DfKo0z93G7XPe72uz68K+/fK4+DaReV2mfuGCjwV9u+Vx71rD5XbY+4b6qhXHggjD11LPZ+vFXnYUjoWpfWZxjGsSelYlNZnGscg3ccSrlMs/G22ykMyNzf3Wmg5eeTto2SertV9xFbzDr3nJWruQ3PbsXmHIbK8ZN3Yei3mJZaSR4t5BwvzEkvJw7oWn5Gln6Fby+NcxwyRx6HaaQgsG7e5e5fkESapi3Jqp7l7l+QRJrn+rzEe5BEmuf4nD1vIw5al5GH1WjmF5HiWlEfq3Bl5pG8zJY+ec2Ma1pZHzeNogTxs6ZmH9jl3vN6ra2+uvc/00bj/qqlnHinfKZdu8+zDtU/Xvmb6SK6/WuqZh/Y5d7zet2s/rv0qHW8rWz9/WLP1PKxlSB62kIct5GHL2vLYwnxijWumGnnk/Iaox2+Cpkjea41rphp55HyXx9pvgnr9v3I/Kow8bFnT+XwNcmuSqRqldBvWa6Ca/JpE8l1hfx2/RjlE1gttewhsw+9vrQaqSeP7xX6NUlrn+P2t1UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAtukPB40hKA==
   </data>
  </layer>
+ <layer name="Enfeites" width="100" height="100" opacity="0.16">
+  <data encoding="base64" compression="zlib">
+   eJzt0zEKADAIBEEfnf+T3iZIQARnGnuXiwAAAAAAAAAAAAAAAAAAAACAXU669PDvGXKHVxfd2KS6D3roAP/sCAAAAAAAAAAAAAAAAAAAAAAAAKDuAiCABIk=
+  </data>
+ </layer>
+ <objectgroup name="Obj" width="100" height="100">
+  <object name="Rect1" type="Teste" x="512" y="768" width="32" height="192"/>
+  <object name="Rect2" type="Teste" x="512" y="480" width="768" height="96"/>
+  <object x="1343" y="479" width="257" height="96"/>
+  <object x="512" y="960" width="1088" height="96"/>
+  <object x="1568" y="576" width="32" height="384"/>
+  <object x="1024" y="576" width="32" height="320"/>
+  <object x="224" y="1280" width="448" height="96"/>
+  <object x="224" y="1696" width="448" height="96"/>
+  <object x="224" y="1376" width="32" height="320"/>
+  <object x="640" y="1376" width="32" height="128"/>
+  <object x="639" y="1567" width="32" height="128"/>
+  <object x="1792" y="1056" width="736" height="96"/>
+  <object x="2368" y="864" width="768" height="96"/>
+  <object x="2592" y="1056" width="192" height="96"/>
+  <object x="2784" y="1408" width="320" height="96"/>
+  <object x="2752" y="1152" width="32" height="704"/>
+  <object x="3104" y="960" width="32" height="896"/>
+  <object x="2976" y="1856" width="160" height="96"/>
+  <object x="2464" y="1856" width="448" height="96"/>
+  <object x="1792" y="1856" width="576" height="96"/>
+  <object x="2080" y="1824" width="32" height="32"/>
+  <object x="2080" y="1152" width="32" height="608"/>
+  <object x="1792" y="1280" width="32" height="576"/>
+  <object x="1792" y="1152" width="32" height="64"/>
+  <object x="2368" y="960" width="32" height="96"/>
+  <object x="1984" y="288" width="352" height="96"/>
+  <object x="2464" y="288" width="352" height="96"/>
+  <object x="1984" y="608" width="832" height="96"/>
+  <object x="1984" y="384" width="32" height="224"/>
+  <object x="2784" y="384" width="32" height="224"/>
+  <object x="2304" y="448" width="64" height="96"/>
+  <object x="2432" y="448" width="64" height="96"/>
+  <object x="2304" y="384" width="32" height="64"/>
+  <object x="2464" y="384" width="32" height="64"/>
+  <object x="320" y="1440" width="96" height="80"/>
+ </objectgroup>
 </map>
