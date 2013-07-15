@@ -37,8 +37,6 @@ public class GameEntity {
     //Desenha o sprite:
     public void draw(Camera camera){
         m_sprites.get(m_movementState.m_id).draw(m_position.x - camera.getM_position().x, m_position.y - camera.getM_position().y);
-        
-        //System.out.println("X/Y: " + (m_position.x - camera.getM_position().x) + "/" + (m_position.y - camera.getM_position().y));
     }
 
     /**
