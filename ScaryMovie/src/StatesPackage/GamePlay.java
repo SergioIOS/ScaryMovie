@@ -68,7 +68,8 @@ public class GamePlay extends BasicGameState{
         //Botão direito cria um novo jovem na posição do mouse.
         if(temp.isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
             //Estamos tentando criar um personagem na parede?
-            if(!m_map.checkMapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32))){
+            if(!m_map.checkMapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32)) && 
+                    !(tm.checkTeenColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32), null))){
                 Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
                 tm.addTeenager(rm, pos, m_map, m_bm);
                 System.out.println("Teenager criado!");
