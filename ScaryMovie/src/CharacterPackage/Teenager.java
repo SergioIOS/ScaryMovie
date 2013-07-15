@@ -122,7 +122,7 @@ public class Teenager extends GameEntity{
     int dir = -1;
     
     //Atualiza o teenager:
-    public void update(Map map){
+    public void update(Map map, TeenagerManager tm){
         //Verificando o tipo do tile que estamos:
         if(m_currentTile.getM_type() == Tile.TILE_TYPES.TILE_WATER){
             m_movementState = MOVEMENT_STATES.STATE_SWIMMING;
@@ -188,7 +188,7 @@ public class Teenager extends GameEntity{
                 m_position.add(m_speed);
                 
                 //Colidimos com algo?
-                if(map.checkMapColision(new Rectangle(m_position.x, m_position.y + 32, 32, 32))){
+                if(map.checkMapColision(new Rectangle(m_position.x, m_position.y + 32, 32, 32)) || tm.checkTeenColision(new Rectangle(m_position.x, m_position.y + 32, 32, 32), this)){
                     //Colidimos! Voltando para trás!
                     m_position.sub(m_speed);
                     distWalked = 0;
