@@ -4,9 +4,11 @@
  */
 package CharacterPackage;
 
+import GuiPackage.BubbleManager;
 import MapPackage.Map;
 import java.util.ArrayList;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import scarymovie.Camera;
 import scarymovie.ResourceManager;
@@ -21,7 +23,7 @@ public class TeenagerManager {
     private Camera m_camera = null;
     
     //Construtor:
-    public TeenagerManager(Camera camera){
+    public TeenagerManager(Camera camera) throws SlickException{
         m_teenagers = new ArrayList<>();
         m_camera = camera;
     }
@@ -44,9 +46,12 @@ public class TeenagerManager {
     }
     
     //Adiciona Teenager
-    public void addTeenager(ResourceManager rm, Vector2f position, Map map){        
+    public void addTeenager(ResourceManager rm, Vector2f position, Map map, BubbleManager bm){        
         Teenager teenager = new Teenager(rm, position, map.getTileByPosition(position));
+        teenager.updateEmotions(bm);
+        bm.addBubble(teenager);
         this.m_teenagers.add(teenager);
+        
     }
     
     //Remove Teenager
