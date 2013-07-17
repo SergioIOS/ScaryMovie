@@ -79,12 +79,9 @@ public class Teenager extends GameEntity{
     public Teenager(ResourceManager sm, Vector2f position, Tile tile){
         //Salvando valores:
         m_currentTile = tile;
-        this.m_viewDistance = 150;
-        this.m_speed = new Vector2f(0, 0);
-        
-        //Salvando a posição com os valores corrigidos (Usando apenas um quadrado de 32x32 nos pés da figura para colisão):
-        m_position = position;
-        
+        m_viewDistance = 150;
+        m_speed = new Vector2f(0, 0);
+        m_position = position;        
         m_colisionBox = new Rectangle(m_position.x, m_position.y + 32, 32, 32);
         
         //Gerando o gênero aleatoriamente:
@@ -98,22 +95,17 @@ public class Teenager extends GameEntity{
         }
         
         //Definindo o estado atual:
-        if(m_currentTile.getM_type() == Tile.TILE_TYPES.TILE_WALKABLE){
-            m_movementState = MOVEMENT_STATES.STATE_STANDING;
-        }else{
-            m_movementState = MOVEMENT_STATES.STATE_SWIMMING;
-        }
-        
-        m_sprites = new ArrayList<>();
+        m_movementState = MOVEMENT_STATES.STATE_STANDING;
         
         //Carregando as animações:
-        this.m_sprites.add(MOVEMENT_STATES.STATE_STANDING.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_STANDING), 100));
-        m_sprites.get(MOVEMENT_STATES.STATE_STANDING.m_id).setPingPong(true);
+        m_sprites = new ArrayList<>();
         
-        this.m_sprites.add(MOVEMENT_STATES.STATE_SWIMMING.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_SWIMMING), 400));
-        m_sprites.get(MOVEMENT_STATES.STATE_STANDING.m_id).setPingPong(true);
-        
-        System.out.println(m_movementState.m_id);
+        this.m_sprites.add(MOVEMENT_STATES.STATE_STANDING.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_STANDING), 200));
+        this.m_sprites.add(MOVEMENT_STATES.STATE_SWIMMING.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_SWIMMING), 200));
+        this.m_sprites.add(MOVEMENT_STATES.STATE_WALKING_LEFT.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_WALKING_LEFT), 200));
+        this.m_sprites.add(MOVEMENT_STATES.STATE_WALKING_RIGHT.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_WALKING_RIGHT), 200));
+        this.m_sprites.add(MOVEMENT_STATES.STATE_WALKING_UP.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_WALKING_UP), 200));
+        this.m_sprites.add(MOVEMENT_STATES.STATE_WALKING_DOWN.m_id, new Animation(sm.getTeenAnimation(m_gender, MOVEMENT_STATES.STATE_WALKING_DOWN), 200));
     }
     
     //TEMP:
@@ -123,20 +115,8 @@ public class Teenager extends GameEntity{
     
     //Atualiza o teenager:
     public void update(Map map, TeenagerManager tm){
-        //Verificando o tipo do tile que estamos:
-        if(m_currentTile.getM_type() == Tile.TILE_TYPES.TILE_WATER){
-            m_movementState = MOVEMENT_STATES.STATE_SWIMMING;
-        }
-        else{
-            m_movementState = MOVEMENT_STATES.STATE_STANDING;
-        }
-        
-        //Zerando a velocidade:
-        m_speed.x = 0;
-        m_speed.y = 0;
-        
         //Testando movimentos aleatórios:
-        if(m_movementState == MOVEMENT_STATES.STATE_STANDING){
+        //if(m_movementState != MOVEMENT_STATES.STATE_STANDING){
             if(distWalked == 0){
                 Random rand = new Random();
                 dir = rand.nextInt(4);
@@ -146,7 +126,7 @@ public class Teenager extends GameEntity{
                     //Andando para esquerda:
                     case 0:
                         if(this.m_position.x - 2 >= 0){
-                            this.m_speed.x = -2;
+                            move(Killer.DIRECTIONS.DIR_LEFT);
                         }
                         else{
                             distWalked = 800;
@@ -156,7 +136,7 @@ public class Teenager extends GameEntity{
                     //Andando para direita:
                     case 1:
                         if(this.m_position.x + 2 <= map.getM_mapSizeW() - 32){
-                            this.m_speed.x = 2;
+                            move(Killer.DIRECTIONS.DIR_RIGHT);
                         }
                         else{
                             distWalked = 800;
@@ -166,7 +146,7 @@ public class Teenager extends GameEntity{
                     //Andando para cima:
                     case 2:
                         if(this.m_position.y - 2 >= 0){
-                            this.m_speed.y = -2;
+                            move(Killer.DIRECTIONS.DIR_UP);
                         }
                         else{
                             distWalked = 800;
@@ -176,7 +156,7 @@ public class Teenager extends GameEntity{
                     //Andando para baixo:
                     default:
                         if(this.m_position.y + 2 <= map.getM_mapSizeH() - 64){
-                            this.m_speed.y = 2;
+                            move(Killer.DIRECTIONS.DIR_DOWN);
                         }
                         else{
                             distWalked = 800;
@@ -188,11 +168,13 @@ public class Teenager extends GameEntity{
                 m_position.add(m_speed);
                 
                 //Colidimos com algo?
-                if(map.checkMapColision(new Rectangle(m_position.x, m_position.y + 32, 32, 32)) || tm.checkTeenColision(new Rectangle(m_position.x, m_position.y + 32, 32, 32), this)){
+                if(map.checkMapColision(new Rectangle(m_position.x, m_position.y + 32, 32, 32)) 
+                        || tm.checkTeenColision(new Rectangle(m_position.x, m_position.y + 32, 32, 32), this)){
                     //Colidimos! Voltando para trás!
                     m_position.sub(m_speed);
                     distWalked = 0;
                     timeStanding = 400;
+                    move(Killer.DIRECTIONS.DIR_STOP);
                 }
                 else{
                     //Sem colisão! Continuando o movimento...
@@ -203,13 +185,14 @@ public class Teenager extends GameEntity{
                 }
             }
             else{
+                move(Killer.DIRECTIONS.DIR_STOP);
                 timeStanding -= 5;
                 if(timeStanding == 0){
                     distWalked = 0;
                     timeStanding = 400; 
                 }
             }
-        }
+        //}
     }
     
     //Função que processa as emoções e randomiza as mesmas:
@@ -244,6 +227,38 @@ public class Teenager extends GameEntity{
         
         //Adicionando a bolha:
         bm.addBubble(this);
+    }
+    
+    public void move(CharacterPackage.Killer.DIRECTIONS direction){
+        m_speed.x = 0;
+        m_speed.y = 0;
+        
+        switch(direction){
+            case DIR_LEFT:
+                m_movementState = MOVEMENT_STATES.STATE_WALKING_LEFT;
+                m_speed.x -= 2;
+                break;
+            case DIR_RIGHT:
+                m_movementState = MOVEMENT_STATES.STATE_WALKING_RIGHT;
+                m_speed.x += 2;
+                break;
+            case DIR_UP:
+                m_movementState = MOVEMENT_STATES.STATE_WALKING_UP;
+                m_speed.y -= 2;
+                break;
+            case DIR_DOWN:
+                m_movementState = MOVEMENT_STATES.STATE_WALKING_DOWN;
+                m_speed.y += 2;
+                break;
+            case DIR_STOP:
+                m_speed.x = 0;
+                m_speed.y = 0;
+                
+                m_movementState = MOVEMENT_STATES.STATE_STANDING;
+                break;
+            default:
+                throw new AssertionError(direction.name());
+        }
     }
 
     /**
