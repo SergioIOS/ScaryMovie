@@ -75,7 +75,8 @@ public class ScaryMovie extends StateBasedGame {
         
         appgc = new AppGameContainer(new ScaryMovie("Scary Movie"));
         appgc.setDisplayMode(800, 600, false);
-        appgc.setTargetFrameRate(60);
+        appgc.setVSync(true);
+        appgc.setMultiSample(0);
         appgc.start();
     }
 }
