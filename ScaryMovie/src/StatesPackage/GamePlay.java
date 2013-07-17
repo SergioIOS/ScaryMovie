@@ -61,6 +61,8 @@ public class GamePlay extends BasicGameState{
         tm = new TeenagerManager(m_camera);
         m_bm = new BubbleManager();
         m_killer = new Killer(new Vector2f(m_camera.getM_position().x + 384, m_camera.getM_position().y + 284), rm);
+        
+        m_camera.lockOnKiller(m_killer);
     }
 
     @Override
