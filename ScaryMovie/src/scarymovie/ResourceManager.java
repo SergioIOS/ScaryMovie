@@ -16,11 +16,13 @@ import org.newdawn.slick.SpriteSheet;
 public class ResourceManager {
     //Membros:
     SpriteSheet m_sprites = null;
+    SpriteSheet m_trapSprites = null;
 
     //Construtor:
     public ResourceManager() throws SlickException{
         //Carregando a imagem:
         m_sprites = new SpriteSheet("data/TeenKillerSheet.png", 32, 64);
+        m_trapSprites = new SpriteSheet("data/TrapSheet.png", 32, 32);
     }
     
     //Retorna uma array com as imagens dos teens:
@@ -156,6 +158,23 @@ public class ResourceManager {
                 break;
             default:
                 throw new AssertionError(state.name());
+        }
+        
+        return temp;
+    }
+    
+    public Image[] getTrapAnimation(TrapPackage.TrapType.TRAP_ID id){
+        Image[] temp = null;
+        
+        //Qual o tipo de trap?
+        switch(id){
+            case TRAP_BEER_BOTTLE:
+                temp = new Image[2];
+                temp[0] = m_trapSprites.getSprite(0, 0);
+                temp[1] = m_trapSprites.getSprite(1, 0);
+                break;
+            default:
+                throw new AssertionError(id.name());
         }
         
         return temp;
