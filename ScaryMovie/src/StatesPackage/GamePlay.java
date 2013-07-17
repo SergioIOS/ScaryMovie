@@ -8,6 +8,8 @@ import CharacterPackage.Killer;
 import CharacterPackage.TeenagerManager;
 import GuiPackage.BubbleManager;
 import MapPackage.Map;
+import TrapPackage.TrapManager;
+import TrapPackage.TrapType;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -33,6 +35,7 @@ public class GamePlay extends BasicGameState{
     ResourceManager rm = null;
     TeenagerManager tm = null;
     BubbleManager m_bm = null;
+    TrapManager m_trm = null;
     Camera m_camera = null;
     Map m_map = null;
     Killer m_killer = null;
@@ -59,6 +62,7 @@ public class GamePlay extends BasicGameState{
         m_camera = new Camera(m_map);
         rm = new ResourceManager();
         tm = new TeenagerManager(m_camera);
+        m_trm = new TrapManager();
         m_bm = new BubbleManager();
         m_killer = new Killer(new Vector2f(m_camera.getM_position().x + 384, m_camera.getM_position().y + 284), rm);
     }
@@ -70,6 +74,7 @@ public class GamePlay extends BasicGameState{
         m_camera = null;
         m_bm = null;
         m_killer = null;
+        m_trm = null;
     }
 
     @Override
@@ -78,6 +83,7 @@ public class GamePlay extends BasicGameState{
         tm.drawTeenagers(grphcs);
         m_killer.draw(m_camera);
         m_bm.drawBubbles(m_camera);
+        m_trm.drawTraps(m_camera);
     }
 
     @Override
@@ -96,6 +102,9 @@ public class GamePlay extends BasicGameState{
         
         //Atualizando as bolhas:
         m_bm.updateBubbles();
+        
+        //Atualizando as traps:
+        m_trm.updateTraps();
     }
     
     private void handleEvents(GameContainer gc, StateBasedGame sbg){
@@ -109,6 +118,12 @@ public class GamePlay extends BasicGameState{
                 Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
                 tm.addTeenager(rm, pos, m_map, m_bm);
             }
+        }
+        
+        //Botão do meio adiciona uma trap.
+        if(temp.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)){
+            Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
+            m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_BEER_BOTTLE);
         }
         
         //Movimentos da Câmera:
