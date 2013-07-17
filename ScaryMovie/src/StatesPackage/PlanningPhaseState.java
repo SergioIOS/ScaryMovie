@@ -8,23 +8,12 @@ package StatesPackage;
  *
  * @author Anderson
  */
-import CharacterPackage.Killer;
-import CharacterPackage.TeenagerManager;
-import GuiPackage.BubbleManager;
-import MapPackage.Map;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
-import scarymovie.Camera;
-import scarymovie.ResourceManager;
 
 /**
  *

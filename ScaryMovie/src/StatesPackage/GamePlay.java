@@ -65,6 +65,8 @@ public class GamePlay extends BasicGameState{
         m_trm = new TrapManager();
         m_bm = new BubbleManager();
         m_killer = new Killer(new Vector2f(m_camera.getM_position().x + 384, m_camera.getM_position().y + 284), rm);
+        
+        m_camera.lockOnKiller(m_killer);
     }
 
     @Override
@@ -144,16 +146,16 @@ public class GamePlay extends BasicGameState{
         }
         
         //Movimentos do killer:
-        if(temp.isKeyDown(Input.KEY_W)){
+        if(temp.isKeyDown(Input.KEY_UP)){
             m_killer.move(Killer.DIRECTIONS.DIR_UP);
         }
-        else if(temp.isKeyDown(Input.KEY_S)){
+        else if(temp.isKeyDown(Input.KEY_DOWN)){
             m_killer.move(Killer.DIRECTIONS.DIR_DOWN);
         }
-        else if(temp.isKeyDown(Input.KEY_A)){
+        else if(temp.isKeyDown(Input.KEY_LEFT)){
             m_killer.move(Killer.DIRECTIONS.DIR_LEFT);
         }
-        else if(temp.isKeyDown(Input.KEY_D)){
+        else if(temp.isKeyDown(Input.KEY_RIGHT)){
             m_killer.move(Killer.DIRECTIONS.DIR_RIGHT);
         }
         else{

@@ -8,6 +8,6 @@ package TrapPackage;
  *
  * @author CarlosEduardo
  */
-public interface Trap {
+public interface Trap{
     
 }
