@@ -5,6 +5,9 @@
 package TrapPackage;
 
 import java.util.ArrayList;
+import org.newdawn.slick.geom.Vector2f;
+import scarymovie.Camera;
+import scarymovie.ResourceManager;
 
 /**
  *
@@ -12,7 +15,17 @@ import java.util.ArrayList;
  */
 public class TrapManager {
     //Membros:
-    private ArrayList<Trap> m_traps;
+    private ArrayList<StaticTrap> m_staticTraps;
+    private ArrayList<MovableTrap> m_movableTraps;
+    private ArrayList<TrapType> m_trapTypes;
+    
+    //Construtor:
+    public TrapManager(){
+        m_staticTraps = new ArrayList<>();
+        m_movableTraps = new ArrayList<>();
+        m_trapTypes = new ArrayList<>();
+        m_trapTypes.add(TrapType.TRAP_ID.TRAP_BEER_BOTTLE.m_id, new TrapType(TrapType.TRAP_ID.TRAP_BEER_BOTTLE, "Beer Bottle", 0, 15, 128));
+    }
     
     //Atualiza todas as Traps:
     public void updateTraps(){
@@ -20,31 +33,77 @@ public class TrapManager {
     }
     
     //Desenha as Traps:
-    public void drawTraps(){
+    public void drawTraps(Camera cam){
+        for(int x = 0; x < m_staticTraps.size(); x++){
+            getM_staticTraps().get(x).draw(cam);
+        }
         
+       /* for(int x = 0; x < m_movableTraps().size(); x++){
+            getM_movableTraps().get(x).draw(cam);
+        }       */ 
     }
     
-    //Adiciona Trap:
-    public void addTrap(Trap trap){
-        this.m_traps.add(trap);
+    //Adiciona Static Trap:
+    public void addStaticTrap(ResourceManager rm, Vector2f position, TrapType.TRAP_ID id){
+        StaticTrap trap = new StaticTrap(rm, position, getM_trapTypes().get(id.m_id));
+        this.getM_staticTraps().add(trap);
     }
     
-    //Remove Trap:
-    public void removeTrap(Trap trap){
-        this.m_traps.remove(trap);
+    //Remove Static Trap:
+    public void removeStaticTrap(StaticTrap trap){
+        this.getM_staticTraps().remove(trap);
+    }
+    
+    //Adiciona Movable Trap:
+    public void addMovableTrap(ResourceManager rm, Vector2f position, TrapType.TRAP_ID id){
+        //MovableTrap trap = new MovableTrap(rm, position, m_trapTypes.get(id.m_id));
+        //this.getM_movableTraps().add(trap);
+    }
+    
+    //Remove Movable Trap:
+    public void removeMovableTrap(MovableTrap trap){
+        this.getM_movableTraps().remove(trap);
     }
 
     /**
-     * @return the m_Traps
+     * @return the m_trapTypes
      */
-    public ArrayList<Trap> getM_traps() {
-        return m_traps;
+    public ArrayList<TrapType> getM_trapTypes() {
+        return m_trapTypes;
     }
 
     /**
-     * @param m_Traps the m_Traps to set
+     * @param m_trapTypes the m_trapTypes to set
      */
-    public void setM_traps(ArrayList<Trap> m_traps) {
-        this.m_traps = m_traps;
+    public void setM_trapTypes(ArrayList<TrapType> m_trapTypes) {
+        this.m_trapTypes = m_trapTypes;
+    }
+
+    /**
+     * @return the m_staticTraps
+     */
+    public ArrayList<StaticTrap> getM_staticTraps() {
+        return m_staticTraps;
+    }
+
+    /**
+     * @param m_staticTraps the m_staticTraps to set
+     */
+    public void setM_staticTraps(ArrayList<StaticTrap> m_staticTraps) {
+        this.m_staticTraps = m_staticTraps;
+    }
+
+    /**
+     * @return the m_movableTraps
+     */
+    public ArrayList<MovableTrap> getM_movableTraps() {
+        return m_movableTraps;
+    }
+
+    /**
+     * @param m_movableTraps the m_movableTraps to set
+     */
+    public void setM_movableTraps(ArrayList<MovableTrap> m_movableTraps) {
+        this.m_movableTraps = m_movableTraps;
     }
 }
