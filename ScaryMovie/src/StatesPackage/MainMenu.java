@@ -12,6 +12,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
  *
@@ -21,7 +23,7 @@ public class MainMenu extends BasicGameState{
     //Membros:
     int m_stateID = -1, m_selectedBtn = -1;
     Image m_bg = null, m_arrow = null;
-    float m_arrowX, m_arrowY;
+    float m_arrowX = -100, m_arrowY = -100;
     Rectangle m_btnNewGame, m_btnLoadGame, m_btnHighScores, m_btnOptions, m_btnExit;
     
     public MainMenu(int state){
@@ -35,9 +37,12 @@ public class MainMenu extends BasicGameState{
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        System.out.println("MainMenu.");
         
-        //Carregando as imagens:
+    }
+
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+        //Carregando os recursos:
         m_bg = new Image("data/MainMenuBG.png");
         m_arrow = new Image("data/Arrow.png");
         
@@ -47,6 +52,19 @@ public class MainMenu extends BasicGameState{
         m_btnHighScores = new Rectangle(515, 325, 225, 45);
         m_btnOptions = new Rectangle(555, 395, 140, 45);
         m_btnExit = new Rectangle(575, 465, 105, 45);
+    }
+
+    @Override
+    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
+        //Apagando os recursos:
+        m_bg = null;
+        m_arrow = null;
+        
+        m_btnNewGame = null;
+        m_btnLoadGame = null;
+        m_btnHighScores = null;
+        m_btnOptions = null;
+        m_btnExit = null;
     }
 
     @Override
@@ -63,12 +81,12 @@ public class MainMenu extends BasicGameState{
             switch(m_selectedBtn){
                 case 0:
                     System.out.println("Novo Jogo!");
-                    sbg.enterState(scarymovie.ScaryMovie.GAMEPLAY_STATE);
+                    sbg.enterState(scarymovie.ScaryMovie.GAMEPLAY_STATE, new FadeOutTransition(), new FadeInTransition());
                 break;
                     
                 case 1:
                     System.out.println("Carregar Jogo!");
-                    sbg.enterState(scarymovie.ScaryMovie.MAPCHOOSER_STATE);
+                    sbg.enterState(scarymovie.ScaryMovie.MAPCHOOSER_STATE, new FadeOutTransition(), new FadeInTransition());
                 break;
                     
                 case 2:
@@ -77,10 +95,12 @@ public class MainMenu extends BasicGameState{
                     
                 case 3:
                     System.out.println("Opções!");
+                    sbg.enterState(scarymovie.ScaryMovie.OPTIONS_STATE, new FadeOutTransition(), new FadeInTransition());
                 break;
                     
                 case 4:
                     System.out.println("Sair!!");
+                    gc.exit();
                 break;
             }
         }
