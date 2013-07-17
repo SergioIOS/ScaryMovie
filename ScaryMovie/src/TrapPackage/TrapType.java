@@ -11,8 +11,8 @@ package TrapPackage;
 public class TrapType {
     //Tipos de Traps:
     public enum TRAP_ID{
-        TRAP_NUDE_CARD (0),
-        TRAP_BEER_BOTTLE (1),
+        TRAP_BEER_BOTTLE (0),
+        TRAP_NUDE_CARD (1),
         TRAP_DISCARDED_WOMAN_CLOTHES (2),
         TRAP_HUMAN_BONES (3),
         TRAP_CAT (4);
