@@ -113,34 +113,17 @@ public class GamePlay extends BasicGameState{
             }
         }
         
-        //Movimentos da Câmera:
-        if(temp.isKeyDown(Input.KEY_UP)){
-            m_camera.move(Killer.DIRECTIONS.DIR_UP);
-        }
-        
-        if(temp.isKeyDown(Input.KEY_DOWN)){
-            m_camera.move(Killer.DIRECTIONS.DIR_DOWN);
-        }
-        
-        if(temp.isKeyDown(Input.KEY_LEFT)){
-            m_camera.move(Killer.DIRECTIONS.DIR_LEFT);
-        }
-        
-        if(temp.isKeyDown(Input.KEY_RIGHT)){
-            m_camera.move(Killer.DIRECTIONS.DIR_RIGHT);
-        }
-        
         //Movimentos do killer:
-        if(temp.isKeyDown(Input.KEY_W)){
+        if(temp.isKeyDown(Input.KEY_UP)){
             m_killer.move(Killer.DIRECTIONS.DIR_UP);
         }
-        else if(temp.isKeyDown(Input.KEY_S)){
+        else if(temp.isKeyDown(Input.KEY_DOWN)){
             m_killer.move(Killer.DIRECTIONS.DIR_DOWN);
         }
-        else if(temp.isKeyDown(Input.KEY_A)){
+        else if(temp.isKeyDown(Input.KEY_LEFT)){
             m_killer.move(Killer.DIRECTIONS.DIR_LEFT);
         }
-        else if(temp.isKeyDown(Input.KEY_D)){
+        else if(temp.isKeyDown(Input.KEY_RIGHT)){
             m_killer.move(Killer.DIRECTIONS.DIR_RIGHT);
         }
         else{
