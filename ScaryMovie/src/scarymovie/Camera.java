@@ -4,6 +4,8 @@
  */
 package scarymovie;
 
+import CharacterPackage.Killer;
+import CharacterPackage.Teenager;
 import org.newdawn.slick.geom.Vector2f;
 
 /**
@@ -15,6 +17,9 @@ public class Camera {
     private Vector2f m_position;
     private float m_speed = 16f;
     private int m_mapSizeW, m_mapSizeH;
+    Killer m_killer = null;
+    Teenager m_teen = null;
+    boolean m_lockedOnKiller = false, m_lockedOnTeenager = false;
     
     //Construtor:
     public Camera(MapPackage.Map map){
@@ -26,7 +31,38 @@ public class Camera {
     
     //Atualiza a posição da camera:
     public void update(){
+        if(m_killer != null && m_lockedOnKiller){
+            //Obtendo a posição do killer:
+            Vector2f temp = m_killer.getM_position();
+            
+            m_position.x = temp.x - 384;
+            m_position.y = temp.y - 268;
+        }
+        else if(m_teen != null && m_lockedOnTeenager){
+            //Obtendo a posição do teen:
+            Vector2f temp = m_teen.getM_position();
+            
+            m_position.x = temp.x - 384;
+            m_position.y = temp.y - 268;
+        }
+    }
+    
+    public void lockOnKiller(Killer killer){
+        m_killer = killer;
+        m_lockedOnKiller = true;
+    }
+    
+    public void lockOnTeen(Teenager teen){
+        m_teen = teen;
+        m_lockedOnTeenager = true;
+    }
+    
+    public void unlockCamera(){
+        m_killer = null;
+        m_teen = null;
         
+        m_lockedOnKiller = false;
+        m_lockedOnTeenager = false;
     }
     
     public void move(CharacterPackage.Killer.DIRECTIONS dir){
