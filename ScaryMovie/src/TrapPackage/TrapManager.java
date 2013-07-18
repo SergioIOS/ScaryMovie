@@ -19,12 +19,24 @@ public class TrapManager {
     private ArrayList<MovableTrap> m_movableTraps;
     private ArrayList<TrapType> m_trapTypes;
     
+    private static TrapManager instance = null;
+    
+    public static TrapManager getInstance(){
+        if(instance == null){
+            instance = new TrapManager();
+        }
+        
+        return instance;
+    }
+    
     //Construtor:
     public TrapManager(){
         m_staticTraps = new ArrayList<>();
         m_movableTraps = new ArrayList<>();
         m_trapTypes = new ArrayList<>();
         m_trapTypes.add(TrapType.TRAP_ID.TRAP_BEER_BOTTLE.m_id, new TrapType(TrapType.TRAP_ID.TRAP_BEER_BOTTLE, "Beer Bottle", 0, 15, 128));
+        
+        //Adicionar todos os tipos de traps.
     }
     
     //Atualiza todas as Traps:

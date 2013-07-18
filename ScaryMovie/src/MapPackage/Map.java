@@ -23,6 +23,15 @@ public class Map {
     private int m_mapSizeW;
     private int m_mapSizeH;
     
+    private static Map instance = null;
+    
+    public static Map getInstance() throws SlickException{
+        if(instance == null){
+            instance = new Map();
+        }
+        return instance;
+    }
+    
     //Array de rects para colisão:
     ArrayList<Rectangle> m_colisionArray;
     

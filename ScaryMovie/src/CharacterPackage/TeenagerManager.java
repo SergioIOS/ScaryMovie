@@ -23,6 +23,16 @@ public class TeenagerManager {
     private ArrayList<Teenager> m_teenagers;
     private Camera m_camera = null;
     
+    private static TeenagerManager instance = null;
+    
+    public static TeenagerManager getInstance(Camera camera) throws SlickException{
+        if(instance == null){
+            instance = new TeenagerManager(camera);
+        }
+        
+        return instance;
+    }
+    
     //Construtor:
     public TeenagerManager(Camera camera) throws SlickException{
         m_teenagers = new ArrayList<>();
