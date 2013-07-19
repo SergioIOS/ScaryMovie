@@ -183,6 +183,12 @@ public class ResourceManager {
                 temp[0] = m_trapSprites.getSprite(0, 0);
                 temp[1] = m_trapSprites.getSprite(1, 0);
                 break;
+            case TRAP_NUDE_CARD:
+                temp = new Image[2];
+                temp[0] = m_trapSprites.getSprite(2, 0);
+                temp[1] = m_trapSprites.getSprite(3, 0);
+                break;
+             
             default:
                 throw new AssertionError(id.name());
         }
