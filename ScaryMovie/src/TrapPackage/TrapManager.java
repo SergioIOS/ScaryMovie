@@ -36,6 +36,7 @@ public class TrapManager {
         m_movableTraps = new ArrayList<>();
         m_trapTypes = new ArrayList<>();
         m_trapTypes.add(TrapType.TRAP_ID.TRAP_BEER_BOTTLE.m_id, new TrapType(TrapType.TRAP_ID.TRAP_BEER_BOTTLE, "Beer Bottle", 0, 15, 128));
+        m_trapTypes.add(TrapType.TRAP_ID.TRAP_NUDE_CARD.m_id, new TrapType(TrapType.TRAP_ID.TRAP_NUDE_CARD, "Nude Card", 0, 20, 96));
         
         //Adicionar todos os tipos de traps.
     }
