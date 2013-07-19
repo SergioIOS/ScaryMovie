@@ -17,6 +17,16 @@ public class ResourceManager {
     //Membros:
     SpriteSheet m_sprites = null;
     SpriteSheet m_trapSprites = null;
+    
+    private static ResourceManager instance = null;
+    
+    public static ResourceManager getInstance() throws SlickException{
+        if(instance == null){
+            instance = new ResourceManager();
+        }
+        
+        return instance;
+    }
 
     //Construtor:
     public ResourceManager() throws SlickException{

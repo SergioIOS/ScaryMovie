@@ -58,11 +58,11 @@ public class GamePlay extends BasicGameState{
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         //Criando as Variáveis:
-        m_map = new Map();
-        m_camera = new Camera(m_map);
-        rm = new ResourceManager();
-        tm = new TeenagerManager(m_camera);
-        m_trm = new TrapManager();
+        m_map = Map.getInstance();
+        m_camera = Camera.getInstance(m_map);
+        rm = ResourceManager.getInstance();
+        tm = TeenagerManager.getInstance(m_camera);
+        m_trm = TrapManager.getInstance();
         m_bm = new BubbleManager();
         m_killer = new Killer(new Vector2f(m_camera.getM_position().x + 384, m_camera.getM_position().y + 284), rm);
         
@@ -76,7 +76,7 @@ public class GamePlay extends BasicGameState{
         m_camera = null;
         m_bm = null;
         m_killer = null;
-        m_trm = null;
+        m_trm = null; 
     }
 
     @Override
@@ -130,10 +130,17 @@ public class GamePlay extends BasicGameState{
             }
         }
         
-        //Botão do meio adiciona uma trap.
-        if(temp.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)){
-            Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
-            m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_BEER_BOTTLE);
+//        //Botão do meio adiciona uma trap.
+//        if(temp.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)){
+//            if(!m_map.checkMapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32)) && 
+//                    !(tm.checkTeenColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32), null))){
+//                Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
+//                m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_BEER_BOTTLE);
+//            }
+//        }
+        
+        if(temp.isKeyPressed(Input.KEY_SPACE)){
+            sbg.enterState(scarymovie.ScaryMovie.PLANNINGPHASE_STATE);
         }
         
         //Movimentos da Câmera:

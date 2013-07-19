@@ -6,6 +6,7 @@ package scarymovie;
 
 import CharacterPackage.Killer;
 import CharacterPackage.Teenager;
+import MapPackage.Map;
 import org.newdawn.slick.geom.Vector2f;
 
 /**
@@ -20,6 +21,16 @@ public class Camera {
     Killer m_killer = null;
     Teenager m_teen = null;
     boolean m_lockedOnKiller = false, m_lockedOnTeenager = false;
+    
+    private static Camera instance = null;
+    
+    public static Camera getInstance(Map map){
+        if(instance == null){
+            instance = new Camera(map);
+        }
+        
+        return instance;
+    }
     
     //Construtor:
     public Camera(MapPackage.Map map){

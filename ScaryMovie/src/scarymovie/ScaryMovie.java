@@ -11,6 +11,7 @@ import StatesPackage.MainMenu;
 import StatesPackage.MapChooser;
 import StatesPackage.Options;
 import StatesPackage.Pause;
+import StatesPackage.PlanningPhaseState;
 import StatesPackage.ScoreTable;
 import StatesPackage.Shop;
 import java.io.File;
@@ -34,6 +35,7 @@ public class ScaryMovie extends StateBasedGame {
     public static final int PAUSE_STATE = 6;
     public static final int SCORETABLE_STATE = 7;
     public static final int GAMEOVER_STATE = 8;
+    public static final int PLANNINGPHASE_STATE = 9;
     
     //Construtor:
     public ScaryMovie(String tituloDaJanela){
@@ -48,6 +50,7 @@ public class ScaryMovie extends StateBasedGame {
         this.addState(new Pause(PAUSE_STATE));
         this.addState(new ScoreTable(SCORETABLE_STATE));
         this.addState(new GameOver(GAMEOVER_STATE));
+        this.addState(new PlanningPhaseState(PLANNINGPHASE_STATE));
     }
     
     //Inicializa os estados armazenados:
@@ -62,6 +65,7 @@ public class ScaryMovie extends StateBasedGame {
         this.getState(PAUSE_STATE).init(gc, this);
         this.getState(SCORETABLE_STATE).init(gc, this);
         this.getState(GAMEOVER_STATE).init(gc, this);
+        this.getState(PLANNINGPHASE_STATE).init(gc, this);
     }
     
     
