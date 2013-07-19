@@ -5,6 +5,7 @@
 package TrapPackage;
 
 import java.util.ArrayList;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import scarymovie.Camera;
 import scarymovie.ResourceManager;
@@ -75,6 +76,22 @@ public class TrapManager {
     //Remove Movable Trap:
     public void removeMovableTrap(MovableTrap trap){
         this.getM_movableTraps().remove(trap);
+    }
+    
+    public boolean checkTrapColision(Rectangle rect){
+        for(StaticTrap trap : m_staticTraps){
+            if(rect.intersects(trap.getM_colisionBox())){
+                return true;
+            }
+        }
+        
+        for(MovableTrap trap : m_movableTraps){
+            if(rect.intersects(trap.getM_colisionBox())){
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
