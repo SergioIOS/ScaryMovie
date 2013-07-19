@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="TilesetPraia" tilewidth="32" tileheight="32">
+  <image source="TilesetPraia.png" width="512" height="512"/>
+  <tile id="4">
+   <properties>
+    <property name="animated" value="speed=200,46,47,48,49,50,51"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Chao" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztWMtSw0AMS8O0///JcOmwo9HLm5QTBw8QGq9lSY6b53EcTxHnTzx+4gXxgOsPuIY/8TMYLLfKqepQGN44Uq0sp8PFan+ZnOx+dm+Dw9Xo6nA1qd4ih6oPeM1hOMvzXCgOG84YJpW35cL13+m80Qe7/6uIhGPlwnGZ9NZ6lN3T4lA+Rz0lT96FZ4ePNaeatU4LbmY1Pne/v+trcShdJU01M6r1NYum/kZX7Lmh/Dg50+U7l5jmnOBQWpj2jnF2Hvs41pwJh/PkrgYUhnfOu3y++sPVtYNjxbJiQIxX/MFmruvFrpYRB+N+F8fal2Z+TPlgukTup3ysOdmOvjuTJrpacTDvtDjW5wdqtNHVDg7kRJ07xZF68kkc6uzdvUQ9r3dma9s7xke7l6VdTe0Zn/A500Lad1TfG/zqMywQM8uFtbJnhzqP9SFxwGbH6hesnXF3wueVN9ROqnrFsLEeK14S56gzNsfRF+r7P8vd6MnVnvrifITPascFaq7BorTleFD4nH9Zz/G6q7fxZKu7pFWFF7E4bEqvDl/Tz2Y2NJp0OFq9TnupeEk+bLTscDQ1OJzTOnd0htcbLIqP5AXXk9Tv9n9rbueXCSdN/52vHCeNF51vnDfS/ul63v7daEr1wHHzOn73hWbndX1osDbzMPlTcdR+H3DzIPkrzQCnLYVxikPxkPhI86GdXy7/jq7S/HFacfdO5oHSNeJp/dHox/ki5Uuecr66Mq9Sj1wdabdq+tLwoXI4/p0umEfbcH1SfsQ+uncWbu6wHFfC1Zg0iTU0fr67/rQLu3paHSNH03rwnetVXG3dd4Z6j//J8z5Z/19huesMV/9f4LlyxqT2CZ5JLdNznsN7d7C0eO88/z/+w8U3kEkhOw==
+  </data>
+ </layer>
+ <layer name="Colision" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztWEFOAzEM3EOlnil8AIp6B/oB4AXQ//+F7CFSZCXu2GvHaclI1raqd8ZOnKTOsvTF3tnfAhGa9wTt+FnWRu23XbITYDvDOCQ+KND4pHn0xr3k8QT6rXlE7i3XtF9BHsl8tDTRtYiuSc24WtSVlMOjlq3zOJOnlyblt8xj5X5L9p7so6JlpVlqSDm5NVByfCb7SvZ9hUuLM9HIY2WxP5fz8ZPsN9llsZmPmm+pUfq19oc98UO0rNdHy7e2PpB9jtNGzyqES+vb8qO5cXzoWYVwaX0j/r9IuB5Av0fynTuzrSDhek72AtjRQbsnV6R2ZB5cnR6EXLSWvVBbI2id1mqVvovWMhJXbx7uXNRghPuYrTGMMC+WGCWOjFu4V0ThEZuEM1o/GtpY0X5udOQegfY563NrHj3rgOsRPO6TIuBZVz3HIOdxK+PegtUd7xYOC/2e+5X2bMqf0Xubrdre4PogtK8ZIR+uD9L2NVEYYTy98R9ynJiYmJiY4PAHC6IUzA==
+  </data>
+ </layer>
+ <layer name="TopLayer" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt2G0KgCAMgGF/dIEKom7Q/U8YQkMZ+cPA2Nb7gDD7oEaztJQwytTRLMv3t93trGLdt54H/qtnLFoek62xeDS2W80D3/NW6y0yBvZU6lzi0deNIEoewChe5wfacrezinUfhZfnKt7OZ63Vcq7DPZWalFjvW9V588PxABBdhPlJJuu5+r+FxJ7yABBflHdSlDwy799AodfmEgMAAGCMCyPzBvI=
+  </data>
+ </layer>
+ <objectgroup name="ColisionBoxes" width="50" height="50">
+  <object x="224" y="416" width="32" height="320"/>
+  <object x="544" y="352" width="96" height="80"/>
+  <object x="832" y="288" width="32" height="416"/>
+  <object x="1184" y="128" width="32" height="128"/>
+  <object x="1504" y="128" width="32" height="448"/>
+  <object x="1344" y="352" width="96" height="80"/>
+  <object x="224" y="384" width="224" height="32"/>
+  <object x="448" y="256" width="416" height="32"/>
+  <object x="448" y="288" width="32" height="256"/>
+  <object x="256" y="704" width="352" height="32"/>
+  <object x="448" y="672" width="32" height="32"/>
+  <object x="704" y="704" width="160" height="32"/>
+  <object x="1184" y="416" width="32" height="192"/>
+  <object x="1216" y="576" width="320" height="32"/>
+  <object x="1184" y="96" width="352" height="32"/>
+  <object x="1312" y="928" width="32" height="96"/>
+  <object x="1344" y="928" width="192" height="32"/>
+  <object x="1536" y="928" width="32" height="320"/>
+  <object x="1312" y="1152" width="32" height="96"/>
+  <object x="1344" y="1216" width="192" height="32"/>
+ </objectgroup>
+</map>
