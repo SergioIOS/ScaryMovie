@@ -12,6 +12,7 @@ import CharacterPackage.TeenagerManager;
 import MapPackage.Map;
 import TrapPackage.TrapManager;
 import TrapPackage.TrapType;
+import java.util.Random;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -95,7 +96,16 @@ public class PlanningPhaseState extends BasicGameState{
                     !(tm.checkTeenColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32), null)) &&
                         !m_trm.checkTrapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32))){
                 Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
-                m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_BEER_BOTTLE);
+                Random rand = new Random();
+                int num = rand.nextInt(2);
+                if(num == 0){
+                    m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_BEER_BOTTLE);
+                }
+                else if(num == 1){
+                    m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_NUDE_CARD);
+                }
+                
+                
             }
         }
         
