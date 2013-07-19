@@ -85,9 +85,9 @@ public class GamePlay extends BasicGameState{
         m_map.drawLowerLayersMap(gc, m_camera);
         
         //Renderizando os atores:
+        m_trm.drawTraps(m_camera);
         tm.drawTeenagers(grphcs);
         m_killer.draw(m_camera);
-        m_trm.drawTraps(m_camera);
         
         //Por fim, renderizando as layers superiores do mapa:
         m_map.drawUpperLayersMap(gc, m_camera);
@@ -130,34 +130,8 @@ public class GamePlay extends BasicGameState{
             }
         }
         
-//        //Botão do meio adiciona uma trap.
-//        if(temp.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)){
-//            if(!m_map.checkMapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32)) && 
-//                    !(tm.checkTeenColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32), null))){
-//                Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
-//                m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_BEER_BOTTLE);
-//            }
-//        }
-        
         if(temp.isKeyPressed(Input.KEY_SPACE)){
             sbg.enterState(scarymovie.ScaryMovie.PLANNINGPHASE_STATE);
-        }
-        
-        //Movimentos da Câmera:
-        if(temp.isKeyDown(Input.KEY_UP)){
-            m_camera.move(Killer.DIRECTIONS.DIR_UP);
-        }
-        
-        if(temp.isKeyDown(Input.KEY_DOWN)){
-            m_camera.move(Killer.DIRECTIONS.DIR_DOWN);
-        }
-        
-        if(temp.isKeyDown(Input.KEY_LEFT)){
-            m_camera.move(Killer.DIRECTIONS.DIR_LEFT);
-        }
-        
-        if(temp.isKeyDown(Input.KEY_RIGHT)){
-            m_camera.move(Killer.DIRECTIONS.DIR_RIGHT);
         }
         
         //Movimentos do killer:
