@@ -34,10 +34,10 @@ public class Camera {
     
     //Construtor:
     public Camera(MapPackage.Map map){
-        m_mapSizeW = map.getM_drawableMap().getWidth() * 32;
-        m_mapSizeH = map.getM_drawableMap().getHeight() * 32;
+        m_mapSizeW = map.getM_mapSizeW();
+        m_mapSizeH = map.getM_mapSizeH();
         
-        m_position = new Vector2f((getM_mapSizeW()/ 2) - (800 / 2), (getM_mapSizeH() / 2) - (600 / 2));
+        m_position = new Vector2f((m_mapSizeW / 2) - (800 / 2), (m_mapSizeH / 2) - (600 / 2));
     }
     
     //Atualiza a posição da camera:
@@ -48,6 +48,22 @@ public class Camera {
             
             m_position.x = temp.x - 384;
             m_position.y = temp.y - 268;
+            
+            //Saímos do mapa na horizontal?
+            if(m_position.x < 0){
+                m_position.x = 0;
+            }
+            else if((m_position.x + 800) > m_mapSizeW){
+                m_position.x = m_mapSizeW - 800;
+            }
+            
+            //Saímos do mapa na vertical?
+            if(m_position.y < 0){
+                m_position.y = 0;
+            }
+            else if((m_position.y + 600) > m_mapSizeH){
+                m_position.y = m_mapSizeH - 600;
+            }
         }
         else if(m_teen != null && m_lockedOnTeenager){
             //Obtendo a posição do teen:
@@ -55,6 +71,22 @@ public class Camera {
             
             m_position.x = temp.x - 384;
             m_position.y = temp.y - 268;
+            
+            //Saímos do mapa na horizontal?
+            if(m_position.x < 0){
+                m_position.x = 0;
+            }
+            else if((m_position.x + 800) > m_mapSizeW){
+                m_position.x = m_mapSizeW - 800;
+            }
+            
+            //Saímos do mapa na vertical?
+            if(m_position.y < 0){
+                m_position.y = 0;
+            }
+            else if((m_position.y + 600) > m_mapSizeH){
+                m_position.y = m_mapSizeH - 600;
+            }
         }
     }
     
@@ -90,8 +122,8 @@ public class Camera {
                 m_position.x += getM_speed();
                 
                 //Saímos do mapa?
-                if((m_position.x + 800) > getM_mapSizeW()){
-                    m_position.x = getM_mapSizeW() - 800;
+                if((m_position.x + 800) > m_mapSizeW){
+                    m_position.x = m_mapSizeW - 800;
                 }
                 break;
             case DIR_UP:
@@ -106,8 +138,8 @@ public class Camera {
                 m_position.y += getM_speed();
                 
                 //Saímos do mapa?
-                if((m_position.y + 600) > getM_mapSizeH()){
-                    m_position.y = getM_mapSizeH() - 600;
+                if((m_position.y + 600) > m_mapSizeH){
+                    m_position.y = m_mapSizeH - 600;
                 }
                 break;
             default:

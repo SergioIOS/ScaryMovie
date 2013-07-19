@@ -5,6 +5,7 @@
 package MapPackage;
 
 import java.util.ArrayList;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -38,8 +39,10 @@ public class Map {
     //Construtor:
     public Map() throws SlickException{
         //Carregando o mapa:
-        m_drawableMap = new TiledMap("data/BeachStage.tmx");
+        m_drawableMap = new TiledMap("data/StageBeach.tmx");
         m_tiles = new Tile[m_drawableMap.getWidth()][m_drawableMap.getHeight()];
+        
+        System.out.println("Arquivo de mapa carregado! Tamanho (W/H): " + m_drawableMap.getWidth() + "/" + m_drawableMap.getHeight());
         
         //Agora, percorrendo o mapa e criando os tiles:
         for(int y = 0; y < m_drawableMap.getWidth();y++){
@@ -53,6 +56,8 @@ public class Map {
                         
                     case "1":
                         m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_WATER, true);
+                        
+                        //Criando a animação da água:
                     break;
                         
                     default: 
@@ -73,11 +78,11 @@ public class Map {
         
         //Salvando as variáveis restantes:
         m_mapSizeW = m_drawableMap.getWidth() * 32;
-        m_mapSizeH = m_drawableMap.getHeight()* 32;
+        m_mapSizeH = m_drawableMap.getHeight() * 32;
     }
     
     //Desenha o mapa:
-    public void drawMap(GameContainer gc, Camera camera){
+    public void drawLowerLayersMap(GameContainer gc, Camera camera){
         //Calculado a posição para começar a desenhar:
         int tileOffsetX = (int) - (camera.getM_position().x % 32);
         int tileOffsetY = (int) - (camera.getM_position().y % 32);
@@ -86,13 +91,30 @@ public class Map {
         int tileIndexX = (int) (camera.getM_position().x / 32);
         int tileIndexY = (int) (camera.getM_position().y / 32);
         
-        //Finalmente, desenhado:
-        m_drawableMap.render(tileOffsetX + 0,
-                     tileOffsetY + 0,
-                     tileIndexX,
-                     tileIndexY,
-                     (gc.getWidth() - tileOffsetX) / 32 + 1,
-                     (gc.getHeight()- tileOffsetY) / 32 + 1);
+        //Layer do chão:
+        m_drawableMap.render(tileOffsetX + 0, tileOffsetY + 0, tileIndexX, tileIndexY, 
+                (gc.getWidth() - tileOffsetX) / 32 + 1, 
+                (gc.getHeight()- tileOffsetY) / 32 + 1, 0, false);
+        
+        //Layer de colisão:
+        m_drawableMap.render(tileOffsetX + 0, tileOffsetY + 0, tileIndexX, tileIndexY, 
+                (gc.getWidth() - tileOffsetX) / 32 + 1, 
+                (gc.getHeight()- tileOffsetY) / 32 + 1, 1, false);
+    }
+    
+    public void drawUpperLayersMap(GameContainer gc, Camera camera){
+        //Calculado a posição para começar a desenhar:
+        int tileOffsetX = (int) - (camera.getM_position().x % 32);
+        int tileOffsetY = (int) - (camera.getM_position().y % 32);
+        
+        //Calculando o indice do tile mais pra esquerda:
+        int tileIndexX = (int) (camera.getM_position().x / 32);
+        int tileIndexY = (int) (camera.getM_position().y / 32);
+        
+        //Layer sobreposta:
+        m_drawableMap.render(tileOffsetX + 0, tileOffsetY + 0, tileIndexX, tileIndexY, 
+                (gc.getWidth() - tileOffsetX) / 32 + 1, 
+                (gc.getHeight()- tileOffsetY) / 32 + 1, 2, false);
     }
     
     //Retorna um tile baseado em um ponto no mapa:

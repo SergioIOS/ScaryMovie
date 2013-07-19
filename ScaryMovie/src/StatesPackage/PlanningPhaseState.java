@@ -8,6 +8,7 @@ package StatesPackage;
  *
  * @author Anderson
  */
+import CharacterPackage.Killer;
 import CharacterPackage.TeenagerManager;
 import MapPackage.Map;
 import TrapPackage.TrapManager;
@@ -71,9 +72,10 @@ public class PlanningPhaseState extends BasicGameState{
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        m_map.drawMap(gc, m_camera);
-        tm.drawTeenagers(grphcs);
+        m_map.drawLowerLayersMap(gc, m_camera);
         m_trm.drawTraps(m_camera);
+        tm.drawTeenagers(grphcs);
+        m_map.drawUpperLayersMap(gc, m_camera);
         
     }
 
@@ -109,5 +111,21 @@ public class PlanningPhaseState extends BasicGameState{
             }
         }
         
+        //Movimentos da Câmera:
+        if(temp.isKeyDown(Input.KEY_UP)){
+            m_camera.move(Killer.DIRECTIONS.DIR_UP);
+        }
+        
+        if(temp.isKeyDown(Input.KEY_DOWN)){
+            m_camera.move(Killer.DIRECTIONS.DIR_DOWN);
+        }
+        
+        if(temp.isKeyDown(Input.KEY_LEFT)){
+            m_camera.move(Killer.DIRECTIONS.DIR_LEFT);
+        }
+        
+        if(temp.isKeyDown(Input.KEY_RIGHT)){
+            m_camera.move(Killer.DIRECTIONS.DIR_RIGHT);
+        }
     }
 }

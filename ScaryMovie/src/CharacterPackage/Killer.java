@@ -7,9 +7,7 @@ package CharacterPackage;
 import CharacterPackage.Teenager.MOVEMENT_STATES;
 import MapPackage.Map;
 import java.util.ArrayList;
-import javax.annotation.Resource;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import scarymovie.GameEntity;
@@ -88,7 +86,7 @@ public class Killer extends GameEntity{
             m_position.sub(m_speed);
         }else{
             //Movimento liberado:
-            m_colisionBox.setLocation(m_position.x, m_position.y + 32);
+            m_colisionBox.setLocation(m_position.x, m_position.y + 48);
         }
     }
     
