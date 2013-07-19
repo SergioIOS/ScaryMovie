@@ -81,11 +81,19 @@ public class GamePlay extends BasicGameState{
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        m_map.drawMap(gc, m_camera);
+        //Renderizando as layers baixas do mapa:
+        m_map.drawLowerLayersMap(gc, m_camera);
+        
+        //Renderizando os atores:
         tm.drawTeenagers(grphcs);
         m_killer.draw(m_camera);
-        m_bm.drawBubbles(m_camera);
         m_trm.drawTraps(m_camera);
+        
+        //Por fim, renderizando as layers superiores do mapa:
+        m_map.drawUpperLayersMap(gc, m_camera);
+        
+        //Renderizando as bolhas:
+        m_bm.drawBubbles(m_camera);
     }
 
     @Override
