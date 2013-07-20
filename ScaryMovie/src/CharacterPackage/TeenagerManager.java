@@ -6,6 +6,7 @@ package CharacterPackage;
 
 import GuiPackage.BubbleManager;
 import MapPackage.Map;
+import TrapPackage.TrapManager;
 import java.util.ArrayList;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -40,9 +41,9 @@ public class TeenagerManager {
     }
     
     //Atualiza os Teenagers
-    public void updateTeens(Map map){
+    public void updateTeens(Map map, TrapManager trm){
         for(Teenager teen : m_teenagers){
-            teen.update(map, this);
+            teen.update(map, this, trm);
         }
     }
     
@@ -79,7 +80,6 @@ public class TeenagerManager {
                 }
             }
         }
-        
         return false;
     }
 
