@@ -7,6 +7,7 @@ package CharacterPackage;
 import GuiPackage.BubbleManager;
 import MapPackage.Map;
 import MapPackage.Tile;
+import TrapPackage.TrapManager;
 import java.util.ArrayList;
 import java.util.Random;
 import org.newdawn.slick.Animation;
@@ -114,7 +115,7 @@ public class Teenager extends GameEntity{
     int dir = -1;
     
     //Atualiza o teenager:
-    public void update(Map map, TeenagerManager tm){
+    public void update(Map map, TeenagerManager tm, TrapManager trm){
         //Testando movimentos aleatórios:
         //if(m_movementState != MOVEMENT_STATES.STATE_STANDING){
             if(distWalked == 0){
@@ -191,6 +192,11 @@ public class Teenager extends GameEntity{
                     distWalked = 0;
                     timeStanding = 400; 
                 }
+            }
+            
+            //Checando colisão com as traps:
+            if(trm.checkTrapTeenColision(this)){
+                System.out.println("Teen pegou trap! Curiosity: " + this.m_curiosity + " - Fear: " + this.m_fear);
             }
         //}
     }
