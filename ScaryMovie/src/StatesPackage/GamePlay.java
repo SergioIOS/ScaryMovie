@@ -105,7 +105,7 @@ public class GamePlay extends BasicGameState{
         m_camera.update();
         
         //Atualizando os teens:
-        tm.updateTeens(m_map);
+        tm.updateTeens(m_map, m_trm);
         
         //Atualizando o killer:
         m_killer.update(m_map);
