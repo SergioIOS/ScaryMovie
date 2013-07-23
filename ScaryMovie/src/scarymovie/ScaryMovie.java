@@ -15,6 +15,7 @@ import StatesPackage.PlanningPhaseState;
 import StatesPackage.ScoreTable;
 import StatesPackage.Shop;
 import java.io.File;
+import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -73,13 +74,17 @@ public class ScaryMovie extends StateBasedGame {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SlickException {
-        System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+        //System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+        
+        System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "natives"), LWJGLUtil.getPlatformName()).getAbsolutePath());
+        System.setProperty("net.java.games.input.librarypath", System.getProperty("org.lwjgl.librarypath"));
         
         AppGameContainer appgc;
         
         appgc = new AppGameContainer(new ScaryMovie("Scary Movie"));
-        appgc.setDisplayMode(800, 600, false);
+        appgc.setDisplayMode(800, 600, true);
         appgc.setVSync(true);
+        appgc.setTargetFrameRate(60);
         appgc.setMultiSample(0);
         appgc.start();
     }
