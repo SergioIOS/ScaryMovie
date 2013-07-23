@@ -5,7 +5,6 @@
 package MapPackage;
 
 import java.util.ArrayList;
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -30,6 +29,7 @@ public class Map {
         if(instance == null){
             instance = new Map();
         }
+        
         return instance;
     }
     
@@ -38,11 +38,13 @@ public class Map {
     
     //Construtor:
     public Map() throws SlickException{
+        System.out.println("Starting loading of the map: 'data/StageBeach.tmx'");
+        
         //Carregando o mapa:
         m_drawableMap = new TiledMap("data/StageBeach.tmx");
         m_tiles = new Tile[m_drawableMap.getWidth()][m_drawableMap.getHeight()];
         
-        System.out.println("Arquivo de mapa carregado! Tamanho (W/H): " + m_drawableMap.getWidth() + "/" + m_drawableMap.getHeight());
+        System.out.println("Size (W/H): " + m_drawableMap.getWidth() + "/" + m_drawableMap.getHeight());
         
         //Agora, percorrendo o mapa e criando os tiles:
         for(int y = 0; y < m_drawableMap.getWidth();y++){
@@ -72,13 +74,24 @@ public class Map {
         
         for(int x = 0; x < m_drawableMap.getObjectCount(0);x++){
             m_colisionArray.add(new Rectangle(m_drawableMap.getObjectX(0, x), m_drawableMap.getObjectY(0, x), m_drawableMap.getObjectWidth(0, x), m_drawableMap.getObjectHeight(0, x)));
-            
-            System.out.println("ColisionRect Criado (X/Y/W/H): " + m_drawableMap.getObjectX(0, x) + "/" + m_drawableMap.getObjectY(0, x) + "/" + m_drawableMap.getObjectWidth(0, x) + "/" + m_drawableMap.getObjectHeight(0, x));
         }
         
         //Salvando as variáveis restantes:
         m_mapSizeW = m_drawableMap.getWidth() * 32;
         m_mapSizeH = m_drawableMap.getHeight() * 32;
+        
+        //DEBUG:
+        System.out.println("Top Left (X/Y/W/H): " + m_tiles[0][0].getM_position().x + "/" + m_tiles[0][0].getM_position().y + "/" + 
+                m_tiles[0][0].getM_colisionBox().getWidth() + "/" + m_tiles[0][0].getM_colisionBox().getHeight());
+        
+        System.out.println("Top Right (X/Y/W/H): " + m_tiles[49][0].getM_position().x + "/" + m_tiles[0][0].getM_position().y + "/" + 
+                m_tiles[0][0].getM_colisionBox().getWidth() + "/" + m_tiles[0][0].getM_colisionBox().getHeight());
+        
+        System.out.println("Bottom Left (X/Y/W/H): " + m_tiles[0][49].getM_position().x + "/" + m_tiles[0][0].getM_position().y + "/" + 
+                m_tiles[0][0].getM_colisionBox().getWidth() + "/" + m_tiles[0][0].getM_colisionBox().getHeight());
+        
+        System.out.println("Bottom Right (X/Y/W/H): " + m_tiles[49][49].getM_position().x + "/" + m_tiles[0][0].getM_position().y + "/" + 
+                m_tiles[0][0].getM_colisionBox().getWidth() + "/" + m_tiles[0][0].getM_colisionBox().getHeight());
     }
     
     //Desenha o mapa:

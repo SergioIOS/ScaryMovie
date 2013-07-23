@@ -10,6 +10,7 @@ package StatesPackage;
  */
 import CharacterPackage.Killer;
 import CharacterPackage.TeenagerManager;
+import GuiPackage.Gui;
 import MapPackage.Map;
 import TrapPackage.TrapManager;
 import TrapPackage.TrapType;
@@ -39,6 +40,7 @@ public class PlanningPhaseState extends BasicGameState{
     TeenagerManager tm;
     TrapManager m_trm;
     ResourceManager rm;
+    Gui m_gui;
     
     public PlanningPhaseState(int state){
         this.m_stateID = state;
@@ -63,6 +65,11 @@ public class PlanningPhaseState extends BasicGameState{
         tm = TeenagerManager.getInstance(m_camera);
         rm = ResourceManager.getInstance();
         m_trm = TrapManager.getInstance();
+        
+        //exibindo o aviso:
+        m_gui = Gui.getInstance();
+        
+        m_gui.showScreenWarning(Gui.WARNING_TYPES.WARNING_PLANNING);
     }
 
     @Override
@@ -77,12 +84,15 @@ public class PlanningPhaseState extends BasicGameState{
         tm.drawTeenagers(grphcs);
         m_map.drawUpperLayersMap(gc, m_camera);
         
+        m_gui.draw();
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         //Tratando os eventos do teclado e mouse:
         handleEvents(gc, sbg);
+        
+        m_gui.update(null, m_map, tm, m_trm);
     }
     
     private void handleEvents(GameContainer gc, StateBasedGame sbg){

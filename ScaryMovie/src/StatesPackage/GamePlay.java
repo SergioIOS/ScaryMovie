@@ -7,9 +7,9 @@ package StatesPackage;
 import CharacterPackage.Killer;
 import CharacterPackage.TeenagerManager;
 import GuiPackage.BubbleManager;
+import GuiPackage.Gui;
 import MapPackage.Map;
 import TrapPackage.TrapManager;
-import TrapPackage.TrapType;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -39,6 +39,7 @@ public class GamePlay extends BasicGameState{
     Camera m_camera = null;
     Map m_map = null;
     Killer m_killer = null;
+    Gui m_gui = null;
     
     public GamePlay(int state){
         this.m_stateID = state;
@@ -67,6 +68,11 @@ public class GamePlay extends BasicGameState{
         m_killer = new Killer(new Vector2f(m_camera.getM_position().x + 384, m_camera.getM_position().y + 284), rm);
         
         m_camera.lockOnKiller(m_killer);
+        
+        //exibindo o aviso:
+        m_gui = Gui.getInstance();
+        
+        m_gui.showScreenWarning(Gui.WARNING_TYPES.WARNING_HUNTING);
     }
 
     @Override
@@ -77,6 +83,7 @@ public class GamePlay extends BasicGameState{
         m_bm = null;
         m_killer = null;
         m_trm = null; 
+        m_gui = null;
     }
 
     @Override
@@ -94,6 +101,9 @@ public class GamePlay extends BasicGameState{
         
         //Renderizando as bolhas:
         m_bm.drawBubbles(m_camera);
+        
+        //Desenhando a GUI:
+        m_gui.draw();
     }
 
     @Override
@@ -115,6 +125,9 @@ public class GamePlay extends BasicGameState{
         
         //Atualizando as traps:
         m_trm.updateTraps();
+        
+        //Atualizando a GUI:
+        m_gui.update(m_killer, m_map, tm, m_trm);
     }
     
     private void handleEvents(GameContainer gc, StateBasedGame sbg){
