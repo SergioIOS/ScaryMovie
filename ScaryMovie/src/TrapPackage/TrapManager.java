@@ -160,4 +160,8 @@ public class TrapManager {
     public void setM_movableTraps(ArrayList<MovableTrap> m_movableTraps) {
         this.m_movableTraps = m_movableTraps;
     }
+    
+    public int getTotalTraps(){
+        return m_movableTraps.size() + m_staticTraps.size();
+    }
 }

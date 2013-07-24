@@ -4,6 +4,8 @@
  */
 package StatesPackage;
 
+import GuiPackage.Gui;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -14,6 +16,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import scarymovie.ResourceManager;
 
 /**
  *
@@ -22,7 +25,8 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class MainMenu extends BasicGameState{
     //Membros:
     int m_stateID = -1, m_selectedBtn = -1;
-    Image m_bg = null, m_arrow = null;
+    Image m_bg = null;
+    Animation m_selectionArrow = null;
     float m_arrowX = -100, m_arrowY = -100;
     Rectangle m_btnNewGame, m_btnLoadGame, m_btnHighScores, m_btnOptions, m_btnExit;
     
@@ -44,7 +48,7 @@ public class MainMenu extends BasicGameState{
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         //Carregando os recursos:
         m_bg = new Image("data/MainMenuBG.png");
-        m_arrow = new Image("data/Arrow.png");
+        m_selectionArrow = new Animation(ResourceManager.getInstance().getGuiElement(Gui.GUI_ELEMENTS.GUI_MAIN_MENU_SELECT_ARROW), 200);
         
         //Criando os rects dos botões:
         m_btnNewGame = new Rectangle(530, 185, 200, 45);
@@ -58,7 +62,7 @@ public class MainMenu extends BasicGameState{
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
         //Apagando os recursos:
         m_bg = null;
-        m_arrow = null;
+        m_selectionArrow = null;
         
         m_btnNewGame = null;
         m_btnLoadGame = null;
@@ -70,7 +74,7 @@ public class MainMenu extends BasicGameState{
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
         m_bg.draw();
-        m_arrow.draw(m_arrowX, m_arrowY);
+        m_selectionArrow.draw(m_arrowX, m_arrowY);
     }
 
     @Override
@@ -110,23 +114,23 @@ public class MainMenu extends BasicGameState{
         float mouseY = temp.getMouseY();
         
         if(m_btnNewGame.contains(mouseX, mouseY)){
-            m_arrowX = 420;
+            m_arrowX = 500;
             m_arrowY = 195;
             m_selectedBtn = 0;
         }else if(m_btnLoadGame.contains(mouseX, mouseY)){
-            m_arrowX = 395;
+            m_arrowX = 445;
             m_arrowY = 265;
             m_selectedBtn = 1;
         }else if(m_btnHighScores.contains(mouseX, mouseY)){
-            m_arrowX = 420;
+            m_arrowX = 470;
             m_arrowY = 325;
             m_selectedBtn = 2;
         }else if(m_btnOptions.contains(mouseX, mouseY)){
-            m_arrowX = 475;
+            m_arrowX = 525;
             m_arrowY = 400;
             m_selectedBtn = 3;
         }else if(m_btnExit.contains(mouseX, mouseY)){
-            m_arrowX = 485;
+            m_arrowX = 535;
             m_arrowY = 465;
             m_selectedBtn = 4;
         }

@@ -82,6 +82,17 @@ public class TeenagerManager {
         }
         return false;
     }
+    
+    //Função que checa se clicamos em algum teen, e retorna o mesmo:{
+    public Teenager checkMouseClickColision(float x, float y){
+        for(Teenager targetTeen : this.m_teenagers){
+            if(targetTeen.getM_colisionBox().contains(x + m_camera.getM_position().x, y + m_camera.getM_position().y)){
+                return targetTeen;
+            }
+        }
+        
+        return null;
+    }
 
     /**
      * @return the m_teenagers
@@ -96,5 +107,4 @@ public class TeenagerManager {
     public void setM_teenagers(ArrayList<Teenager> m_teenagers) {
         this.m_teenagers = m_teenagers;
     }
-            
 }
