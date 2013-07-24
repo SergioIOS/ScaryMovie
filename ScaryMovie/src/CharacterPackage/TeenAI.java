@@ -11,6 +11,8 @@ import static CharacterPackage.Killer.DIRECTIONS.DIR_STOP;
 import static CharacterPackage.Killer.DIRECTIONS.DIR_UP;
 import GuiPackage.BubbleManager;
 import MapPackage.Map;
+import TrapPackage.MovableTrap;
+import TrapPackage.StaticTrap;
 import TrapPackage.TrapManager;
 import java.util.Random;
 import org.newdawn.slick.geom.Rectangle;
@@ -21,34 +23,6 @@ import org.newdawn.slick.geom.Vector2f;
  * @author CarlosEduardo
  */
 public class TeenAI {
-
-    /**
-     * @return the m_teen
-     */
-    public Teenager getM_teen() {
-        return m_teen;
-    }
-
-    /**
-     * @param m_teen the m_teen to set
-     */
-    public void setM_teen(Teenager m_teen) {
-        this.m_teen = m_teen;
-    }
-
-    /**
-     * @return the m_killer
-     */
-    public Killer getM_killer() {
-        return m_killer;
-    }
-
-    /**
-     * @param m_killer the m_killer to set
-     */
-    public void setM_killer(Killer m_killer) {
-        this.m_killer = m_killer;
-    }
     //Os diferentes tipos de emoções:
     public enum EMOTIONS{
         EMOTION_NO(0),
@@ -130,105 +104,132 @@ public class TeenAI {
         //Random 50%, aleatório ou ficar parado
         
         boolean updated = false;
+        float distance;
         
         //Verificar se o teen está vendo o killer:
         if(m_killer.isM_spawned() == true){
-            float distance = 0;
             distance = m_teen.getM_position().distance(m_killer.getM_position());
             if(distance <= this.m_viewDistance){
-                this.m_curentAction = ACTIONS.ACTION_PANIC;
+                this.m_fear = 100;
                 updated = true;
             }
         }
         
         if(updated == false){
             //Verificar se tem alguma trap por perto
-        }
-        
-        
-        
-        
-        //Testando movimentos aleatórios:
-        //if(m_movementState != MOVEMENT_STATES.STATE_STANDING){
-            if(getDistWalked() == 0){
-                Random rand = new Random();
-                setDir(rand.nextInt(4));
-            }
-            if(getDistWalked() < 80){
-                switch(getDir()){
-                    //Andando para esquerda:
-                    case 0:
-                        if(getM_teen().getM_position().x - 2 >= 0){
-                            move(Killer.DIRECTIONS.DIR_LEFT);
-                        }
-                        else{
-                            setDistWalked(800);
-                        }
-                        break;
-
-                    //Andando para direita:
-                    case 1:
-                        if(getM_teen().getM_position().x + 2 <= map.getM_mapSizeW() - 32){
-                            move(Killer.DIRECTIONS.DIR_RIGHT);
-                        }
-                        else{
-                            setDistWalked(800);
-                        }
-                        break;
-
-                    //Andando para cima:
-                    case 2:
-                        if(getM_teen().getM_position().y - 2 >= 0){
-                            move(Killer.DIRECTIONS.DIR_UP);
-                        }
-                        else{
-                            setDistWalked(800);
-                        }
-                        break;
-
-                    //Andando para baixo:
-                    default:
-                        if(getM_teen().getM_position().y + 2 <= map.getM_mapSizeH() - 64){
-                            move(Killer.DIRECTIONS.DIR_DOWN);
-                        }
-                        else{
-                            setDistWalked(800);
-                        }
-                        break;
-                }
-                
-                //Atualizando a posição desejada:
-                getM_teen().getM_position().add(getM_teen().getM_speed());
-                
-                //Colidimos com algo?
-                if(map.checkMapColision(new Rectangle(getM_teen().getM_position().x, getM_teen().getM_position().y + 32, 32, 32)) 
-                        || tm.checkTeenColision(new Rectangle(getM_teen().getM_position().x, getM_teen().getM_position().y + 32, 32, 32), getM_teen())){
-                    //Colidimos! Voltando para trás!
-                    getM_teen().getM_position().sub(getM_teen().getM_speed());
-                    setDistWalked(0);
-                    setTimeStanding(400);
-                    move(Killer.DIRECTIONS.DIR_STOP);
-                }
-                else{
-                    //Sem colisão! Continuando o movimento...
-                    setDistWalked(getDistWalked() + 2);
-                    
-                    //Atualizando as colision boxes:
-                    getM_teen().getM_colisionBox().setLocation(getM_teen().getM_position().x, getM_teen().getM_position().y + 32);
-                }
+            MovableTrap tempMovableTrap = trm.checkMovableTrapTeenDistance(m_teen);
+            if(tempMovableTrap != null){
+                updated = true;
+                //Fazer ele ir em direção à trap
             }
             else{
-                move(Killer.DIRECTIONS.DIR_STOP);
-                setTimeStanding(getTimeStanding() - 5);
-                if(getTimeStanding() == 0){
-                    setDistWalked(0);
-                    setTimeStanding(400); 
+                StaticTrap tempStaticTrap = trm.checkStaticTrapTeenDistance(m_teen);
+                if(tempStaticTrap != null){
+                    updated = true;
+                    //Fazer ele ir em direção à trap
                 }
-            }
+            }   
+        }
+        
+        //Random para ver se anda aleatório ou fica parado:
+        if(updated == false){
+        /*    Random rand = new Random();
+            boolean decision = rand.nextBoolean();
             
-            if(trm.checkTrapTeenColision(getM_teen())){
-                System.out.println("Teen pegou trap! Curiosity: " + this.getM_curiosity() + " - Fear: " + this.getM_fear());
+            //Ficar parado
+            if(decision == false){
+                //Fazer ficar parado
             }
+            //Andar aleatório:
+            else{*/
+                moveRandomly(map, tm, trm); /*
+            } */
+                
+        }
+    }
+    
+    public void moveRandomly(Map map, TeenagerManager tm, TrapManager trm){
+        //Testando movimentos aleatórios:
+        //if(m_movementState != MOVEMENT_STATES.STATE_STANDING){
+        if(getDistWalked() == 0){
+            Random rand = new Random();
+            setDir(rand.nextInt(4));
+        }
+        if(getDistWalked() < 80){
+            switch(getDir()){
+                //Andando para esquerda:
+                case 0:
+                    if(getM_teen().getM_position().x - 2 >= 0){
+                        move(Killer.DIRECTIONS.DIR_LEFT);
+                    }
+                    else{
+                        setDistWalked(800);
+                    }
+                    break;
+
+                //Andando para direita:
+                case 1:
+                    if(getM_teen().getM_position().x + 2 <= map.getM_mapSizeW() - 32){
+                        move(Killer.DIRECTIONS.DIR_RIGHT);
+                    }
+                    else{
+                        setDistWalked(800);
+                    }
+                    break;
+
+                //Andando para cima:
+                case 2:
+                    if(getM_teen().getM_position().y - 2 >= 0){
+                        move(Killer.DIRECTIONS.DIR_UP);
+                    }
+                    else{
+                        setDistWalked(800);
+                    }
+                    break;
+
+                //Andando para baixo:
+                default:
+                    if(getM_teen().getM_position().y + 2 <= map.getM_mapSizeH() - 64){
+                        move(Killer.DIRECTIONS.DIR_DOWN);
+                    }
+                    else{
+                        setDistWalked(800);
+                    }
+                    break;
+            }
+
+            //Atualizando a posição desejada:
+            getM_teen().getM_position().add(getM_teen().getM_speed());
+
+            //Colidimos com algo?
+            if(map.checkMapColision(new Rectangle(getM_teen().getM_position().x, getM_teen().getM_position().y + 32, 32, 32)) 
+                    || tm.checkTeenColision(new Rectangle(getM_teen().getM_position().x, getM_teen().getM_position().y + 32, 32, 32), getM_teen())){
+                //Colidimos! Voltando para trás!
+                getM_teen().getM_position().sub(getM_teen().getM_speed());
+                setDistWalked(0);
+                setTimeStanding(400);
+                move(Killer.DIRECTIONS.DIR_STOP);
+            }
+            else{
+                //Sem colisão! Continuando o movimento...
+                setDistWalked(getDistWalked() + 2);
+
+                //Atualizando as colision boxes:
+                getM_teen().getM_colisionBox().setLocation(getM_teen().getM_position().x, getM_teen().getM_position().y + 32);
+            }
+        }
+        else{
+            move(Killer.DIRECTIONS.DIR_STOP);
+            setTimeStanding(getTimeStanding() - 5);
+            if(getTimeStanding() == 0){
+                setDistWalked(0);
+                setTimeStanding(400); 
+            }
+        }
+
+        if(trm.checkTrapTeenColision(getM_teen())){
+            System.out.println("Teen pegou trap! Curiosity: " + this.getM_curiosity() + " - Fear: " + this.getM_fear());
+        }
     }
     
     public void move(CharacterPackage.Killer.DIRECTIONS direction){
@@ -407,5 +408,33 @@ public class TeenAI {
      */
     public void setDir(int dir) {
         this.dir = dir;
+    }
+
+    /**
+     * @return the m_teen
+     */
+    public Teenager getM_teen() {
+        return m_teen;
+    }
+
+    /**
+     * @param m_teen the m_teen to set
+     */
+    public void setM_teen(Teenager m_teen) {
+        this.m_teen = m_teen;
+    }
+
+    /**
+     * @return the m_killer
+     */
+    public Killer getM_killer() {
+        return m_killer;
+    }
+
+    /**
+     * @param m_killer the m_killer to set
+     */
+    public void setM_killer(Killer m_killer) {
+        this.m_killer = m_killer;
     }
 }
