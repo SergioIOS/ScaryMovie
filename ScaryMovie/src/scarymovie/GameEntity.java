@@ -38,6 +38,10 @@ public class GameEntity {
     public void draw(Camera camera){
         m_sprites.get(m_movementState.m_id).draw(m_position.x - camera.getM_position().x, m_position.y - camera.getM_position().y);
     }
+    
+    public Animation getCurrentAnimation(){
+        return m_sprites.get(m_movementState.m_id);
+    }
 
     /**
      * @return the m_position
@@ -46,6 +50,10 @@ public class GameEntity {
         return m_position;
     }
 
+    public Vector2f getM_TranslatedPosition() {
+        return new Vector2f(m_position.x - Camera.getInstance(null).getM_position().x, m_position.y - Camera.getInstance(null).getM_position().y);
+    }
+    
     /**
      * @param m_position the m_position to set
      */
