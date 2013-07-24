@@ -118,6 +118,26 @@ public class TrapManager {
         
         return false;
     }
+    
+    public StaticTrap checkStaticTrapTeenDistance(Teenager teen){
+        for(StaticTrap trap : m_staticTraps){
+            //Está vendo alguma trap?
+            if(teen.getM_position().distance(trap.getM_position()) <= teen.getM_ai().getM_viewDistance()){
+                return trap;
+            }
+        }
+        return null;
+    }
+    
+    public MovableTrap checkMovableTrapTeenDistance(Teenager teen){
+        for(MovableTrap trap : m_movableTraps){
+            //Está vendo alguma trap?
+            if(teen.getM_position().distance(trap.getM_position()) <= teen.getM_ai().getM_viewDistance()){
+                return trap;
+            }
+        }
+        return null;
+    }
 
     /**
      * @return the m_trapTypes
