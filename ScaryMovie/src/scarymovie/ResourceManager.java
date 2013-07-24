@@ -5,6 +5,7 @@
 package scarymovie;
 
 import CharacterPackage.Teenager;
+import GuiPackage.Gui;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -17,6 +18,7 @@ public class ResourceManager {
     //Membros:
     SpriteSheet m_sprites = null;
     SpriteSheet m_trapSprites = null;
+    SpriteSheet m_guiSpriteSheet = null;
     
     private static ResourceManager instance = null;
     
@@ -33,6 +35,7 @@ public class ResourceManager {
         //Carregando a imagem:
         m_sprites = new SpriteSheet("data/TeenKillerSheet.png", 32, 64);
         m_trapSprites = new SpriteSheet("data/TrapSheet.png", 32, 32);
+        m_guiSpriteSheet = new SpriteSheet("data/GuiSpriteSheet.png", 32, 32);
     }
     
     //Retorna uma array com as imagens dos teens:
@@ -191,6 +194,59 @@ public class ResourceManager {
              
             default:
                 throw new AssertionError(id.name());
+        }
+        
+        return temp;
+    }
+    
+    public Image[] getGuiElement(Gui.GUI_ELEMENTS element){
+        Image temp[] = null;
+        
+        switch(element){
+            case GUI_SELECTED_TEEN_ARROW:
+                temp = new Image[2];
+                
+                temp[0] = m_guiSpriteSheet.getSprite(0, 0);
+                temp[1] = m_guiSpriteSheet.getSprite(1, 0);
+                break;
+            case GUI_MAIN_MENU_SELECT_ARROW:
+                temp = new Image[2];
+                
+                temp[0] = m_guiSpriteSheet.getSprite(0, 0);
+                temp[1] = m_guiSpriteSheet.getSprite(1, 0);
+                
+                //Rotacionando apra a direita:
+                temp[0].rotate(-90);
+                temp[1].rotate(-90);
+                break;
+            case GUI_CHECKBOX_BTN_SPRITE:
+                temp = new Image[1];
+                
+                temp[0] = m_guiSpriteSheet.getSprite(0, 1);
+                break;
+            case GUI_CHECKBOX_BTN_TRUE:
+                temp = new Image[1];
+                
+                temp[0] = m_guiSpriteSheet.getSprite(1, 1);
+                break;
+            case GUI_CHECKBOX_BTN_FALSE:
+                temp = new Image[1];
+                
+                temp[0] = m_guiSpriteSheet.getSprite(2, 1);
+                break;
+            case GUI_SELECTED_TEEN_GUI_BACKGROUND:
+                temp = new Image[1];
+                
+                temp[0] = m_guiSpriteSheet.getSubImage(0, 64, 320, 128);
+                break;
+                
+            case GUI_MAP_INFO_BACKGROUND:
+                temp = new Image[1];
+                
+                temp[0] = m_guiSpriteSheet.getSubImage(0, 192, 320, 128);
+                break;
+            default:
+                throw new AssertionError(element.name());            
         }
         
         return temp;
