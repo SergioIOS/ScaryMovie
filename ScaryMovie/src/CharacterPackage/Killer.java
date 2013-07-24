@@ -53,6 +53,16 @@ public class Killer extends GameEntity{
     private boolean m_spawned = true;
     private KILLER_STATES m_state;
     
+    static Killer instance = null;
+    
+    static public Killer getInstance(Vector2f position, ResourceManager rm){
+        if(instance == null){
+            instance = new Killer(position, rm);
+        }
+        
+        return instance;
+    }
+    
     //Construtor:
     public Killer(Vector2f position, ResourceManager rm){
         //Salvando a posição:
