@@ -65,7 +65,7 @@ public class GamePlay extends BasicGameState{
         tm = TeenagerManager.getInstance(m_camera);
         m_trm = TrapManager.getInstance();
         m_bm = new BubbleManager();
-        m_killer = new Killer(new Vector2f(m_camera.getM_position().x + 384, m_camera.getM_position().y + 284), rm);
+        m_killer = Killer.getInstance(new Vector2f(m_camera.getM_position().x + 384, m_camera.getM_position().y + 284), rm);
         
         m_camera.lockOnKiller(m_killer);
         
@@ -103,7 +103,7 @@ public class GamePlay extends BasicGameState{
         m_bm.drawBubbles(m_camera);
         
         //Desenhando a GUI:
-        m_gui.draw();
+        m_gui.drawHuntingGui();
     }
 
     @Override
