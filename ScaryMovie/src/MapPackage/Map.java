@@ -6,6 +6,7 @@ package MapPackage;
 
 import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -22,6 +23,8 @@ public class Map {
     private TiledMap m_drawableMap;
     private int m_mapSizeW;
     private int m_mapSizeH;
+    private Image m_mapBadge = null;
+    private String m_mapName = "";
     
     private static Map instance = null;
     
@@ -42,6 +45,9 @@ public class Map {
         
         //Carregando o mapa:
         m_drawableMap = new TiledMap("data/StageBeach.tmx");
+        m_mapBadge = new Image("data/StageBeachBadge.png");
+        m_mapName = "Beach";
+        
         m_tiles = new Tile[m_drawableMap.getWidth()][m_drawableMap.getHeight()];
         
         System.out.println("Size (W/H): " + m_drawableMap.getWidth() + "/" + m_drawableMap.getHeight());
@@ -215,5 +221,13 @@ public class Map {
      */
     public void setM_mapSizeH(int m_mapSizeH) {
         this.m_mapSizeH = m_mapSizeH;
+    }
+    
+    public Image getMapBadge(){
+        return m_mapBadge;
+    }
+    
+    public String getMapName(){
+        return m_mapName;
     }
 }
