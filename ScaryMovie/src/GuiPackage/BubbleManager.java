@@ -39,9 +39,33 @@ public class BubbleManager {
         EMOTION_SAD(5);
         
         public int m_id = -1;
+        
+        //O nome de cada emoção (Para exibir na GUI):
+        public String m_name;
 
         private EMOTIONS(int id) {
             this.m_id = id;
+            
+            switch(m_id){
+                case 0:
+                    m_name = "No";
+                    break;
+                case 1:
+                    m_name = "Yes";
+                    break;
+                case 2:
+                    m_name = "Curiosity";
+                    break;
+                case 3:
+                    m_name = "Scared";
+                    break;
+                case 4:
+                    m_name = "Happy";
+                    break;
+                case 5:
+                    m_name = "Sad";
+                    break;
+            }
         }
     }
     
