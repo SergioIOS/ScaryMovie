@@ -84,7 +84,7 @@ public class PlanningPhaseState extends BasicGameState{
         tm.drawTeenagers(grphcs);
         m_map.drawUpperLayersMap(gc, m_camera);
         
-        m_gui.draw();
+        m_gui.drawPlanningGui();
     }
 
     @Override
@@ -100,6 +100,16 @@ public class PlanningPhaseState extends BasicGameState{
         
         if(temp.isKeyPressed(Input.KEY_SPACE)){
             sbg.enterState(ScaryMovie.GAMEPLAY_STATE);
+        }
+        
+        //Movimento do mouse para verificar se estamos em cima de um teen:
+        //Clicamos em algum teen?
+        if(tm.checkMouseClickColision(temp.getMouseX(), temp.getMouseY()) != null){
+            m_gui.setM_selectedTeen(tm.checkMouseClickColision(temp.getMouseX(), temp.getMouseY()));
+        }
+        else{
+            //Apagando o teen selecionado:
+            m_gui.setM_selectedTeen(null);
         }
         
         //Botão do meio adiciona uma trap.
@@ -119,6 +129,11 @@ public class PlanningPhaseState extends BasicGameState{
                 
                 
             }
+        }
+        
+        //Botão esquerdo do mouse, quando em um teen, exibe as informações dele:
+        if(temp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            
         }
         
         //Movimentos da Câmera:
