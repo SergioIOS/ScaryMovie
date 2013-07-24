@@ -29,45 +29,6 @@ public class BubbleManager {
     public void setM_shouldDraw(boolean m_shouldDraw) {
         this.m_shouldDraw = m_shouldDraw;
     }
-    //Os diferentes tipos de emoções:
-    public enum EMOTIONS{
-        EMOTION_NO(0),
-        EMOTION_YES(1),
-        EMOTION_CURIOSITY(2),
-        EMOTION_SCARED(3),
-        EMOTION_HAPPY(4),
-        EMOTION_SAD(5);
-        
-        public int m_id = -1;
-        
-        //O nome de cada emoção (Para exibir na GUI):
-        public String m_name;
-
-        private EMOTIONS(int id) {
-            this.m_id = id;
-            
-            switch(m_id){
-                case 0:
-                    m_name = "No";
-                    break;
-                case 1:
-                    m_name = "Yes";
-                    break;
-                case 2:
-                    m_name = "Curiosity";
-                    break;
-                case 3:
-                    m_name = "Scared";
-                    break;
-                case 4:
-                    m_name = "Happy";
-                    break;
-                case 5:
-                    m_name = "Sad";
-                    break;
-            }
-        }
-    }
     
     //Speites usados pelo bubble manager:
     SpriteSheet m_sheet = null;
@@ -84,7 +45,7 @@ public class BubbleManager {
     
     public void addBubble(Teenager teen){
         //Criando a bubble:
-        switch(teen.getM_curentEmotion()){
+        switch(teen.getM_ai().getM_curentEmotion()){
             case EMOTION_NO:
                 m_bubbles.add(new Bubble(m_sheet.getSprite(0, 0), teen));
                 break;
@@ -104,7 +65,7 @@ public class BubbleManager {
                 m_bubbles.add(new Bubble(m_sheet.getSprite(1, 1), teen));
                 break;
             default:
-                throw new AssertionError(teen.getM_curentEmotion().name());
+                throw new AssertionError(teen.getM_ai().getM_curentEmotion().name());
         }
     }
     

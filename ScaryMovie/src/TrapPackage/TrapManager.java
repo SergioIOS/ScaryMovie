@@ -101,8 +101,8 @@ public class TrapManager {
             //Colidiu com alguma trap?
             if(teen.getM_colisionBox().intersects(trap.getM_colisionBox())){
                 //Atualizando dados do teen:
-                teen.setM_curiosity(teen.getM_curiosity() + trap.getM_type().getM_curiosityFactor());
-                teen.setM_fear(teen.getM_fear() + trap.getM_type().getM_fearFactor());
+                teen.getM_ai().setM_curiosity(teen.getM_ai().getM_curiosity() + trap.getM_type().getM_curiosityFactor());
+                teen.getM_ai().setM_fear(teen.getM_ai().getM_fear() + trap.getM_type().getM_fearFactor());
                 
                 //Removendo trap coletada pelo teen:
                 this.removeStaticTrap(trap);

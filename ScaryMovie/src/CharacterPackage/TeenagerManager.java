@@ -58,9 +58,9 @@ public class TeenagerManager {
     }
     
     //Adiciona Teenager
-    public void addTeenager(ResourceManager rm, Vector2f position, Map map, BubbleManager bm){        
-        Teenager teenager = new Teenager(rm, position, map.getTileByPosition(position));
-        teenager.updateEmotions(bm);
+    public void addTeenager(ResourceManager rm, Vector2f position, Map map, BubbleManager bm, Killer killer){        
+        Teenager teenager = new Teenager(rm, position, killer);
+        teenager.getM_ai().updateEmotions(teenager, bm);
         bm.addBubble(teenager);
         this.m_teenagers.add(teenager);
         

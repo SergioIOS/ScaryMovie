@@ -113,9 +113,9 @@ public class Gui {
         //Temos ums teen selecionado?
         if(m_selectedTeen != null){
             //Desenhando as informações dele:
-            m_guiFont.drawString(175, 515, m_selectedTeen.getM_curentEmotion().m_name);
-            m_guiFont.drawString(185, 538, String.valueOf(m_selectedTeen.getM_curiosity()));
-            m_guiFont.drawString(150, 563, String.valueOf(m_selectedTeen.getM_fear()));
+            m_guiFont.drawString(175, 515, m_selectedTeen.getM_ai().getM_curentEmotion().m_name);
+            m_guiFont.drawString(185, 538, String.valueOf(m_selectedTeen.getM_ai().getM_curiosity()));
+            m_guiFont.drawString(150, 563, String.valueOf(m_selectedTeen.getM_ai().getM_fear()));
             
             //Desenhando ele:
             m_selectedTeen.getCurrentAnimation().draw(35, 600 - 85);
