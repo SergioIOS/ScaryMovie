@@ -17,6 +17,7 @@ import TrapPackage.TrapManager;
 import java.util.Random;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
+import scarymovie.Timer;
 
 /**
  *
@@ -85,6 +86,9 @@ public class TeenAI {
     private ACTIONS m_curentAction;
     private Teenager m_teen;
     private Killer m_killer;
+    private Random m_rand;
+    private Timer m_timer;
+    private boolean m_isBusy = false;
     
     //TEMP:
     private int distWalked = 0;
@@ -95,6 +99,8 @@ public class TeenAI {
     public TeenAI(Teenager teen){
         this.m_viewDistance = 150;
         this.m_teen = teen;
+        this.m_rand = new Random();
+        this.m_timer = new Timer();
     }
     
     //Atualiza o Teenager:
@@ -103,48 +109,53 @@ public class TeenAI {
         //Ver se tem trap perto, se sim, vai interagir com a trap, se nao:
         //Random 50%, aleatório ou ficar parado
         
-        boolean updated = false;
-        float distance;
-        
-        //Verificar se o teen está vendo o killer:
-        if(m_killer.isM_spawned() == true){
-            distance = m_teen.getM_position().distance(m_killer.getM_position());
-            if(distance <= this.m_viewDistance){
-                this.m_fear = 100;
-                updated = true;
+        if(m_isBusy == false){
+            boolean updated = false;
+            float distance;
+
+            //Verificar se o teen está vendo o killer:
+            if(m_killer.isM_spawned() == true){
+                distance = m_teen.getM_position().distance(m_killer.getM_position());
+                if(distance <= this.m_viewDistance){
+                    this.m_fear = 100;
+                    updated = true;
+                }
             }
-        }
-        
-        if(updated == false){
-            //Verificar se tem alguma trap por perto
-            MovableTrap tempMovableTrap = trm.checkMovableTrapTeenDistance(m_teen);
-            if(tempMovableTrap != null){
-                updated = true;
-                //Fazer ele ir em direção à trap
-            }
-            else{
-                StaticTrap tempStaticTrap = trm.checkStaticTrapTeenDistance(m_teen);
-                if(tempStaticTrap != null){
+
+            if(updated == false){
+                //Verificar se tem alguma trap por perto
+                MovableTrap tempMovableTrap = trm.checkMovableTrapTeenDistance(m_teen);
+                if(tempMovableTrap != null){
                     updated = true;
                     //Fazer ele ir em direção à trap
                 }
-            }   
-        }
-        
-        //Random para ver se anda aleatório ou fica parado:
-        if(updated == false){
-        /*    Random rand = new Random();
-            boolean decision = rand.nextBoolean();
-            
-            //Ficar parado
-            if(decision == false){
-                //Fazer ficar parado
+                else{
+                    StaticTrap tempStaticTrap = trm.checkStaticTrapTeenDistance(m_teen);
+                    if(tempStaticTrap != null){
+                        updated = true;
+                        //Fazer ele ir em direção à trap
+                    }
+                }   
             }
-            //Andar aleatório:
-            else{*/
-                moveRandomly(map, tm, trm); /*
-            } */
-                
+            
+            
+            if(updated == false){
+                if(m_timer.isRunning() == false){
+                    boolean decision = m_rand.nextBoolean();
+                    if(decision == true){
+                        m_timer.start();
+                    }
+                }
+                else{
+                    if(m_timer.getElapsedTimeSecs() >= 5 ){
+                        m_isBusy = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            moveRandomly(map, tm, trm);
         }
     }
     
@@ -224,6 +235,8 @@ public class TeenAI {
             if(getTimeStanding() == 0){
                 setDistWalked(0);
                 setTimeStanding(400); 
+                m_isBusy = false;
+                m_timer.reset();
             }
         }
 
