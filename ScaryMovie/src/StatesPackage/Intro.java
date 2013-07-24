@@ -37,7 +37,7 @@ public class Intro extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         //Carregando as iamgens:
         m_bg = new Image("data/IntroBG.png");
-        gc.setMouseCursor("data/Cursor.png", 1, 1);
+        gc.setMouseCursor("data/Cursor.png", 0, 0);
     }
     
     //Esse método é chamado toda vez que entramos no estado.
