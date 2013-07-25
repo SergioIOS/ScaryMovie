@@ -68,8 +68,9 @@ public class TeenAI {
     //As ações do teen:
     public enum ACTIONS{
         ACTION_MOVE(0),
-        ACTION_IDLE(1),
-        ACTION_PANIC(2);
+        ACTION_CHASE_TRAP(1),
+        ACTION_IDLE(2),
+        ACTION_PANIC(3);
         
         public int m_id = -1;
 
@@ -105,58 +106,71 @@ public class TeenAI {
     
     //Atualiza o Teenager:
     public void updateLogic(Map map, TeenagerManager tm, TrapManager trm){
-        //Ver se o teen esta vendo o killer, se sim entra em panico, se nao:
-        //Ver se tem trap perto, se sim, vai interagir com a trap, se nao:
-        //Random 50%, aleatório ou ficar parado
-        
+        //Verificar se o teen está vendo o killer:
+        if(m_killer.isM_spawned() == true){
+            float distance = m_teen.getM_position().distance(m_killer.getM_position());
+            if(distance <= this.m_viewDistance){
+                this.m_fear = 100;
+                this.m_curentAction = ACTIONS.ACTION_PANIC;
+            }
+        }
+
         if(m_isBusy == false){
-            boolean updated = false;
-            float distance;
-
-            //Verificar se o teen está vendo o killer:
-            if(m_killer.isM_spawned() == true){
-                distance = m_teen.getM_position().distance(m_killer.getM_position());
-                if(distance <= this.m_viewDistance){
-                    this.m_fear = 100;
-                    updated = true;
+            //Verificar se tem alguma trap por perto
+            MovableTrap tempMovableTrap = trm.checkMovableTrapTeenDistance(m_teen);
+            if(tempMovableTrap != null){
+                m_isBusy = true;
+                m_curentAction = ACTIONS.ACTION_CHASE_TRAP;
+            }
+            else{
+                StaticTrap tempStaticTrap = trm.checkStaticTrapTeenDistance(m_teen);
+                if(tempStaticTrap != null){
+                    m_isBusy = true;
+                    m_curentAction = ACTIONS.ACTION_CHASE_TRAP;
                 }
             }
+        }
+        else{
+            processActions(map, tm, trm);
+        }
 
-            if(updated == false){
-                //Verificar se tem alguma trap por perto
-                MovableTrap tempMovableTrap = trm.checkMovableTrapTeenDistance(m_teen);
-                if(tempMovableTrap != null){
-                    updated = true;
-                    //Fazer ele ir em direção à trap
-                }
-                else{
-                    StaticTrap tempStaticTrap = trm.checkStaticTrapTeenDistance(m_teen);
-                    if(tempStaticTrap != null){
-                        updated = true;
-                        //Fazer ele ir em direção à trap
-                    }
-                }   
+        if(m_isBusy == false){
+            boolean decision = m_rand.nextBoolean();
+            if(decision == true){
+                m_isBusy = true;
+                m_curentAction = ACTIONS.ACTION_MOVE;
             }
-            
-            
-            if(updated == false){
+            else{
                 if(m_timer.isRunning() == false){
-                    boolean decision = m_rand.nextBoolean();
-                    if(decision == true){
-                        m_timer.start();
-                    }
-                }
-                else{
-                    if(m_timer.getElapsedTimeSecs() >= 5 ){
-                        m_isBusy = true;
-                    }
+                    m_isBusy = true;
+                    m_curentAction = ACTIONS.ACTION_IDLE;
+                    m_timer.start();
                 }
             }
         }
-        else
-        {
-            moveRandomly(map, tm, trm);
+    }
+    
+    public void processActions(Map map, TeenagerManager tm, TrapManager trm){
+        switch(m_curentAction){
+            case ACTION_PANIC:
+                //Fazer ele correr freneticamente e procurar a saída.
+                break;
+            case ACTION_CHASE_TRAP:
+                //Fazer ele andar em direção à trap passada.
+                break;
+            case ACTION_MOVE:
+                moveRandomly(map, tm, trm);
+                break;
+            case ACTION_IDLE:
+                if(m_timer.getElapsedTimeSecs() >= 2){
+                    m_timer.reset();
+                    m_isBusy = false;
+                }
+                break;
+            default:
+                break;
         }
+        
     }
     
     public void moveRandomly(Map map, TeenagerManager tm, TrapManager trm){
@@ -236,7 +250,6 @@ public class TeenAI {
                 setDistWalked(0);
                 setTimeStanding(400); 
                 m_isBusy = false;
-                m_timer.reset();
             }
         }
 
