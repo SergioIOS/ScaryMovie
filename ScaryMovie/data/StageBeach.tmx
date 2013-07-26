@@ -10,7 +10,7 @@
  </tileset>
  <layer name="Chao" width="50" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+1Yy27jQAxzvEj+/5PbPQQdEHxp7PTUg9DWjTWiSMqKn8dxPEWc3/H4jhfEA64/4Br+xM9gsNwqp6pDYXjjSLWynA4Xq/1lcrL72b0NDlejq8PVpHqLHKo+4DWH4SzPc6E4bDhjmFTelgvXf6dz5xflt//xr4iEY+XCcZn01nqU3dPiUD5HPSVP3oVnh481p5q1bla4mdX43P3+rq/FoXSVNNXMqNbXLJr6G12x54by4+RMl+9cYppzgkNpYdo7xtl57ONYcyYczpO7GlAY3jnv8vnqD1fXDo4Vy4oBMV7xB5u5rhe7WkYcjPtdHGtfmvkx5YPpErmf8rHmZDv67kya6GrFwbzT4lifH6jRRlc7OJATde4UR+rJJ3Gos3f3EvW83pmtbe8YH+1elnY1tWd8wudMC2nfUX1v8KvPsEDMLBfWyp4d6jzWh8QBmx2rX7B2xt0Jn1feUDup6hXDxnqseEmco87YHEdfqO//LHejJ1d76ovzET6rHReouQaL0pbjQeFz/mU9x+uu3saTre6SVhVexOKwKb06fE0/m9nQaNLhaPU67aXiJfmw0bLD0dTgcE7r3NEZXm+wKD6SF1xPUr/b/625nV8mnDT9d75ynDRedL5x3kj7p+t5+3ejKdUDx83r+NkXmp3X9aHB2szD5E/FUft9wM2D5K80A5y2FMYpDsVD4iPNh3Z+ufw7ukrzx2nF3TuZB0rXiKf1R6Mf54uUL3nK+erKvEo9cnWk3arpS8OHyuH4d7pgHm3D9Un5Efvo3lm4ucNyXAlXY9Ik1tD4+e760y7s6ml1jBxN68F3rldxtXXfGeo9/ifP+2T9v4XlrjNc/b+B58oZk9oneCa1TM95Du/dwdLivfP8v/gLF18gKQCCECcAAA==
+   H4sIAAAAAAAAC+1Yy3LCQAyDdOD/P7n0wMyORi9vAqcePG3TxGvJkmN43G63h4jjFfdXPCHucP0O1/An3oPBcqucqg6F4Y0j1cpyOlys9qfJyZ5nzzY4XI2uDleT4hZ7qHjAaw7DUZ7nQvWw6RnDpPK2vXD8O507vyi//cVPEQnH2gvXy6S31qPsmRaH8jnqKXnyKjw7/VhzqlnrZoWbWY3P3e9vDlscSldJU82Man3N4igxJF2x94byY3secof5DohJzgkOpYUJDqVBxDDtxztfwuE8OcWBesP6n7e5P5p5dQ917eBYsawYVmxn5y6buY6LqT/QG2pnOINj5WWNq/rBdIm9n74H15xsR9+dSRNdrTiYd1oc6/sDNdroagcH9kSdO8WROPkkDnX27l6i3tc7s7XljvWj3cvSrqb2jE/4nGkh7TuK9wa/uocFYma5sFbE4c5jPKQesNmx+gVrZ7074H7lDbWTKq4YNsax6kvqOeqMzXH0hfr8z3I3enK1J15QI2xnwvsZDtRcg0Vpy/VB4VM8K84VRlZv48lWd0mrbV8cNqVXh8/xyZ51vlC9anC0ep1yqfqSfOi4a3A0NTic0zp3dIbXGyyqH8kLjpPEd/u/NXeaa21PGv6dr1xPGi86/zhvpP3Tcd7+3WhKcZDeOelzbqPJFmszD5M/3UxoPg+4eZD8lWaA05bCOMWh+pD6keZDO79c/h1dpfnjtOKencwDpev174k/Gv04X6R8yVPOV2fmVeLI1ZF2q4aXph8qh+u/04XyaLszKp6UH5FH952Fmzssx5lwNSZNYg2Nn6+uP+3Crp5Wx9ijaT34netZXG3dV4b6Hv+T532y/m9hueoMV/838Jw5Y1L7BM+kluk5j+GzO1havFee/x//4eIXLAuO+hAnAAA=
   </data>
  </layer>
  <layer name="Colision" width="50" height="50">
@@ -20,7 +20,7 @@
  </layer>
  <layer name="TopLayer" width="50" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3YbQqAIAyAYX90gQqibtD9TxhCQxn5w8DY1vuAMPugRrO0lDDK1NEsy/e33e2sYt23ngf+q2csWh6TrbF4NLZbzQPf81brLTIG9lTqXOLR140gSh7AKF7nB9pyt7OKdR+Fl+cq3s5nrdVyrsM9lZqUWO9b1Xnzw/EAEF2E+Ukm67n6v4XEnvIAEF+Ud1KUPDLv30Ch1+YSAwAAYIwLZpvjphAnAAA=
+   H4sIAAAAAAAAC+3YbQqDMAyA4f7YBeZA5k4g3v+Ao2BoCeuPChlJfB8opH6gwVRbS4GVx0TzrN7fera9i3Xfex64r5mx6HlMjsbiNtjuNQ/8X7RaH5Ex8C6tziW2vm4GWfIArESdH2jL2Y4u1n00UZ6ruDqf9VbLtQ4/pdWkxHrfS533/HE8AGSXYX5SyXqu/28hcaQ8AOSX5Z2UJY8q+jdQ6LW5xAAAALDxBc6a8AcQJwAA
   </data>
  </layer>
  <objectgroup name="ColisionBoxes" width="50" height="50">

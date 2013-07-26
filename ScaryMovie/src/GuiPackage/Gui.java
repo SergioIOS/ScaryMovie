@@ -89,9 +89,6 @@ public class Gui {
         //Temos algum aviso?
         if(m_currentWarning != null)
             m_currentWarning.draw();
-        
-        //Desenhando o teste:
-        m_guiFont.drawString(100, 100, "suhAUshAUHSuHASSS");
     }
     
     public void drawPlanningGui() throws SlickException{

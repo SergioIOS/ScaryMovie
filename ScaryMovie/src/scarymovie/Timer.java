@@ -20,7 +20,6 @@ the Free Software Foundation; either version 2 of the License, or
 // Added reset method
 
 public class Timer {
-
    private long startTime = 0;
    private long stopTime = 0;
    private boolean running = false;

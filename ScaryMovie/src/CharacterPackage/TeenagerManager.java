@@ -4,7 +4,6 @@
  */
 package CharacterPackage;
 
-import GuiPackage.BubbleManager;
 import MapPackage.Map;
 import TrapPackage.TrapManager;
 import java.util.ArrayList;
@@ -58,10 +57,9 @@ public class TeenagerManager {
     }
     
     //Adiciona Teenager
-    public void addTeenager(ResourceManager rm, Vector2f position, Map map, BubbleManager bm, Killer killer){        
+    public void addTeenager(ResourceManager rm, Vector2f position, Map map, Killer killer){        
         Teenager teenager = new Teenager(rm, position, killer);
-        teenager.getM_ai().updateEmotions(teenager, bm);
-        bm.addBubble(teenager);
+        teenager.getM_ai().updateEmotions(teenager);
         this.m_teenagers.add(teenager);
         
     }

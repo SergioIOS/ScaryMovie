@@ -131,11 +131,6 @@ public class PlanningPhaseState extends BasicGameState{
             }
         }
         
-        //Botão esquerdo do mouse, quando em um teen, exibe as informações dele:
-        if(temp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-            
-        }
-        
         //Movimentos da Câmera:
         if(temp.isKeyDown(Input.KEY_UP)){
             m_camera.move(Killer.DIRECTIONS.DIR_UP);

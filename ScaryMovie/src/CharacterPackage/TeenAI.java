@@ -9,7 +9,6 @@ import static CharacterPackage.Killer.DIRECTIONS.DIR_LEFT;
 import static CharacterPackage.Killer.DIRECTIONS.DIR_RIGHT;
 import static CharacterPackage.Killer.DIRECTIONS.DIR_STOP;
 import static CharacterPackage.Killer.DIRECTIONS.DIR_UP;
-import GuiPackage.BubbleManager;
 import MapPackage.Map;
 import TrapPackage.MovableTrap;
 import TrapPackage.StaticTrap;
@@ -290,7 +289,7 @@ public class TeenAI {
     }
     
     //Função que processa as emoções e randomiza as mesmas:
-    public void updateEmotions(Teenager teen, BubbleManager bm){
+    public void updateEmotions(Teenager teen){
         Random temp = new Random();
         
         //Decidindo a emoção atual:
@@ -318,9 +317,6 @@ public class TeenAI {
             default:
                 throw new AssertionError(getM_curentEmotion().name());
         }
-        
-        //Adicionando a bolha:
-        bm.addBubble(teen);
     }
     
 
