@@ -25,8 +25,10 @@ public class GameEntity {
     
     //Verifica a colisão desta entidade com uma entidade externa:
     public boolean checkColision(Rectangle entityRect){
-        
-        return true;
+        if(entityRect.intersects(new Rectangle(m_position.x, m_position.y+32, 32, 32))){
+            return true;
+        }
+        return false;            
     }
     
     //Atualiza a animação do sprite:
