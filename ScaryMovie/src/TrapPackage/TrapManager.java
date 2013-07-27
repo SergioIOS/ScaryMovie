@@ -96,29 +96,6 @@ public class TrapManager {
         return false;
     }
     
-    public boolean checkTrapTeenColision(Teenager teen){
-        for(StaticTrap trap : m_staticTraps){
-            //Colidiu com alguma trap?
-            if(teen.getM_colisionBox().intersects(trap.getM_colisionBox())){
-                //Atualizando dados do teen:
-                teen.getM_ai().setM_curiosity(teen.getM_ai().getM_curiosity() + trap.getM_type().getM_curiosityFactor());
-                teen.getM_ai().setM_fear(teen.getM_ai().getM_fear() + trap.getM_type().getM_fearFactor());
-                
-                //Removendo trap coletada pelo teen:
-                this.removeStaticTrap(trap);
-                return true;
-            }
-        }
-        
-        for(MovableTrap trap : m_movableTraps){
-            if(teen.getM_colisionBox().intersects(trap.getM_colisionBox())){
-                return true;
-            }
-        }
-        
-        return false;
-    }
-    
     public StaticTrap checkStaticTrapTeenDistance(Teenager teen){
         for(StaticTrap trap : m_staticTraps){
             //Está vendo alguma trap?
