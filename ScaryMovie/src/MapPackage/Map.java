@@ -5,6 +5,7 @@
 package MapPackage;
 
 import java.util.ArrayList;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -12,6 +13,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 import scarymovie.Camera;
+import scarymovie.ResourceManager;
 
 /**
  *
@@ -20,17 +22,18 @@ import scarymovie.Camera;
 public class Map {
     //Membros:
     private Tile m_tiles[][];
-    private TiledMap m_drawableMap;
-    private int m_mapSizeW;
-    private int m_mapSizeH;
+    private ArrayList<Tile> m_spawnPoints;
+    private Animation m_spawnAnimation = null;
+    private TiledMap m_loadedMap;
+    private int m_mapWidthInPixels, m_mapHeightInPixels;
     private Image m_mapBadge = null;
     private String m_mapName = "";
     
     private static Map instance = null;
     
-    public static Map getInstance() throws SlickException{
+    public static Map getInstance(String mapName) throws SlickException{
         if(instance == null){
-            instance = new Map();
+            instance = new Map(mapName);
         }
         
         return instance;
@@ -40,22 +43,40 @@ public class Map {
     ArrayList<Rectangle> m_colisionArray;
     
     //Construtor:
-    public Map() throws SlickException{
-        System.out.println("Starting loading of the map: 'data/StageBeach.tmx'");
+    public Map(String mapName) throws SlickException{
+        //Inicializando:
+        m_spawnPoints = new ArrayList<>();
         
-        //Carregando o mapa:
-        m_drawableMap = new TiledMap("data/StageBeach.tmx");
-        m_mapBadge = new Image("data/StageBeachBadge.png");
-        m_mapName = "Beach";
+        //Devemos carregar algum mapa novo?
+        if(mapName != null)
+            loadTmxMap(mapName);
         
-        m_tiles = new Tile[m_drawableMap.getWidth()][m_drawableMap.getHeight()];
+        //Carregando a animação do spawn:
+        m_spawnAnimation = new Animation(ResourceManager.getInstance().getSpawnAnimation(), 100);
+    }
+    
+    private boolean loadTmxMap(String mapName) throws SlickException{
+        //Temps:
+        String mapFileAdress = "data/maps/" + mapName + "/map.tmx";
+        String mapBadgeAdress = "data/maps/" + mapName + "/badge.png";
         
-        System.out.println("Size (W/H): " + m_drawableMap.getWidth() + "/" + m_drawableMap.getHeight());
+        //Começando:
+        System.out.println("Starting loading of the map: '" + mapFileAdress + "'");
         
-        //Agora, percorrendo o mapa e criando os tiles:
-        for(int y = 0; y < m_drawableMap.getWidth();y++){
-            for(int x = 0; x < m_drawableMap.getHeight();x++){
-                String temp = m_drawableMap.getTileProperty(m_drawableMap.getTileId(x, y, 0), "type", "-1");
+        m_loadedMap = new TiledMap(mapFileAdress);
+        m_mapBadge = new Image(mapBadgeAdress);
+        m_mapName = mapName;
+        m_mapWidthInPixels = m_loadedMap.getWidth() * 32;
+        m_mapHeightInPixels = m_loadedMap.getHeight() * 32;
+        
+        System.out.println("\tSize (W/H): " + m_loadedMap.getWidth() + "/" + m_loadedMap.getHeight());
+        
+        //Percorrendo os tiles e criando os mesmos:
+        m_tiles = new Tile[m_loadedMap.getWidth()][m_loadedMap.getHeight()];
+        
+        for(int x = 0; x < m_loadedMap.getWidth();x++){
+            for(int y = 0; y < m_loadedMap.getHeight();y++){
+                String temp = m_loadedMap.getTileProperty(m_loadedMap.getTileId(x, y, 0), "type", "-1");
                 
                 switch(temp){
                     case "0":
@@ -75,29 +96,25 @@ public class Map {
             }
         }
         
-        //Lendo a camada de colisão:
+        //Lendo e instanciando o mapa de colisão:
         m_colisionArray = new ArrayList<>();
         
-        for(int x = 0; x < m_drawableMap.getObjectCount(0);x++){
-            m_colisionArray.add(new Rectangle(m_drawableMap.getObjectX(0, x), m_drawableMap.getObjectY(0, x), m_drawableMap.getObjectWidth(0, x), m_drawableMap.getObjectHeight(0, x)));
+        for(int x = 0; x < m_loadedMap.getObjectCount(0);x++){
+            m_colisionArray.add(new Rectangle(m_loadedMap.getObjectX(0, x), m_loadedMap.getObjectY(0, x), m_loadedMap.getObjectWidth(0, x), m_loadedMap.getObjectHeight(0, x)));
         }
         
-        //Salvando as variáveis restantes:
-        m_mapSizeW = m_drawableMap.getWidth() * 32;
-        m_mapSizeH = m_drawableMap.getHeight() * 32;
+        //Tudo correu bem:
+        return true;
+    }
+    
+    public void setSpawnPoint(Tile tile){
+//        for(int x = 0; x < m_loadedMap.getWidth();x++){
+//            for(int y = 0; y < m_loadedMap.getHeight();y++){
+//                m_spawnPoints.add(m_tiles[x][y]);
+//            }
+//        }
         
-        //DEBUG:
-        System.out.println("Top Left (X/Y/W/H): " + m_tiles[0][0].getM_position().x + "/" + m_tiles[0][0].getM_position().y + "/" + 
-                m_tiles[0][0].getM_colisionBox().getWidth() + "/" + m_tiles[0][0].getM_colisionBox().getHeight());
-        
-        System.out.println("Top Right (X/Y/W/H): " + m_tiles[49][0].getM_position().x + "/" + m_tiles[0][0].getM_position().y + "/" + 
-                m_tiles[0][0].getM_colisionBox().getWidth() + "/" + m_tiles[0][0].getM_colisionBox().getHeight());
-        
-        System.out.println("Bottom Left (X/Y/W/H): " + m_tiles[0][49].getM_position().x + "/" + m_tiles[0][0].getM_position().y + "/" + 
-                m_tiles[0][0].getM_colisionBox().getWidth() + "/" + m_tiles[0][0].getM_colisionBox().getHeight());
-        
-        System.out.println("Bottom Right (X/Y/W/H): " + m_tiles[49][49].getM_position().x + "/" + m_tiles[0][0].getM_position().y + "/" + 
-                m_tiles[0][0].getM_colisionBox().getWidth() + "/" + m_tiles[0][0].getM_colisionBox().getHeight());
+        m_spawnPoints.add(tile);
     }
     
     //Desenha o mapa:
@@ -111,14 +128,21 @@ public class Map {
         int tileIndexY = (int) (camera.getM_position().y / 32);
         
         //Layer do chão:
-        m_drawableMap.render(tileOffsetX + 0, tileOffsetY + 0, tileIndexX, tileIndexY, 
+        m_loadedMap.render(tileOffsetX + 0, tileOffsetY + 0, tileIndexX, tileIndexY, 
                 (gc.getWidth() - tileOffsetX) / 32 + 1, 
                 (gc.getHeight()- tileOffsetY) / 32 + 1, 0, false);
         
         //Layer de colisão:
-        m_drawableMap.render(tileOffsetX + 0, tileOffsetY + 0, tileIndexX, tileIndexY, 
+        m_loadedMap.render(tileOffsetX + 0, tileOffsetY + 0, tileIndexX, tileIndexY, 
                 (gc.getWidth() - tileOffsetX) / 32 + 1, 
                 (gc.getHeight()- tileOffsetY) / 32 + 1, 1, false);
+        
+        //Temos que desehar o spawn?
+        if(m_spawnPoints.size() > 0){
+            for(Tile tile : m_spawnPoints){
+                m_spawnAnimation.draw(tile.getM_position().x, tile.getM_position().y);
+            }
+        }
     }
     
     public void drawUpperLayersMap(GameContainer gc, Camera camera){
@@ -131,25 +155,28 @@ public class Map {
         int tileIndexY = (int) (camera.getM_position().y / 32);
         
         //Layer sobreposta:
-        m_drawableMap.render(tileOffsetX + 0, tileOffsetY + 0, tileIndexX, tileIndexY, 
+        m_loadedMap.render(tileOffsetX + 0, tileOffsetY + 0, tileIndexX, tileIndexY, 
                 (gc.getWidth() - tileOffsetX) / 32 + 1, 
                 (gc.getHeight()- tileOffsetY) / 32 + 1, 2, false);
     }
     
     //Retorna um tile baseado em um ponto no mapa:
     public Tile getTileByPosition(Vector2f position){
-        Tile temp = null;
-        
         //Procurando o tile:
-        for(int x = 0; x < m_drawableMap.getWidth();x++){
-            for(int y = 0; y < m_drawableMap.getHeight();y++){
+        for(int x = 0; x < m_loadedMap.getWidth();x++){
+            for(int y = 0; y < m_loadedMap.getHeight();y++){
                 if(m_tiles[x][y].getM_colisionBox().contains(position.x, position.y)){
+                    System.out.println("Tile (X/Y): " + m_tiles[x][y].getM_position().x + "/" + m_tiles[x][y].getM_position().y);
+                    System.out.println("Tile (X/Y): " + m_tiles[x][y].getM_position().x + "/" + m_tiles[x][y].getM_position().y);
+                    
                     return m_tiles[x][y];
                 }
             }
         }
         
-        return temp;
+        System.out.println("THIS SHOULD NOT HAPPEN.");
+        
+        return null;
     }
     
     //Atualiza todos os tiles na array:
@@ -185,42 +212,42 @@ public class Map {
      * @return the m_drawableMap
      */
     public TiledMap getM_drawableMap() {
-        return m_drawableMap;
+        return m_loadedMap;
     }
 
     /**
      * @param m_drawableMap the m_drawableMap to set
      */
     public void setM_drawableMap(TiledMap m_drawableMap) {
-        this.m_drawableMap = m_drawableMap;
+        this.m_loadedMap = m_drawableMap;
     }
 
     /**
      * @return the m_mapSizeW
      */
     public int getM_mapSizeW() {
-        return m_mapSizeW;
+        return m_mapWidthInPixels;
     }
 
     /**
      * @param m_mapSizeW the m_mapSizeW to set
      */
     public void setM_mapSizeW(int m_mapSizeW) {
-        this.m_mapSizeW = m_mapSizeW;
+        this.m_mapWidthInPixels = m_mapSizeW;
     }
 
     /**
      * @return the m_mapSizeH
      */
     public int getM_mapSizeH() {
-        return m_mapSizeH;
+        return m_mapHeightInPixels;
     }
 
     /**
      * @param m_mapSizeH the m_mapSizeH to set
      */
     public void setM_mapSizeH(int m_mapSizeH) {
-        this.m_mapSizeH = m_mapSizeH;
+        this.m_mapHeightInPixels = m_mapSizeH;
     }
     
     public Image getMapBadge(){
@@ -229,5 +256,9 @@ public class Map {
     
     public String getMapName(){
         return m_mapName;
+    }
+    
+    public int getNumberOfSpawns(){
+        return m_spawnPoints.size();
     }
 }

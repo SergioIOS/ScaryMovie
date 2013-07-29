@@ -57,7 +57,7 @@ public class GamePlay extends BasicGameState{
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         //Criando as Variáveis:
-        m_map = Map.getInstance();
+        m_map = Map.getInstance("apartment");
         m_camera = Camera.getInstance(m_map);
         rm = ResourceManager.getInstance();
         tm = TeenagerManager.getInstance(m_camera);
@@ -131,6 +131,10 @@ public class GamePlay extends BasicGameState{
                 Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
                 tm.addTeenager(rm, pos, m_map, m_killer);
             }
+        }
+        
+        if(temp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            m_map.setSpawnPoint(m_map.getTileByPosition(new Vector2f((int)temp.getMouseX(), (int)temp.getMouseY())));
         }
         
         if(temp.isKeyPressed(Input.KEY_SPACE)){

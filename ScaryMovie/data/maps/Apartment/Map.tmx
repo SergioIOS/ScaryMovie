@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="30" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32">
+  <image source="Tileset.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Chao" width="50" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2YTQrDIBBGTdocoA0UskwD3bdpb9De/0o1oCCSGf3iWExx4K1mnPjyI9FOKdVViqPdKWseFwCu3s09Na/IcSiUxw2Aq3dzb80nchwK5dEALPVHAq4Xep3QHKpHvMdJczb0BXvYcJ2U02vUXA1TwKP1cm5/KiQ8GqdfI+RB9c/tYdcNak6pHr9Yr0Lv3BaPA0j1qB7VA/dAonrk90D+M0v2QMbHfCdrHpw7Grk8lv/CXoU9/LrSPEZvvpSHX2eR2kfFenDv0WTuFeWhGA9qH8DtD3J43DVzhIetS3HI6eGvV8t8H4bZy6U+CwkPe79DHkhOCXpIBddL+jprZ3FSMWzMoUGdKQ474x89vq5MSZtwFwAA
+  </data>
+ </layer>
+ <layer name="Decoração do Chao" width="50" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3SwQoAEAzGcQ9ByZm8/xu6Shws+qT/76StbGtzDgAA7ArqBg4p3bsu4rtO/QMAgJI35l6TjbkfKPZ0o6ZiT7/fBjCK6gYM0iTGHDr9HA3c8IgAcBcAAA==
+  </data>
+ </layer>
+ <layer name="TopLayer" width="50" height="30" opacity="0.14">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3WWwqAIBCFYXEPGe1/o70YSJi3jjHG/8F5MZiohkPOAQDwLZ8kPXszKzf7KSohZk/OtsFZPjMnVAIAq2vpbHV3z1Dr6yvWnwMaPXtteSda95r/kj6lb255H+7+8hyrmPFOlTN7e6/UhyPXVL17iFKapb4PbDoBIMwP3nAXAAA=
+  </data>
+ </layer>
+ <objectgroup name="ColisionObj" width="50" height="30">
+  <object x="64" y="128" width="384" height="32"/>
+  <object x="96" y="576" width="352" height="32"/>
+  <object x="416" y="608" width="32" height="160"/>
+  <object x="672" y="768" width="32" height="128"/>
+  <object x="64" y="160" width="32" height="736"/>
+  <object x="448" y="128" width="32" height="192"/>
+  <object x="448" y="320" width="128" height="32"/>
+  <object x="640" y="320" width="32" height="32"/>
+  <object x="480" y="128" width="1056" height="32"/>
+  <object x="896" y="160" width="32" height="512"/>
+  <object x="672" y="160" width="32" height="512"/>
+  <object x="1504" y="160" width="32" height="736"/>
+  <object x="896" y="768" width="32" height="128"/>
+  <object x="1088" y="320" width="32" height="416"/>
+  <object x="1120" y="320" width="32" height="32"/>
+  <object x="1216" y="320" width="288" height="32"/>
+  <object x="1120" y="672" width="384" height="32"/>
+  <object x="64" y="896" width="1472" height="32"/>
+ </objectgroup>
+</map>
