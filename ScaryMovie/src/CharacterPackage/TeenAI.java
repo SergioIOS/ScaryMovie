@@ -12,6 +12,7 @@ import static CharacterPackage.Killer.DIRECTIONS.DIR_UP;
 import MapPackage.Map;
 import TrapPackage.MovableTrap;
 import TrapPackage.StaticTrap;
+import TrapPackage.Trap;
 import TrapPackage.TrapManager;
 import java.util.Random;
 import org.newdawn.slick.geom.Rectangle;
@@ -67,9 +68,10 @@ public class TeenAI {
     //As ações do teen:
     public enum ACTIONS{
         ACTION_MOVE(0),
-        ACTION_CHASE_TRAP(1),
-        ACTION_IDLE(2),
-        ACTION_PANIC(3);
+        ACTION_CHASE_STATIC_TRAP(1),
+        ACTION_CHASE_MOVABLE_TRAP(2),
+        ACTION_IDLE(3),
+        ACTION_PANIC(4);
         
         public int m_id = -1;
 
@@ -88,7 +90,10 @@ public class TeenAI {
     private Killer m_killer;
     private Random m_rand;
     private Timer m_timer;
+    private StaticTrap m_desiredStaticTrap;
+    private MovableTrap m_desiredMovableTrap;
     private boolean m_isBusy = false;
+    private boolean gotData = false;
     
     //TEMP:
     private int distWalked = 0;
@@ -97,7 +102,7 @@ public class TeenAI {
     
     //Construtor:
     public TeenAI(Teenager teen){
-        this.m_viewDistance = 150;
+        this.m_viewDistance = 300;
         this.m_teen = teen;
         this.m_rand = new Random();
         this.m_timer = new Timer();
@@ -105,32 +110,30 @@ public class TeenAI {
     
     //Atualiza o Teenager:
     public void updateLogic(Map map, TeenagerManager tm, TrapManager trm){
-        //Verificar se o teen está vendo o killer:
-        if(m_killer.isM_spawned() == true){
-            float distance = m_teen.getM_position().distance(m_killer.getM_position());
-            if(distance <= this.m_viewDistance){
-                this.m_fear = 100;
-                this.m_curentAction = ACTIONS.ACTION_PANIC;
-            }
-        }
+//        //Verificar se o teen está vendo o killer:
+//        if(m_killer.isM_spawned() == true){
+//            float distance = m_teen.getM_position().distance(m_killer.getM_position());
+//            if(distance <= this.m_viewDistance){
+//                this.m_fear = 100;
+//                m_isBusy = true;
+//                this.m_curentAction = ACTIONS.ACTION_PANIC;
+//            }
+//        }
 
         if(m_isBusy == false){
             //Verificar se tem alguma trap por perto
-            MovableTrap tempMovableTrap = trm.checkMovableTrapTeenDistance(m_teen);
-            if(tempMovableTrap != null){
+            m_desiredMovableTrap = trm.checkMovableTrapTeenDistance(m_teen);
+            if(m_desiredMovableTrap != null){
                 m_isBusy = true;
-                m_curentAction = ACTIONS.ACTION_CHASE_TRAP;
+                m_curentAction = ACTIONS.ACTION_CHASE_MOVABLE_TRAP;
             }
             else{
-                StaticTrap tempStaticTrap = trm.checkStaticTrapTeenDistance(m_teen);
-                if(tempStaticTrap != null){
+                m_desiredStaticTrap = trm.checkStaticTrapTeenDistance(m_teen);
+                if(m_desiredStaticTrap != null){
                     m_isBusy = true;
-                    m_curentAction = ACTIONS.ACTION_CHASE_TRAP;
+                    m_curentAction = ACTIONS.ACTION_CHASE_STATIC_TRAP;
                 }
             }
-        }
-        else{
-            processActions(map, tm, trm);
         }
 
         if(m_isBusy == false){
@@ -147,6 +150,8 @@ public class TeenAI {
                 }
             }
         }
+        
+        processActions(map, tm, trm);
     }
     
     public void processActions(Map map, TeenagerManager tm, TrapManager trm){
@@ -154,7 +159,11 @@ public class TeenAI {
             case ACTION_PANIC:
                 //Fazer ele correr freneticamente e procurar a saída.
                 break;
-            case ACTION_CHASE_TRAP:
+            case ACTION_CHASE_STATIC_TRAP:
+                //Fazer ele andar em direção à trap passada.
+                chaseStaticTrap(trm);
+                break;
+            case ACTION_CHASE_MOVABLE_TRAP:
                 //Fazer ele andar em direção à trap passada.
                 break;
             case ACTION_MOVE:
@@ -172,6 +181,43 @@ public class TeenAI {
         
     }
     
+    //Algoritmo simples temporário de busca das traps:
+    public void chaseStaticTrap(TrapManager trm){
+        if(m_teen.getM_position().x < m_desiredStaticTrap.getM_position().x){
+            move(Killer.DIRECTIONS.DIR_RIGHT, 1);
+        }
+        else if(m_teen.getM_position().x > m_desiredStaticTrap.getM_position().x){
+            move(Killer.DIRECTIONS.DIR_LEFT, 1);
+        }
+        
+        getM_teen().getM_position().add(getM_teen().getM_speed());
+        
+        if(m_teen.getM_position().y+32 < m_desiredStaticTrap.getM_position().y){
+            move(Killer.DIRECTIONS.DIR_DOWN, 1);
+        }
+        else if(m_teen.getM_position().y+32 > m_desiredStaticTrap.getM_position().y){
+            move(Killer.DIRECTIONS.DIR_UP, 1);
+        }
+        
+        getM_teen().getM_position().add(getM_teen().getM_speed());
+        
+        //A trap foi ativada?
+        if((m_teen.getM_position().distance(m_desiredStaticTrap.getM_position())<= m_desiredStaticTrap.getM_type().getM_triggerDistance()) && gotData == false){
+            //Atualizar dados do teen
+            m_fear += m_desiredStaticTrap.getM_type().getM_fearFactor();
+            m_curiosity += m_desiredStaticTrap.getM_type().getM_curiosityFactor();
+            gotData = true;
+        }
+        
+        //Colidiu com a trap?
+        if(m_teen.checkColision(new Rectangle(m_desiredStaticTrap.getM_position().x, m_desiredStaticTrap.getM_position().y, 32, 32))){
+            trm.removeStaticTrap(m_desiredStaticTrap);
+            m_isBusy = false;
+            gotData = false;
+            m_teen.setM_movementState(Teenager.MOVEMENT_STATES.STATE_STANDING);
+        }
+    }
+    
     public void moveRandomly(Map map, TeenagerManager tm, TrapManager trm){
         //Testando movimentos aleatórios:
         //if(m_movementState != MOVEMENT_STATES.STATE_STANDING){
@@ -184,7 +230,7 @@ public class TeenAI {
                 //Andando para esquerda:
                 case 0:
                     if(getM_teen().getM_position().x - 2 >= 0){
-                        move(Killer.DIRECTIONS.DIR_LEFT);
+                        move(Killer.DIRECTIONS.DIR_LEFT, 2);
                     }
                     else{
                         setDistWalked(800);
@@ -194,7 +240,7 @@ public class TeenAI {
                 //Andando para direita:
                 case 1:
                     if(getM_teen().getM_position().x + 2 <= map.getM_mapSizeW() - 32){
-                        move(Killer.DIRECTIONS.DIR_RIGHT);
+                        move(Killer.DIRECTIONS.DIR_RIGHT, 2);
                     }
                     else{
                         setDistWalked(800);
@@ -204,7 +250,7 @@ public class TeenAI {
                 //Andando para cima:
                 case 2:
                     if(getM_teen().getM_position().y - 2 >= 0){
-                        move(Killer.DIRECTIONS.DIR_UP);
+                        move(Killer.DIRECTIONS.DIR_UP, 2);
                     }
                     else{
                         setDistWalked(800);
@@ -214,7 +260,7 @@ public class TeenAI {
                 //Andando para baixo:
                 default:
                     if(getM_teen().getM_position().y + 2 <= map.getM_mapSizeH() - 64){
-                        move(Killer.DIRECTIONS.DIR_DOWN);
+                        move(Killer.DIRECTIONS.DIR_DOWN, 2);
                     }
                     else{
                         setDistWalked(800);
@@ -232,7 +278,7 @@ public class TeenAI {
                 getM_teen().getM_position().sub(getM_teen().getM_speed());
                 setDistWalked(0);
                 setTimeStanding(400);
-                move(Killer.DIRECTIONS.DIR_STOP);
+                move(Killer.DIRECTIONS.DIR_STOP, 2);
             }
             else{
                 //Sem colisão! Continuando o movimento...
@@ -243,7 +289,7 @@ public class TeenAI {
             }
         }
         else{
-            move(Killer.DIRECTIONS.DIR_STOP);
+            move(Killer.DIRECTIONS.DIR_STOP, 2);
             setTimeStanding(getTimeStanding() - 5);
             if(getTimeStanding() == 0){
                 setDistWalked(0);
@@ -251,31 +297,27 @@ public class TeenAI {
                 m_isBusy = false;
             }
         }
-
-        if(trm.checkTrapTeenColision(getM_teen())){
-            System.out.println("Teen pegou trap! Curiosity: " + this.getM_curiosity() + " - Fear: " + this.getM_fear());
-        }
     }
     
-    public void move(CharacterPackage.Killer.DIRECTIONS direction){
+    public void move(CharacterPackage.Killer.DIRECTIONS direction, int speedFactor){
         getM_teen().setM_speed(new Vector2f(0,0));
         
         switch(direction){
             case DIR_LEFT:
                 getM_teen().setM_movementState(Teenager.MOVEMENT_STATES.STATE_WALKING_LEFT);
-                m_teen.getM_speed().x -= 2;
+                m_teen.getM_speed().x -= speedFactor;
                 break;
             case DIR_RIGHT:
                 getM_teen().setM_movementState(Teenager.MOVEMENT_STATES.STATE_WALKING_RIGHT);
-                m_teen.getM_speed().x += 2;
+                m_teen.getM_speed().x += speedFactor;
                 break;
             case DIR_UP:
                 getM_teen().setM_movementState(Teenager.MOVEMENT_STATES.STATE_WALKING_UP);
-                m_teen.getM_speed().y -= 2;
+                m_teen.getM_speed().y -= speedFactor;
                 break;
             case DIR_DOWN:
                 getM_teen().setM_movementState(Teenager.MOVEMENT_STATES.STATE_WALKING_DOWN);
-                m_teen.getM_speed().y += 2;
+                m_teen.getM_speed().y += speedFactor;
                 break;
             case DIR_STOP:
                 m_teen.getM_speed().x = 0;
