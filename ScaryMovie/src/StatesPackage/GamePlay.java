@@ -6,7 +6,6 @@ package StatesPackage;
 
 import CharacterPackage.Killer;
 import CharacterPackage.TeenagerManager;
-import GuiPackage.BubbleManager;
 import GuiPackage.Gui;
 import MapPackage.Map;
 import TrapPackage.TrapManager;
@@ -34,7 +33,6 @@ public class GamePlay extends BasicGameState{
     Image m_bg = null;
     ResourceManager rm = null;
     TeenagerManager tm = null;
-    BubbleManager m_bm = null;
     TrapManager m_trm = null;
     Camera m_camera = null;
     Map m_map = null;
@@ -59,12 +57,11 @@ public class GamePlay extends BasicGameState{
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         //Criando as Variáveis:
-        m_map = Map.getInstance();
+        m_map = Map.getInstance("apartment");
         m_camera = Camera.getInstance(m_map);
         rm = ResourceManager.getInstance();
         tm = TeenagerManager.getInstance(m_camera);
         m_trm = TrapManager.getInstance();
-        m_bm = new BubbleManager();
         m_killer = Killer.getInstance(new Vector2f(m_camera.getM_position().x + 384, m_camera.getM_position().y + 284), rm);
         
         m_camera.lockOnKiller(m_killer);
@@ -80,7 +77,6 @@ public class GamePlay extends BasicGameState{
         //Resetando as variáveis:
         m_map = null;
         m_camera = null;
-        m_bm = null;
         m_killer = null;
         m_trm = null; 
         m_gui = null;
@@ -98,9 +94,6 @@ public class GamePlay extends BasicGameState{
         
         //Por fim, renderizando as layers superiores do mapa:
         m_map.drawUpperLayersMap(gc, m_camera);
-        
-        //Renderizando as bolhas:
-        m_bm.drawBubbles(m_camera);
         
         //Desenhando a GUI:
         m_gui.drawHuntingGui();
@@ -120,9 +113,6 @@ public class GamePlay extends BasicGameState{
         //Atualizando o killer:
         m_killer.update(m_map);
         
-        //Atualizando as bolhas:
-        m_bm.updateBubbles();
-        
         //Atualizando as traps:
         m_trm.updateTraps();
         
@@ -139,8 +129,12 @@ public class GamePlay extends BasicGameState{
             if(!m_map.checkMapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32)) && 
                     !(tm.checkTeenColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32), null))){
                 Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
-                tm.addTeenager(rm, pos, m_map, m_bm, m_killer);
+                tm.addTeenager(rm, pos, m_map, m_killer);
             }
+        }
+        
+        if(temp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            m_map.setSpawnPoint(m_map.getTileByPosition(new Vector2f((int)temp.getMouseX(), (int)temp.getMouseY())));
         }
         
         if(temp.isKeyPressed(Input.KEY_SPACE)){
@@ -163,14 +157,6 @@ public class GamePlay extends BasicGameState{
         else{
             //Estamos parados:
             m_killer.move(Killer.DIRECTIONS.DIR_STOP);
-        }
-        
-        //Desenhamos as bubbles?
-        if(temp.isKeyDown(Input.KEY_LSHIFT)){
-            m_bm.setM_shouldDraw(true);
-        }
-        else{
-            m_bm.setM_shouldDraw(false);
         }
         
         //ESC volta para o menu:

@@ -60,7 +60,7 @@ public class PlanningPhaseState extends BasicGameState{
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         //Criando as Variáveis:
-        m_map = Map.getInstance();
+        m_map = Map.getInstance(null);
         m_camera = Camera.getInstance(m_map);
         tm = TeenagerManager.getInstance(m_camera);
         rm = ResourceManager.getInstance();
@@ -129,11 +129,6 @@ public class PlanningPhaseState extends BasicGameState{
                 
                 
             }
-        }
-        
-        //Botão esquerdo do mouse, quando em um teen, exibe as informações dele:
-        if(temp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-            
         }
         
         //Movimentos da Câmera:

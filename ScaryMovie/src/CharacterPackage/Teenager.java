@@ -4,9 +4,7 @@
  */
 package CharacterPackage;
 
-import GuiPackage.BubbleManager;
 import MapPackage.Map;
-import MapPackage.Tile;
 import TrapPackage.TrapManager;
 import java.util.ArrayList;
 import java.util.Random;

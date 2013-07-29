@@ -129,6 +129,15 @@ public class ResourceManager {
         return temp;
     }
     
+    public Image[] getSpawnAnimation(){
+        Image[] temp = new Image[2];
+        
+        temp[0] = m_sprites.getSprite(0 , 3);
+        temp[1] = m_sprites.getSprite(1 , 3);
+        
+        return temp;
+    }
+    
     public Image[] getKillerAnimation(Teenager.MOVEMENT_STATES state){
         Image[] temp = null;
         

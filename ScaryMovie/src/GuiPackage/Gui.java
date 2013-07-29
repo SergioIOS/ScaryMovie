@@ -15,7 +15,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Vector2f;
-import scarymovie.Camera;
 import scarymovie.ResourceManager;
 
 /**
@@ -89,9 +88,6 @@ public class Gui {
         //Temos algum aviso?
         if(m_currentWarning != null)
             m_currentWarning.draw();
-        
-        //Desenhando o teste:
-        m_guiFont.drawString(100, 100, "suhAUshAUHSuHASSS");
     }
     
     public void drawPlanningGui() throws SlickException{
@@ -104,8 +100,8 @@ public class Gui {
         m_mapInfoBG.draw(800 - 320, 600 - 128);
         
         //Desenhando a map badge:
-        Map.getInstance().getMapBadge().draw(800 - 100, 600 - 128);
-        m_guiFont.drawString(610, 513, Map.getInstance().getMapName());
+        Map.getInstance(null).getMapBadge().draw(800 - 100, 600 - 128);
+        m_guiFont.drawString(560, 513, Map.getInstance(null).getMapName());
         m_guiFont.drawString(630, 537, String.valueOf(TeenagerManager.getInstance(null).getM_teenagers().size()));
         m_guiFont.drawString(640, 563, String.valueOf(TrapManager.getInstance().getTotalTraps()));
         
