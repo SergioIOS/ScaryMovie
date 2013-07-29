@@ -29,7 +29,7 @@ public class StaticTrap implements Trap{
     public StaticTrap(ResourceManager rm, Vector2f position, TrapType type){
         m_position = position;
         m_speed = new Vector2f(0,0);
-        m_colisionBox = new Rectangle(position.x, position.y + 32, 32, 32);
+        m_colisionBox = new Rectangle(position.x, position.y, 32, 32);
         m_type = type;
         
         //Carregando animações
