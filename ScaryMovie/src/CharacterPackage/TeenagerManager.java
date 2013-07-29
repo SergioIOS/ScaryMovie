@@ -75,7 +75,7 @@ public class TeenagerManager {
     public boolean checkTeenColision(Rectangle rect, Teenager teen){
         for(Teenager targetTeen : this.m_teenagers){
             if(!(teen == targetTeen)){
-                if(rect.intersects(targetTeen.getM_colisionBox())){
+                if(rect.intersects(new Rectangle(targetTeen.getM_position().x, targetTeen.getM_position().y + 32, 32, 32))){
                     return true;
                 }
             }

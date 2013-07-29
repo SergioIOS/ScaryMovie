@@ -98,7 +98,6 @@ public class TeenAI {
     
     //TEMP:
     private int distWalked = 0;
-    private int timeStanding = 400;
     private int dir = -1;
     
     //Construtor:
@@ -159,6 +158,7 @@ public class TeenAI {
         switch(m_curentAction){
             case ACTION_PANIC:
                 //Fazer ele correr freneticamente e procurar a saída.
+                evadeFromKiller();
                 break;
             case ACTION_CHASE_STATIC_TRAP:
                 //Fazer ele andar em direção à trap passada.
@@ -182,6 +182,27 @@ public class TeenAI {
         
     }
     
+    
+    //Primeiramente, só vai correr em direção oposta ao killer:
+    public void evadeFromKiller(){
+        if(m_teen.getM_position().x < m_killer.getM_position().x){
+            move(Killer.DIRECTIONS.DIR_LEFT, 2);
+        }
+        else if(m_teen.getM_position().x > m_killer.getM_position().x){
+            move(Killer.DIRECTIONS.DIR_RIGHT, 2);
+        }
+        
+        if(m_teen.getM_position().y+32 < m_killer.getM_position().y){
+            move(Killer.DIRECTIONS.DIR_UP, 2);
+        }
+        else if(m_teen.getM_position().y+32 > m_killer.getM_position().y){
+            move(Killer.DIRECTIONS.DIR_DOWN, 2);
+        }
+        
+        getM_teen().getM_position().add(getM_teen().getM_speed());
+        
+    }
+    
     //Algoritmo simples temporário de busca das traps:
     public void chaseStaticTrap(TrapManager trm){
         if(m_teen.getM_position().x < m_desiredStaticTrap.getM_position().x){
@@ -190,8 +211,6 @@ public class TeenAI {
         else if(m_teen.getM_position().x > m_desiredStaticTrap.getM_position().x){
             move(Killer.DIRECTIONS.DIR_LEFT, 1);
         }
-        
-        getM_teen().getM_position().add(getM_teen().getM_speed());
         
         if(m_teen.getM_position().y+32 < m_desiredStaticTrap.getM_position().y){
             move(Killer.DIRECTIONS.DIR_DOWN, 1);
@@ -278,7 +297,6 @@ public class TeenAI {
                 //Colidimos! Voltando para trás!
                 getM_teen().getM_position().sub(getM_teen().getM_speed());
                 setDistWalked(0);
-                setTimeStanding(400);
                 move(Killer.DIRECTIONS.DIR_STOP, 2);
             }
             else{
@@ -291,12 +309,8 @@ public class TeenAI {
         }
         else{
             move(Killer.DIRECTIONS.DIR_STOP, 2);
-            setTimeStanding(getTimeStanding() - 5);
-            if(getTimeStanding() == 0){
-                setDistWalked(0);
-                setTimeStanding(400); 
-                m_isBusy = false;
-            }
+            setDistWalked(0);
+            m_isBusy = false;
         }
     }
     
@@ -448,20 +462,6 @@ public class TeenAI {
      */
     public void setDistWalked(int distWalked) {
         this.distWalked = distWalked;
-    }
-
-    /**
-     * @return the timeStanding
-     */
-    public int getTimeStanding() {
-        return timeStanding;
-    }
-
-    /**
-     * @param timeStanding the timeStanding to set
-     */
-    public void setTimeStanding(int timeStanding) {
-        this.timeStanding = timeStanding;
     }
 
     /**
