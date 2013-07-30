@@ -97,6 +97,10 @@ public class GamePlay extends BasicGameState{
         
         //Desenhando a GUI:
         m_gui.drawHuntingGui();
+        
+        //Desenhando o debug do Killer:
+        if(m_killer.getcurrentTile() != null)
+            grphcs.drawString("Killer X/Y: " + String.valueOf(m_killer.getcurrentTile().getM_mapRelX()) + "/" + String.valueOf(m_killer.getcurrentTile().getM_mapRelY()), 600, 100);
     }
 
     @Override
@@ -134,7 +138,7 @@ public class GamePlay extends BasicGameState{
         }
         
         if(temp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-            m_map.setSpawnPoint(m_map.getTileByPosition(new Vector2f((int)temp.getMouseX(), (int)temp.getMouseY())));
+            m_map.setSpawnPoint(m_map.getTileByPosition(new Vector2f((int)temp.getMouseX() + m_camera.getM_position().x, (int)temp.getMouseY() + m_camera.getM_position().y)));
         }
         
         if(temp.isKeyPressed(Input.KEY_SPACE)){
