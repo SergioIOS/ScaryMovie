@@ -10,10 +10,12 @@ import static CharacterPackage.Killer.DIRECTIONS.DIR_RIGHT;
 import static CharacterPackage.Killer.DIRECTIONS.DIR_STOP;
 import static CharacterPackage.Killer.DIRECTIONS.DIR_UP;
 import MapPackage.Map;
+import MapPackage.Tile;
 import TrapPackage.MovableTrap;
 import TrapPackage.StaticTrap;
 import TrapPackage.Trap;
 import TrapPackage.TrapManager;
+import java.util.ArrayList;
 import java.util.Random;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -229,7 +231,7 @@ public class TeenAI {
         }
         
         //Colidiu com a trap?
-        if(m_teen.checkColision(new Rectangle(m_desiredStaticTrap.getM_position().x, m_desiredStaticTrap.getM_position().y, 32, 32))){
+        if(m_teen.checkColision(m_desiredStaticTrap.getM_colisionBox())){
             trm.removeStaticTrap(m_desiredStaticTrap);
             m_isBusy = false;
             gotData = false;
@@ -373,6 +375,62 @@ public class TeenAI {
             default:
                 throw new AssertionError(getM_curentEmotion().name());
         }
+    }
+    
+    public Tile[] findPath(Tile[][] map, int origX, int origY, int destX, int destY){
+        ArrayList<Tile> openList;
+        ArrayList<Tile> closedList;
+        openList = new ArrayList<>();
+        closedList = new ArrayList<>();
+        int currentX, currentY;
+        
+        //Colocando o tile inicial na lista aberta:
+        openList.add(map[origX][origY]);
+        currentX = origX;
+        currentY = origY;
+        
+        boolean gotTarget = false;
+        
+        while(gotTarget == false){
+            boolean goToOpen = true;
+            //Inserindo tiles adjacentes à lista aberta:
+
+            //Tile da esquerda:
+            if(map[currentX-1][currentY].isM_passable() && !(closedList.contains(map[currentX-1][currentY]))){
+                openList.add(map[currentX-1][currentY]);
+                map[currentX-1][currentY].setM_prev(map[currentX][currentY]);
+            }
+
+            //Tile da direita:
+            if(map[currentX+1][currentY].isM_passable() && !(closedList.contains(map[currentX+1][currentY]))){
+                openList.add(map[currentX+1][currentY]);
+                map[currentX+1][currentY].setM_prev(map[currentX][currentY]);
+            }
+
+            //Tile de cima:
+            if(map[currentX][currentY-1].isM_passable() && !(closedList.contains(map[currentX][currentY-1]))){
+                openList.add(map[currentX][currentY-1]);
+                map[currentX][currentY-1].setM_prev(map[currentX][currentY]);
+            }
+
+            //Tile de baixo:
+            if(map[currentX][currentY+1].isM_passable() && !(closedList.contains(map[currentX][currentY+1]))){
+                openList.add(map[currentX][currentY+1]);
+                map[currentX][currentY+1].setM_prev(map[currentX][currentY]);
+            }
+            
+            //Removendo tile atual da lista aberta e inserindo-o na lista fechada:
+            openList.remove(map[currentX][currentY]);
+            closedList.add(map[currentX][currentY]);
+        }
+        
+        
+        
+        
+        
+        
+        Tile[] temp = null;
+        return temp;
     }
     
 
