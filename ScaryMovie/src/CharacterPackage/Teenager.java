@@ -92,7 +92,11 @@ public class Teenager extends GameEntity{
     
     //Atualiza o teenager:
     public void update(Map map, TeenagerManager tm, TrapManager trm){
-        m_ai.updateLogic(map, tm, trm);
+        //Verificando o tile que estamos:
+         m_currentTile = map.getTileByPosition(m_position.x + 16, m_position.y + 48);
+         
+         //Atualziando a AI:
+         m_ai.updateLogic(map, tm, trm);
     }  
     
 
