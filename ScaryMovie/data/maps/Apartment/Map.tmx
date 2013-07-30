@@ -2,18 +2,78 @@
 <map version="1.0" orientation="orthogonal" width="50" height="30" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32">
   <image source="Tileset.png" width="512" height="512"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Chao" width="50" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2YTQrDIBBGTdocoA0UskwD3bdpb9De/0o1oCCSGf3iWExx4K1mnPjyI9FOKdVViqPdKWseFwCu3s09Na/IcSiUxw2Aq3dzb80nchwK5dEALPVHAq4Xep3QHKpHvMdJczb0BXvYcJ2U02vUXA1TwKP1cm5/KiQ8GqdfI+RB9c/tYdcNak6pHr9Yr0Lv3BaPA0j1qB7VA/dAonrk90D+M0v2QMbHfCdrHpw7Grk8lv/CXoU9/LrSPEZvvpSHX2eR2kfFenDv0WTuFeWhGA9qH8DtD3J43DVzhIetS3HI6eGvV8t8H4bZy6U+CwkPe79DHkhOCXpIBddL+jprZ3FSMWzMoUGdKQ474x89vq5MSZtwFwAA
+   H4sIAAAAAAAAC+2YWwrCMBBF46ML0ILQz1rwX6s70P1vyRQyEIbOJLdNJJUMnI8yk8fpIyRtjDFNpTj2G2XO4wKg1fu5p+UV2Q5F8rgBaPV+7m35RLZDkTx2AFP9UUDrCx0nNIfqEe9xspwdbcEefpCD8frqLVfHEPCg4NdapPDgY23Zg9YN6RtAPOj5+h6/WK9C79wSjwNI9age1QP3QKJ65PdA9pkleyDtY76TOQ/NHY1cHtO+sDVhD15XmkfP5it58Doi1Tkq1kN7jwZ3ryQPo3hI5wDtfJDD424ZIzyobo1DTg++Xk3zfThGllv7LFJ40P0OeSA5k9AjVWh9pR5n7l9cqugW5tCQ/il2G+MfPb6sHtPAcBcAAA==
   </data>
  </layer>
- <layer name="Decoração do Chao" width="50" height="30">
+ <layer name="Decoração do Chao" width="50" height="30" opacity="0">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+3SwQoAEAzGcQ9ByZm8/xu6Shws+qT/76StbGtzDgAA7ArqBg4p3bsu4rtO/QMAgJI35l6TjbkfKPZ0o6ZiT7/fBjCK6gYM0iTGHDr9HA3c8IgAcBcAAA==
   </data>
  </layer>
- <layer name="TopLayer" width="50" height="30" opacity="0.14">
+ <layer name="TopLayer" width="50" height="30" opacity="0.01">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+3WWwqAIBCFYXEPGe1/o70YSJi3jjHG/8F5MZiohkPOAQDwLZ8kPXszKzf7KSohZk/OtsFZPjMnVAIAq2vpbHV3z1Dr6yvWnwMaPXtteSda95r/kj6lb255H+7+8hyrmPFOlTN7e6/UhyPXVL17iFKapb4PbDoBIMwP3nAXAAA=
   </data>
