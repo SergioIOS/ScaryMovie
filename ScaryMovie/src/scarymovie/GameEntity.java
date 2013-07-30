@@ -90,4 +90,8 @@ public class GameEntity {
     public void setM_colisionBox(Rectangle m_colisionBox) {
         this.m_colisionBox = m_colisionBox;
     }
+    
+    public Tile getcurrentTile(){
+        return m_currentTile;
+    }
 }
