@@ -147,4 +147,8 @@ public class Tile {
     public void setM_colisionBox(Rectangle m_colisionBox) {
         this.m_colisionBox = m_colisionBox;
     }
+    
+    public boolean getM_spawn(){
+        return m_spawn;
+    }
 }
