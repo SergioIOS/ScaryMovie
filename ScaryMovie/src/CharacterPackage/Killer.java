@@ -97,6 +97,9 @@ public class Killer extends GameEntity{
         }else{
             //Movimento liberado:
             m_colisionBox.setLocation(m_position.x, m_position.y + 48);
+            
+            //Atualizando o tile atual:
+            m_currentTile = m_map.getTileByPosition(m_position.x + 16, m_position.y + 48);
         }
     }
     
