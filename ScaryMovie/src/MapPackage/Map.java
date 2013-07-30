@@ -72,28 +72,49 @@ public class Map {
         System.out.println("\tSize (W/H): " + m_loadedMap.getWidth() + "/" + m_loadedMap.getHeight());
         
         //Percorrendo os tiles e criando os mesmos:
-        m_tiles = new Tile[m_loadedMap.getWidth()][m_loadedMap.getHeight()];
+        m_tiles = new Tile[m_loadedMap.getHeight()][m_loadedMap.getWidth()];
         
-        for(int x = 0; x < m_loadedMap.getWidth();x++){
-            for(int y = 0; y < m_loadedMap.getHeight();y++){
-                String temp = m_loadedMap.getTileProperty(m_loadedMap.getTileId(x, y, 0), "type", "-1");
+        //Camada do chão:
+        System.out.println("\tProcessing the floor Layer. (ID: 0)");
+        
+        System.out.println("\tArray Size (W/H): " + m_tiles[0].length + "/" + m_tiles.length);
+        
+        for(int w = 0; w < m_tiles[0].length; w++){
+            for(int h = 0; h < m_tiles.length; h++){
+                //Lendo a property do tile:
+                String temp = m_loadedMap.getTileProperty(m_loadedMap.getTileId(w, h, 0), "type", "-1");
                 
+                //Processando:
                 switch(temp){
                     case "0":
-                        m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_WALKABLE, false);
+                        m_tiles[h][w] = new Tile(new Vector2f(w * 32, h * 32), Tile.TILE_TYPES.TILE_WALKABLE, true);
                     break;
                         
                     case "1":
-                        m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_WATER, true);
+                        m_tiles[h][w] = new Tile(new Vector2f(w * 32, h * 32), Tile.TILE_TYPES.TILE_WATER, false);
                         
                         //Criando a animação da água:
                     break;
                         
                     default: 
-                        m_tiles[x][y] = new Tile(new Vector2f(x * 32, y * 32), Tile.TILE_TYPES.TILE_NON_WALKABLE, false);
+                        m_tiles[h][w] = new Tile(new Vector2f(w * 32, h * 32), Tile.TILE_TYPES.TILE_NON_WALKABLE, false);
                     break;
                 }
             }
+        }
+        
+        //DEBUG:
+        for(int w = 0; w < m_tiles.length; w++){
+            for(int h = 0; h < m_tiles[0].length; h++){
+                if(!m_tiles[w][h].isM_passable()){
+                    System.out.print("0");
+                }
+                else{
+                    System.out.print("-");
+                }
+            }
+            
+            System.out.println();
         }
         
         //Lendo e instanciando o mapa de colisão:
@@ -113,8 +134,11 @@ public class Map {
 //                m_spawnPoints.add(m_tiles[x][y]);
 //            }
 //        }
-        
-        m_spawnPoints.add(tile);
+        if(tile != null && tile.isM_passable() == true && tile.getM_spawn() == false)
+            m_spawnPoints.add(tile);
+        else{
+            System.out.println("NOPE.");
+        }
     }
     
     //Desenha o mapa:
@@ -140,7 +164,7 @@ public class Map {
         //Temos que desehar o spawn?
         if(m_spawnPoints.size() > 0){
             for(Tile tile : m_spawnPoints){
-                m_spawnAnimation.draw(tile.getM_position().x, tile.getM_position().y);
+                m_spawnAnimation.draw(tile.getM_position().x - camera.getM_position().x, (tile.getM_position().y - camera.getM_position().y) - 32);
             }
         }
     }
@@ -161,22 +185,27 @@ public class Map {
     }
     
     //Retorna um tile baseado em um ponto no mapa:
-    public Tile getTileByPosition(Vector2f position){
-        //Procurando o tile:
-        for(int x = 0; x < m_loadedMap.getWidth();x++){
-            for(int y = 0; y < m_loadedMap.getHeight();y++){
-                if(m_tiles[x][y].getM_colisionBox().contains(position.x, position.y)){
-                    System.out.println("Tile (X/Y): " + m_tiles[x][y].getM_position().x + "/" + m_tiles[x][y].getM_position().y);
-                    System.out.println("Tile (X/Y): " + m_tiles[x][y].getM_position().x + "/" + m_tiles[x][y].getM_position().y);
-                    
-                    return m_tiles[x][y];
-                }
-            }
-        }
+    public Tile getTileByPosition(Vector2f position){        
+        //Decobrindo o X e o Y:
+        int x = (int)position.x / 32;
+        int y = (int)position.y / 32;
         
-        System.out.println("THIS SHOULD NOT HAPPEN.");
+//        System.out.println("X/Y: " + x + "/" + y);
+//        System.out.println("Passable: " + m_tiles[y][x].isM_passable());
         
-        return null;
+        return m_tiles[y][x];
+    }
+    
+    //Retorna um tile baseado em um ponto no mapa:
+    public Tile getTileByPosition(float xpos, float ypos){        
+        //Decobrindo o X e o Y:
+        int x = (int)xpos / 32;
+        int y = (int)ypos / 32;
+        
+//        System.out.println("X/Y: " + x + "/" + y);
+//        System.out.println("Passable: " + m_tiles[y][x].isM_passable());
+        
+        return m_tiles[y][x];
     }
     
     //Atualiza todos os tiles na array:
