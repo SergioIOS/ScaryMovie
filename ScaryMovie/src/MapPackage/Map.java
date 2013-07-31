@@ -151,12 +151,7 @@ public class Map {
             //Corrigindo a posição do tile:
             Vector2f newPosition = new Vector2f(temp.getM_position().x, temp.getM_position().y + 32);
             
-            try{
-                TeenagerManager.getInstance(null).addTeenager(ResourceManager.getInstance(), newPosition, this, Killer.getInstance(null, null));
-            }
-            catch(SlickException e){
-                
-            }
+            TeenagerManager.getInstance(null).addTeenager(ResourceManager.getInstance(), newPosition, this, Killer.getInstance(null, null));
         }
         
         System.out.println("\tNbr of teen created: " + qtdTeensToCreate);
