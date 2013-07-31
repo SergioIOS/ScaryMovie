@@ -80,6 +80,11 @@ public class ResourceManager {
                     temp[0] = m_sprites.getSprite(11, 0);
                     temp[1] = m_sprites.getSprite(12, 0);
                     break;
+                case STATE_DEAD:
+                    temp = new Image[1];
+                    
+                    temp[0] = m_sprites.getSubImage(416, 0, 64, 32);
+                    break;
                 default:
                     throw new AssertionError(state.name());
             }
@@ -120,6 +125,11 @@ public class ResourceManager {
                     
                     temp[0] = m_sprites.getSprite(11, 1);
                     temp[1] = m_sprites.getSprite(12, 1);
+                    break;
+                case STATE_DEAD:
+                    temp = new Image[1];
+                    
+                    temp[0] = m_sprites.getSubImage(416, 32, 64, 32);
                     break;
                 default:
                     throw new AssertionError(state.name());
@@ -175,8 +185,32 @@ public class ResourceManager {
             case STATE_SWIMMING:
                 temp = new Image[2];
 
-                temp[0] = m_sprites.getSprite(3, 0);
-                temp[1] = m_sprites.getSprite(4, 0);
+                temp[0] = m_sprites.getSprite(3, 2);
+                temp[1] = m_sprites.getSprite(4, 2);
+                break;
+            case STATE_ATACK_LEFT:
+                temp = new Image[2];
+
+                temp[0] = m_sprites.getSprite(8, 2);
+                temp[1] = m_sprites.getSprite(9, 2);
+                break;
+            case STATE_ATACK_RIGHT:
+                temp = new Image[2];
+
+                temp[0] = m_sprites.getSprite(10, 2);
+                temp[1] = m_sprites.getSprite(11, 2);
+                break;
+            case STATE_ATACK_UP:
+                temp = new Image[2];
+
+                temp[0] = m_sprites.getSprite(12, 2);
+                temp[1] = m_sprites.getSprite(13, 2);
+                break;
+            case STATE_ATACK_DOWN:
+                temp = new Image[2];
+
+                temp[0] = m_sprites.getSprite(14, 2);
+                temp[1] = m_sprites.getSprite(15, 2);
                 break;
             default:
                 throw new AssertionError(state.name());
