@@ -9,6 +9,7 @@ import CharacterPackage.Teenager;
 import CharacterPackage.TeenagerManager;
 import MapPackage.Map;
 import TrapPackage.TrapManager;
+import java.util.ArrayList;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -40,11 +41,16 @@ public class Gui {
         WARNING_CHOOSE_SPAWN_POINT,
     }
     
+    public enum INFO_BUBBLES{
+        BUBBLE_DEATH,
+    }
+    
     //Membros:
     private int m_score = 0;
     ScreenWarning m_currentWarning = null;
     UnicodeFont m_guiFont = null;
     private Teenager m_selectedTeen = null;
+    private ArrayList<InfoBubble> m_bubbles = null;
     
     //Imagens usadas:
     Image m_PlanningPhaseSign, m_HuntingPhaseSign, m_chooseSpawnSign ,m_selectedTeenBG, m_mapInfoBG;
@@ -83,6 +89,9 @@ public class Gui {
         m_guiFont.getEffects().add(new ColorEffect());
         m_guiFont.loadGlyphs();
         
+        //Criando as bolhas:
+        m_bubbles = new ArrayList<>();
+        
         m_currentWarning = null;
     }
     
@@ -90,6 +99,12 @@ public class Gui {
         //Temos algum aviso?
         if(m_currentWarning != null)
             m_currentWarning.draw();
+        
+        //Temos alguma bolha?
+        for(int x = 0; x < m_bubbles.size(); x++){
+            //Atualizando
+            m_bubbles.get(x).draw();
+        }
     }
     
     public void drawPlanningGui() throws SlickException{
@@ -134,6 +149,22 @@ public class Gui {
                 m_currentWarning = null;
             }
         }
+        
+        //Temos alguma bolha?
+        for(InfoBubble temp : m_bubbles){
+            //Atualizando
+            temp.update();
+        }
+        
+        //É hora de limpar alguma bolha?
+        for(int x = 0; x < m_bubbles.size(); x++){
+            //É hora de apagar?
+            if(m_bubbles.get(x).getReadyToGo()){
+                m_bubbles.remove(x);
+            }
+            
+            m_bubbles.trimToSize();
+        }
     }
     
     public void showScreenWarning(WARNING_TYPES type){
@@ -149,6 +180,13 @@ public class Gui {
         else{
             m_currentWarning = new ScreenWarning(m_chooseSpawnSign, new Vector2f(-400, 100), Killer.DIRECTIONS.DIR_RIGHT);
         }
+    }
+    
+    //Info bubbles:
+    public void showInfoBubble(INFO_BUBBLES type, Vector2f position){
+        m_bubbles.add(new InfoBubble(ResourceManager.getInstance().getInfoBubbleSprite(type), position));
+        
+        System.out.println("BubbleCriada!");
     }
 
     /**
