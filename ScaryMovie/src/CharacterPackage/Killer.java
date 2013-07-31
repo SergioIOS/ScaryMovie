@@ -117,9 +117,6 @@ public class Killer extends GameEntity{
                 m_atackDelayTimer.start();
                 m_isAtacking = false;
             }
-            else{
-                attack();
-            }
             
             //Veriicando a colisão com os teens:
             Teenager temp = m_teenManager.checkTeenColision(m_colisionBox);
