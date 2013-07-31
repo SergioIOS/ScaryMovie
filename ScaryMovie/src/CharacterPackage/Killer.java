@@ -118,21 +118,6 @@ public class Killer extends GameEntity{
                 m_isAtacking = false;
             }
             else{
-                switch(m_movementState){
-                    case STATE_ATACK_DOWN:
-                        m_movementState = MOVEMENT_STATES.STATE_ATACK_DOWN;
-                        break;
-                    case STATE_ATACK_LEFT:
-                        m_movementState = MOVEMENT_STATES.STATE_ATACK_LEFT;
-                        break;
-                    case STATE_ATACK_RIGHT:
-                        m_movementState = MOVEMENT_STATES.STATE_ATACK_RIGHT;
-                        break;
-                    case STATE_ATACK_UP:
-                        m_movementState = MOVEMENT_STATES.STATE_ATACK_UP;
-                        break;
-                }
-                
                 attack();
             }
             
