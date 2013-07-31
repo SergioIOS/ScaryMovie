@@ -13,6 +13,7 @@ import org.newdawn.slick.geom.Vector2f;
 import scarymovie.GameEntity;
 import scarymovie.ResourceManager;
 import scarymovie.Timer;
+import GuiPackage.Gui;
 
 /**
  *
@@ -124,6 +125,9 @@ public class Killer extends GameEntity{
             if(temp != null){
                 //Apagando o teen:
                 temp.kill();
+                
+                //Exibindo o aviso:
+                Gui.getInstance().showInfoBubble(Gui.INFO_BUBBLES.BUBBLE_DEATH, temp.getM_position());
             }
         }
         
