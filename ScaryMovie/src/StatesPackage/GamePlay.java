@@ -22,6 +22,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import scarymovie.Camera;
 import scarymovie.ResourceManager;
+import scarymovie.Timer;
 
 /**
  *
@@ -30,7 +31,6 @@ import scarymovie.ResourceManager;
 public class GamePlay extends BasicGameState{
     //Membros:
     int m_stateID = -1;
-    Image m_bg = null;
     ResourceManager rm = null;
     TeenagerManager tm = null;
     TrapManager m_trm = null;
@@ -38,6 +38,8 @@ public class GamePlay extends BasicGameState{
     Map m_map = null;
     Killer m_killer = null;
     Gui m_gui = null;
+    Timer m_spawnTimer = null;
+    
     
     public GamePlay(int state){
         this.m_stateID = state;
@@ -58,28 +60,29 @@ public class GamePlay extends BasicGameState{
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         //Criando as Variáveis:
         m_map = Map.getInstance("apartment");
-        m_camera = Camera.getInstance(m_map);
+        m_camera = Camera.getInstance(null);
         rm = ResourceManager.getInstance();
-        tm = TeenagerManager.getInstance(m_camera);
+        tm = TeenagerManager.getInstance(null);
         m_trm = TrapManager.getInstance();
-        m_killer = Killer.getInstance(new Vector2f(m_camera.getM_position().x + 384, m_camera.getM_position().y + 284), rm);
+        m_killer = Killer.getInstance(null, null);
         
+        //Travando a câmera no killer:
         m_camera.lockOnKiller(m_killer);
         
         //exibindo o aviso:
         m_gui = Gui.getInstance();
         
         m_gui.showScreenWarning(Gui.WARNING_TYPES.WARNING_HUNTING);
+        
+        m_spawnTimer = new Timer();
+        
+        m_spawnTimer.start();
     }
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
         //Resetando as variáveis:
-        m_map = null;
-        m_camera = null;
-        m_killer = null;
-        m_trm = null; 
-        m_gui = null;
+        m_spawnTimer.reset();
     }
 
     @Override
@@ -97,10 +100,6 @@ public class GamePlay extends BasicGameState{
         
         //Desenhando a GUI:
         m_gui.drawHuntingGui();
-        
-        //Desenhando o debug do Killer:
-        if(m_killer.getcurrentTile() != null)
-            grphcs.drawString("Killer X/Y: " + String.valueOf(m_killer.getcurrentTile().getM_mapRelX()) + "/" + String.valueOf(m_killer.getcurrentTile().getM_mapRelY()), 600, 100);
     }
 
     @Override
@@ -122,28 +121,15 @@ public class GamePlay extends BasicGameState{
         
         //Atualizando a GUI:
         m_gui.update(m_killer, m_map, tm, m_trm);
+        
+        //O killer entrou em algum spawn point?
+        if(m_killer.getcurrentTile().isM_spawn() && m_spawnTimer.getElapsedTimeSecs() > 5){
+            sbg.enterState(scarymovie.ScaryMovie.PLANNINGPHASE_STATE);
+        }
     }
     
     private void handleEvents(GameContainer gc, StateBasedGame sbg){
         Input temp = gc.getInput();
-        
-        //Botão direito cria um novo jovem na posição do mouse.
-        if(temp.isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
-            //Estamos tentando criar um personagem na parede?
-            if(!m_map.checkMapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32)) && 
-                    !(tm.checkTeenColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32), null))){
-                Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
-                tm.addTeenager(rm, pos, m_map, m_killer);
-            }
-        }
-        
-        if(temp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-            m_map.setSpawnPoint(m_map.getTileByPosition(new Vector2f((int)temp.getMouseX() + m_camera.getM_position().x, (int)temp.getMouseY() + m_camera.getM_position().y)));
-        }
-        
-        if(temp.isKeyPressed(Input.KEY_SPACE)){
-            sbg.enterState(scarymovie.ScaryMovie.PLANNINGPHASE_STATE);
-        }
         
         //Movimentos do killer:
         if(temp.isKeyDown(Input.KEY_UP)){
