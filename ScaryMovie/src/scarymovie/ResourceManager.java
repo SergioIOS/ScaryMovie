@@ -22,9 +22,15 @@ public class ResourceManager {
     
     private static ResourceManager instance = null;
     
-    public static ResourceManager getInstance() throws SlickException{
+    public static ResourceManager getInstance(){
         if(instance == null){
-            instance = new ResourceManager();
+            try{
+                instance = new ResourceManager();
+            }
+            catch(SlickException e){
+
+            }
+
         }
         
         return instance;
@@ -290,6 +296,20 @@ public class ResourceManager {
                 break;
             default:
                 throw new AssertionError(element.name());            
+        }
+        
+        return temp;
+    }
+    
+    public Image getInfoBubbleSprite(Gui.INFO_BUBBLES type){
+        Image temp = null;
+        
+        switch(type){
+            case BUBBLE_DEATH:
+                temp = m_guiSpriteSheet.getSprite(2, 0);
+                break;
+            default:
+                throw new AssertionError(type.name());
         }
         
         return temp;
