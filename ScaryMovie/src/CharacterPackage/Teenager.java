@@ -21,12 +21,17 @@ import scarymovie.GameEntity;
 public class Teenager extends GameEntity{
     //States de Movimentos:
     public enum MOVEMENT_STATES{
-        STATE_STANDING (0),
-        STATE_SWIMMING (1),
-        STATE_WALKING_LEFT (2),
-        STATE_WALKING_RIGHT (3),
-        STATE_WALKING_UP (4),
-        STATE_WALKING_DOWN (5);
+        STATE_DEAD(0),
+        STATE_STANDING (1),
+        STATE_SWIMMING (2),
+        STATE_WALKING_LEFT (3),
+        STATE_WALKING_RIGHT (4),
+        STATE_WALKING_UP (5),
+        STATE_WALKING_DOWN (6),
+        STATE_ATACK_LEFT (7),
+        STATE_ATACK_RIGHT (8),
+        STATE_ATACK_UP (9),
+        STATE_ATACK_DOWN (10);
         
         //O ID de cada objeto:
         public int m_id;
@@ -82,6 +87,7 @@ public class Teenager extends GameEntity{
         //Carregando as animações:
         m_sprites = new ArrayList<>();
         
+        this.m_sprites.add(MOVEMENT_STATES.STATE_DEAD.m_id, new Animation(sm.getTeenAnimation(getM_gender(), MOVEMENT_STATES.STATE_DEAD), 200));
         this.m_sprites.add(MOVEMENT_STATES.STATE_STANDING.m_id, new Animation(sm.getTeenAnimation(getM_gender(), MOVEMENT_STATES.STATE_STANDING), 200));
         this.m_sprites.add(MOVEMENT_STATES.STATE_SWIMMING.m_id, new Animation(sm.getTeenAnimation(getM_gender(), MOVEMENT_STATES.STATE_SWIMMING), 200));
         this.m_sprites.add(MOVEMENT_STATES.STATE_WALKING_LEFT.m_id, new Animation(sm.getTeenAnimation(getM_gender(), MOVEMENT_STATES.STATE_WALKING_LEFT), 200));
@@ -92,11 +98,14 @@ public class Teenager extends GameEntity{
     
     //Atualiza o teenager:
     public void update(Map map, TeenagerManager tm, TrapManager trm){
-        //Verificando o tile que estamos:
-         m_currentTile = map.getTileByPosition(m_position.x + 16, m_position.y + 48);
-         
-         //Atualziando a AI:
-         m_ai.updateLogic(map, tm, trm);
+        //Estamos mortos?
+        if(m_movementState != MOVEMENT_STATES.STATE_DEAD){
+            //Verificando o tile que estamos:
+            m_currentTile = map.getTileByPosition(m_position.x + 16, m_position.y + 48);
+
+            //Atualziando a AI:
+            m_ai.updateLogic(map, tm, trm);
+        }
     }  
     
 
@@ -140,5 +149,16 @@ public class Teenager extends GameEntity{
      */
     public void setM_ai(TeenAI m_ai) {
         this.m_ai = m_ai;
+    }
+    
+    public void kill(){
+        m_movementState = MOVEMENT_STATES.STATE_DEAD;
+        
+        m_position.set(m_position.x, m_position.y);
+        
+        m_colisionBox.setHeight(32);
+        m_colisionBox.setWidth(64);
+        m_colisionBox.setLocation(m_position);
+        
     }
 }
