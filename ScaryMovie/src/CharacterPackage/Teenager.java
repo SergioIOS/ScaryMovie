@@ -154,7 +154,7 @@ public class Teenager extends GameEntity{
     public void kill(){
         m_movementState = MOVEMENT_STATES.STATE_DEAD;
         
-        m_position.set(m_position.x, m_position.y - 32);
+        m_position.set(m_position.x - 16, m_position.y + 32);
         
         m_colisionBox.setHeight(32);
         m_colisionBox.setWidth(64);
