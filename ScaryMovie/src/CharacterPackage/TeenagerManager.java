@@ -25,9 +25,14 @@ public class TeenagerManager {
     
     private static TeenagerManager instance = null;
     
-    public static TeenagerManager getInstance(Camera camera) throws SlickException{
-        if(instance == null){
-            instance = new TeenagerManager(camera);
+    public static TeenagerManager getInstance(Camera camera){
+        try{
+            if(instance == null){
+                instance = new TeenagerManager(camera);
+            }
+        }
+        catch(SlickException e){
+            
         }
         
         return instance;
@@ -66,6 +71,10 @@ public class TeenagerManager {
         this.m_teenagers.remove(teenager);
     } 
     
+    public void killTeenager(Teenager teenager){
+        teenager.kill();
+    } 
+    
     //Verifica colisão do Teenager com todos os outros:
     public boolean checkTeenColision(Rectangle rect, Teenager teen){
         for(Teenager targetTeen : this.m_teenagers){
@@ -76,6 +85,16 @@ public class TeenagerManager {
             }
         }
         return false;
+    }
+    
+    //Verifica colisão com todos os teens:
+    public Teenager checkTeenColision(Rectangle rect){
+        for(Teenager targetTeen : this.m_teenagers){
+            if(targetTeen.getM_colisionBox().intersects(rect)){
+                return targetTeen;
+            }
+        }
+        return null;
     }
     
     //Função que checa se clicamos em algum teen, e retorna o mesmo:{
