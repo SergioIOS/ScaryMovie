@@ -85,7 +85,7 @@ public class MainMenu extends BasicGameState{
             switch(m_selectedBtn){
                 case 0:
                     System.out.println("Novo Jogo!");
-                    sbg.enterState(scarymovie.ScaryMovie.GAMEPLAY_STATE, new FadeOutTransition(), new FadeInTransition());
+                    sbg.enterState(scarymovie.ScaryMovie.PLANNINGPHASE_STATE, new FadeOutTransition(), new FadeInTransition());
                 break;
                     
                 case 1:
