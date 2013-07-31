@@ -74,15 +74,15 @@ public class GamePlay extends BasicGameState{
         
         m_gui.showScreenWarning(Gui.WARNING_TYPES.WARNING_HUNTING);
         
+        m_spawnTimer = null;
         m_spawnTimer = new Timer();
-        
         m_spawnTimer.start();
     }
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
         //Resetando as variáveis:
-        m_spawnTimer.reset();
+        m_spawnTimer = null;
     }
 
     @Override
@@ -100,6 +100,8 @@ public class GamePlay extends BasicGameState{
         
         //Desenhando a GUI:
         m_gui.drawHuntingGui();
+        
+        grphcs.drawString(String.valueOf(m_killer.getM_movementState()), 600, 100);
     }
 
     @Override
@@ -123,7 +125,7 @@ public class GamePlay extends BasicGameState{
         m_gui.update(m_killer, m_map, tm, m_trm);
         
         //O killer entrou em algum spawn point?
-        if(m_killer.getcurrentTile().isM_spawn() && m_spawnTimer.getElapsedTimeSecs() > 5){
+        if(m_spawnTimer.getElapsedTimeSecs() > 5 && m_killer.getcurrentTile().isM_spawn()){
             sbg.enterState(scarymovie.ScaryMovie.PLANNINGPHASE_STATE);
         }
     }
@@ -147,6 +149,10 @@ public class GamePlay extends BasicGameState{
         else{
             //Estamos parados:
             m_killer.move(Killer.DIRECTIONS.DIR_STOP);
+        }
+        
+        if(temp.isKeyPressed(Input.KEY_SPACE)){
+            m_killer.attack();
         }
         
         //ESC volta para o menu:
