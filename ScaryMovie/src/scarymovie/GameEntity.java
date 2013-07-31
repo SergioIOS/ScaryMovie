@@ -61,6 +61,10 @@ public class GameEntity {
      */
     public void setM_position(Vector2f m_position) {
         this.m_position = m_position;
+        
+        m_position.y -= 48;
+        
+        this.m_colisionBox.setLocation(m_position.x, m_position.y + 48);
     }
 
     /**
