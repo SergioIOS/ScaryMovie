@@ -90,7 +90,7 @@ public class TeenagerManager {
     //Verifica colisão com todos os teens:
     public Teenager checkTeenColision(Rectangle rect){
         for(Teenager targetTeen : this.m_teenagers){
-            if(targetTeen.getM_colisionBox().intersects(rect)){
+            if(targetTeen.getM_colisionBox().intersects(rect) && targetTeen.getM_movementState() != Teenager.MOVEMENT_STATES.STATE_DEAD){
                 return targetTeen;
             }
         }
