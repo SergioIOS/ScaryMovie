@@ -35,6 +35,12 @@ public class Tile {
     private boolean m_spawn = false;
     private Vector2f m_position;
     private Rectangle m_colisionBox = null;
+    
+    //Membros a serem utilizados pelo PathFinding:
+    private Tile m_prev;
+    private int m_costG; //Custo para andar do tile inicial até o atual
+    private int m_costH; //Custo para andar do tile atual até o destino
+    private int m_totalCostF; //Soma de G e H
 
     //Construtor:
     public Tile(Vector2f position, TILE_TYPES type, boolean passable){
@@ -46,7 +52,7 @@ public class Tile {
         m_spawn = false;
         m_type = type;
         
-        m_colisionBox = new Rectangle(m_position.x, m_position.y, 32, 32);
+        m_colisionBox = new Rectangle(getM_position().x, getM_position().y, 32, 32);
     }
     
 
@@ -149,6 +155,62 @@ public class Tile {
     }
     
     public boolean getM_spawn(){
-        return m_spawn;
+        return isM_spawn();
+    }
+
+    /**
+     * @return the m_prev
+     */
+    public Tile getM_prev() {
+        return m_prev;
+    }
+
+    /**
+     * @param m_prev the m_prev to set
+     */
+    public void setM_prev(Tile m_prev) {
+        this.m_prev = m_prev;
+    }
+
+    /**
+     * @return the m_costG
+     */
+    public int getM_costG() {
+        return m_costG;
+    }
+
+    /**
+     * @param m_costG the m_costG to set
+     */
+    public void setM_costG(int m_costG) {
+        this.m_costG = m_costG;
+    }
+
+    /**
+     * @return the m_costH
+     */
+    public int getM_costH() {
+        return m_costH;
+    }
+
+    /**
+     * @param m_costH the m_costH to set
+     */
+    public void setM_costH(int m_costH) {
+        this.m_costH = m_costH;
+    }
+
+    /**
+     * @return the m_totalCostF
+     */
+    public int getM_totalCostF() {
+        return m_totalCostF;
+    }
+
+    /**
+     * @param m_totalCostF the m_totalCostF to set
+     */
+    public void setM_totalCostF(int m_totalCostF) {
+        this.m_totalCostF = m_totalCostF;
     }
 }
