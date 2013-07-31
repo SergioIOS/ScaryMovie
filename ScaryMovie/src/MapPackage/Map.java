@@ -4,7 +4,10 @@
  */
 package MapPackage;
 
+import CharacterPackage.Killer;
+import CharacterPackage.TeenagerManager;
 import java.util.ArrayList;
+import java.util.Random;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
@@ -51,8 +54,11 @@ public class Map {
         if(mapName != null)
             loadTmxMap(mapName);
         
+        //Populando o mapa:
+        //populateMap();
+        
         //Carregando a animação do spawn:
-        m_spawnAnimation = new Animation(ResourceManager.getInstance().getSpawnAnimation(), 100);
+        m_spawnAnimation = new Animation(ResourceManager.getInstance().getSpawnAnimation(), 300);
     }
     
     private boolean loadTmxMap(String mapName) throws SlickException{
@@ -128,14 +134,60 @@ public class Map {
         return true;
     }
     
+    public void populateMap(){
+        System.out.print("\tPopulating Map...");
+        
+        //Escolhendo aleatóriamente a quantidade de teens que teremos:
+        Random rand = new Random();
+        
+        //Temps:
+        int qtdTeensToCreate = rand.nextInt(20) + 5;    //de 5 à 19
+        
+        //Escolhendo uma posição:
+        for(int x = 0; x < qtdTeensToCreate; x++){
+            //Escolhendo o tile:
+            Tile temp = getRandomWalkableTile();
+            
+            //Corrigindo a posição do tile:
+            Vector2f newPosition = new Vector2f(temp.getM_position().x, temp.getM_position().y + 32);
+            
+            try{
+                TeenagerManager.getInstance(null).addTeenager(ResourceManager.getInstance(), newPosition, this, Killer.getInstance(null, null));
+            }
+            catch(SlickException e){
+                
+            }
+        }
+        
+        System.out.println("\tNbr of teen created: " + qtdTeensToCreate);
+    }
+    
+    //DEV NOTE: Essa função pode teoricamente ficar extremamente lenta e travar o jogo. Depende da sorte. :D
+    public Tile getRandomWalkableTile(){
+        Random rand = new Random();
+        boolean done = false;
+        int x = 0, y = 0;
+        
+        while(!done){
+            //Randomizando:
+            x = rand.nextInt(m_loadedMap.getWidth());
+            y = rand.nextInt(m_loadedMap.getHeight());
+            
+            //É um tile walkable?
+            if(m_tiles[y][x].isM_passable()){
+                done = true;
+            }
+        }
+        
+        //Retornando:
+        return m_tiles[y][x];
+    }
+    
     public void setSpawnPoint(Tile tile){
-//        for(int x = 0; x < m_loadedMap.getWidth();x++){
-//            for(int y = 0; y < m_loadedMap.getHeight();y++){
-//                m_spawnPoints.add(m_tiles[x][y]);
-//            }
-//        }
-        if(tile != null && tile.isM_passable() == true && tile.getM_spawn() == false)
+        if(tile != null && tile.isM_passable() == true && tile.getM_spawn() == false){
             m_spawnPoints.add(tile);
+            tile.setM_spawn(true);
+        }
         else{
             System.out.println("NOPE.");
         }
