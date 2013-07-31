@@ -37,6 +37,7 @@ public class Gui {
     public enum WARNING_TYPES{
         WARNING_HUNTING,
         WARNING_PLANNING,
+        WARNING_CHOOSE_SPAWN_POINT,
     }
     
     //Membros:
@@ -46,7 +47,7 @@ public class Gui {
     private Teenager m_selectedTeen = null;
     
     //Imagens usadas:
-    Image m_PlanningPhaseSign, m_HuntingPhaseSign, m_selectedTeenBG, m_mapInfoBG;
+    Image m_PlanningPhaseSign, m_HuntingPhaseSign, m_chooseSpawnSign ,m_selectedTeenBG, m_mapInfoBG;
     Animation m_selectedTeenArrow;
     
     static private Gui instance = null;
@@ -70,6 +71,7 @@ public class Gui {
         //Carregando as imagens:
         m_PlanningPhaseSign = new Image("data/PlanningPhaseSign.png");
         m_HuntingPhaseSign = new Image("data/HuntingPhaseSign.png");
+        m_chooseSpawnSign = new Image("data/SpawnPointSign.png");
         
         m_selectedTeenBG = ResourceManager.getInstance().getGuiElement(GUI_ELEMENTS.GUI_SELECTED_TEEN_GUI_BACKGROUND)[0];
         m_mapInfoBG = ResourceManager.getInstance().getGuiElement(GUI_ELEMENTS.GUI_MAP_INFO_BACKGROUND)[0];
@@ -135,25 +137,17 @@ public class Gui {
     }
     
     public void showScreenWarning(WARNING_TYPES type){
-        if(m_currentWarning == null){
-            System.out.println("Criou aviso nessa porra!");
-            
-            if(type == WARNING_TYPES.WARNING_HUNTING){
-                m_currentWarning = new ScreenWarning(m_HuntingPhaseSign, new Vector2f(-400, 100), Killer.DIRECTIONS.DIR_RIGHT);
-            }else{
-                m_currentWarning = new ScreenWarning(m_PlanningPhaseSign, new Vector2f(-400, 100), Killer.DIRECTIONS.DIR_RIGHT);
-            }
+        if(m_currentWarning != null){
+            m_currentWarning = null;
+        }
+        
+        if(type == WARNING_TYPES.WARNING_HUNTING){
+            m_currentWarning = new ScreenWarning(m_HuntingPhaseSign, new Vector2f(-400, 100), Killer.DIRECTIONS.DIR_RIGHT);
+        }else if(type == WARNING_TYPES.WARNING_PLANNING){
+            m_currentWarning = new ScreenWarning(m_PlanningPhaseSign, new Vector2f(-400, 100), Killer.DIRECTIONS.DIR_RIGHT);
         }
         else{
-            m_currentWarning = null;
-            
-            System.out.println("Criou aviso nessa porra!");
-            
-            if(type == WARNING_TYPES.WARNING_HUNTING){
-                m_currentWarning = new ScreenWarning(m_HuntingPhaseSign, new Vector2f(-400, 100), Killer.DIRECTIONS.DIR_RIGHT);
-            }else{
-                m_currentWarning = new ScreenWarning(m_PlanningPhaseSign, new Vector2f(-400, 100), Killer.DIRECTIONS.DIR_RIGHT);
-            }
+            m_currentWarning = new ScreenWarning(m_chooseSpawnSign, new Vector2f(-400, 100), Killer.DIRECTIONS.DIR_RIGHT);
         }
     }
 
