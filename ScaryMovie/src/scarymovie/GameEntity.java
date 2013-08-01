@@ -21,7 +21,7 @@ public class GameEntity {
     protected Rectangle m_colisionBox;
     protected Teenager.MOVEMENT_STATES m_movementState;
     protected ArrayList<Animation> m_sprites = null;
-    protected Tile m_currentTile;
+    private Tile m_currentTile;
     
     //Verifica a colisão desta entidade com uma entidade externa:
     public boolean checkColision(Rectangle entityRect){
@@ -97,5 +97,12 @@ public class GameEntity {
     
     public Tile getcurrentTile(){
         return m_currentTile;
+    }
+
+    /**
+     * @param m_currentTile the m_currentTile to set
+     */
+    public void setM_currentTile(Tile m_currentTile) {
+        this.m_currentTile = m_currentTile;
     }
 }
