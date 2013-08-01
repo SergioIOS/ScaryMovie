@@ -5,6 +5,8 @@
 package TrapPackage;
 
 import CharacterPackage.Teenager;
+import MapPackage.Map;
+import MapPackage.Tile;
 import java.util.ArrayList;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.geom.Rectangle;
@@ -24,13 +26,16 @@ public class StaticTrap implements Trap{
     private Vector2f m_speed;
     private Rectangle m_colisionBox;
     private Animation m_sprite;
+    private Tile m_currentTile;
     
     //Construtor:
-    public StaticTrap(ResourceManager rm, Vector2f position, TrapType type){
+    public StaticTrap(ResourceManager rm, Vector2f position, TrapType type, Map map){
         m_position = position;
         m_speed = new Vector2f(0,0);
         m_colisionBox = new Rectangle(position.x, position.y, 32, 32);
         m_type = type;
+        
+        m_currentTile = map.getTileByPosition(m_position.x + 16, m_position.y + 16);
         
         //Carregando animações
         m_sprite = new Animation(rm.getTrapAnimation(type.getM_ID()), 200);
@@ -109,12 +114,26 @@ public class StaticTrap implements Trap{
 
     @Override
     public void draw(Camera camera) {
-        m_sprite.draw(m_position.x - camera.getM_position().x, m_position.y - camera.getM_position().y);
+        getM_sprite().draw(getM_position().x - camera.getM_position().x, getM_position().y - camera.getM_position().y);
     }
 
     @Override
     public void update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @return the m_currentTile
+     */
+    public Tile getM_currentTile() {
+        return m_currentTile;
+    }
+
+    /**
+     * @param m_currentTile the m_currentTile to set
+     */
+    public void setM_currentTile(Tile m_currentTile) {
+        this.m_currentTile = m_currentTile;
     }
 
 }
