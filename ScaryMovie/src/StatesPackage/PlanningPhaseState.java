@@ -163,10 +163,10 @@ public class PlanningPhaseState extends BasicGameState{
                     Random rand = new Random();
                     int num = rand.nextInt(2);
                     if(num == 0){
-                        m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_BEER_BOTTLE);
+                        m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_BEER_BOTTLE, m_map);
                     }
                     else if(num == 1){
-                        m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_NUDE_CARD);
+                        m_trm.addStaticTrap(rm, pos, TrapType.TRAP_ID.TRAP_NUDE_CARD, m_map);
                     }
                 }
             }
