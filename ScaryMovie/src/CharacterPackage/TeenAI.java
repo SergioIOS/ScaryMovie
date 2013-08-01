@@ -13,7 +13,6 @@ import MapPackage.Map;
 import MapPackage.Tile;
 import TrapPackage.MovableTrap;
 import TrapPackage.StaticTrap;
-import TrapPackage.Trap;
 import TrapPackage.TrapManager;
 import java.util.ArrayList;
 import java.util.Random;
@@ -97,6 +96,7 @@ public class TeenAI {
     private boolean m_isBusy = false;
     private boolean gotData = false;
     private ArrayList<Tile> m_path = null;
+    private int m_targetPathIndex;
     
     //TEMP:
     private int distWalked = 0;
@@ -164,14 +164,17 @@ public class TeenAI {
                 break;
             case ACTION_CHASE_STATIC_TRAP:
                 //Fazer ele andar em direção à trap passada.
-                //chaseStaticTrap(trm);
-                if(m_path != null){
-                    m_path = findPath(map.getM_tiles(), m_teen.getcurrentTile().getM_mapRelX(), m_teen.getcurrentTile().getM_mapRelY(), 
-                        m_desiredStaticTrap.getM_currentTile().getM_mapRelX(), m_desiredStaticTrap.getM_currentTile().getM_mapRelY());
-                }
-                else{
-                    
-                }
+                chaseStaticTrap(trm);
+//                if(m_path == null){
+//                    m_path = findPath(map.getM_tiles(), m_teen.getcurrentTile().getM_mapRelX(), m_teen.getcurrentTile().getM_mapRelY(), 
+//                        m_desiredStaticTrap.getM_currentTile().getM_mapRelX(), m_desiredStaticTrap.getM_currentTile().getM_mapRelY());
+//                    
+//                    //O próximo tile:
+//                    m_targetPathIndex = m_path.size() - 2;
+//                }
+//                else{
+//                    moveThroughPath(map, trm);
+//                }
                 
                 break;
             case ACTION_CHASE_MOVABLE_TRAP:
@@ -400,7 +403,7 @@ public class TeenAI {
         map[origX][origY].setM_costG(0);
         currentX = origX;
         currentY = origY;
-        
+       
         boolean gotTarget = false;
         
         while(gotTarget == false){
@@ -583,6 +586,56 @@ public class TeenAI {
             }
         }
         return destPath;
+    }
+    
+    public void moveThroughPath(Map map, TrapManager trm){
+        boolean moved = false;
+        if(m_teen.getcurrentTile().getM_mapRelX() < m_path.get(m_targetPathIndex).getM_mapRelX()){
+            move(DIR_RIGHT, 1);
+            moved = true;
+        }
+        else if(m_teen.getcurrentTile().getM_mapRelX() > m_path.get(m_targetPathIndex).getM_mapRelX()){
+            move(DIR_LEFT, 1);
+            moved = true;
+        }
+        
+        if(m_teen.getcurrentTile().getM_mapRelY() < m_path.get(m_targetPathIndex).getM_mapRelY()){
+            move(DIR_DOWN, 1);
+            moved = true;
+        }
+        else if(m_teen.getcurrentTile().getM_mapRelY() > m_path.get(m_targetPathIndex).getM_mapRelY()){
+            move(DIR_UP, 1);
+            moved = true;
+        }
+        
+        if(moved == false){
+            m_targetPathIndex--;
+        }
+        else{
+            getM_teen().getM_position().add(getM_teen().getM_speed());
+            //Atualizando as colision boxes:
+            getM_teen().getM_colisionBox().setLocation(getM_teen().getM_position().x, getM_teen().getM_position().y + 32);
+
+            m_teen.setM_currentTile(map.getTileByPosition(m_teen.getM_position().x + 16, m_teen.getM_position().y + 48));
+
+            //A trap foi ativada?
+            if((m_teen.getM_position().distance(m_desiredStaticTrap.getM_position())<= m_desiredStaticTrap.getM_type().getM_triggerDistance()) && gotData == false){
+                //Atualizar dados do teen
+                m_fear += m_desiredStaticTrap.getM_type().getM_fearFactor();
+                m_curiosity += m_desiredStaticTrap.getM_type().getM_curiosityFactor();
+            }
+
+            //Colidiu com a trap?
+            if(m_teen.checkColision(m_desiredStaticTrap.getM_colisionBox())){
+                trm.removeStaticTrap(m_desiredStaticTrap);
+                m_isBusy = false;
+                m_path = null;
+                m_teen.setM_movementState(Teenager.MOVEMENT_STATES.STATE_STANDING);
+            }
+        }
+        
+        
+        
     }
     
     public void moveThroughPath(ArrayList<Tile> path, Map map, TrapManager trm){
