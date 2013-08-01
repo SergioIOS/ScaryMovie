@@ -101,7 +101,7 @@ public class Teenager extends GameEntity{
         //Estamos mortos?
         if(m_movementState != MOVEMENT_STATES.STATE_DEAD){
             //Verificando o tile que estamos:
-            m_currentTile = map.getTileByPosition(m_position.x + 16, m_position.y + 48);
+            setM_currentTile(map.getTileByPosition(m_position.x + 16, m_position.y + 48));
 
             //Atualziando a AI:
             m_ai.updateLogic(map, tm, trm);
