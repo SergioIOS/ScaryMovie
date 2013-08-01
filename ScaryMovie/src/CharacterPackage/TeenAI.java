@@ -96,6 +96,7 @@ public class TeenAI {
     private MovableTrap m_desiredMovableTrap;
     private boolean m_isBusy = false;
     private boolean gotData = false;
+    private ArrayList<Tile> m_path = null;
     
     //TEMP:
     private int distWalked = 0;
@@ -163,7 +164,15 @@ public class TeenAI {
                 break;
             case ACTION_CHASE_STATIC_TRAP:
                 //Fazer ele andar em direção à trap passada.
-                chaseStaticTrap(trm);
+                //chaseStaticTrap(trm);
+                if(m_path != null){
+                    m_path = findPath(map.getM_tiles(), m_teen.getcurrentTile().getM_mapRelX(), m_teen.getcurrentTile().getM_mapRelY(), 
+                        m_desiredStaticTrap.getM_currentTile().getM_mapRelX(), m_desiredStaticTrap.getM_currentTile().getM_mapRelY());
+                }
+                else{
+                    
+                }
+                
                 break;
             case ACTION_CHASE_MOVABLE_TRAP:
                 //Fazer ele andar em direção à trap passada.
@@ -377,60 +386,251 @@ public class TeenAI {
         }
     }
     
-    public Tile[] findPath(Tile[][] map, int origX, int origY, int destX, int destY){
+    public ArrayList<Tile> findPath(Tile[][] map, int origX, int origY, int destX, int destY){
         ArrayList<Tile> openList;
         ArrayList<Tile> closedList;
+        ArrayList<Tile> destPath;
         openList = new ArrayList<>();
         closedList = new ArrayList<>();
+        destPath = new ArrayList<>();
         int currentX, currentY;
         
         //Colocando o tile inicial na lista aberta:
         openList.add(map[origX][origY]);
+        map[origX][origY].setM_costG(0);
         currentX = origX;
         currentY = origY;
         
         boolean gotTarget = false;
         
         while(gotTarget == false){
-            boolean goToOpen = true;
+            int costG, costH, lowestF = -10;
+            Tile nextTile = null;
             //Inserindo tiles adjacentes à lista aberta:
 
             //Tile da esquerda:
             if(map[currentX-1][currentY].isM_passable() && !(closedList.contains(map[currentX-1][currentY]))){
-                openList.add(map[currentX-1][currentY]);
-                map[currentX-1][currentY].setM_prev(map[currentX][currentY]);
+                //Está na lista aberta?
+                if(openList.contains(map[currentX-1][currentY])){
+                    int possibleG;
+                    possibleG = map[currentX][currentY].getM_costG() + 10;
+                    //O custo a partir do tile atual é menor do que o custo previamente calculado?
+                    if(possibleG < map[currentX-1][currentY].getM_costG()){
+                        //Alterando tile pai para o tile atual:
+                        map[currentX-1][currentY].setM_prev(map[currentX][currentY]);
+                        
+                        //Atualizando valores de G e F
+                        map[currentX-1][currentY].setM_costG(possibleG);
+                        map[currentX-1][currentY].setM_totalCostF(possibleG + map[currentX-1][currentY].getM_costH());
+                    }
+                }else{
+                    //Adicionando à lista aberta:
+                    openList.add(map[currentX-1][currentY]);
+                    map[currentX-1][currentY].setM_prev(map[currentX][currentY]);
+                    //Setando valor de G:
+                    costG = map[currentX][currentY].getM_costG() + 10;
+                    map[currentX-1][currentY].setM_costG(costG);
+                    //Setando valor de H:
+                    costH = (Math.abs(destX - currentX-1) + Math.abs(destY - currentY)) * 10;
+                    map[currentX-1][currentY].setM_costH(costH);
+                    //Calculando valor de F:
+                    map[currentX-1][currentY].setM_totalCostF(costG + costH);
+                }
+                
+                
+                //Iniciará sendo o menor custo total de F:
+                lowestF = map[currentX-1][currentY].getM_totalCostF();
+                nextTile = map[currentX-1][currentY];
             }
 
             //Tile da direita:
             if(map[currentX+1][currentY].isM_passable() && !(closedList.contains(map[currentX+1][currentY]))){
-                openList.add(map[currentX+1][currentY]);
-                map[currentX+1][currentY].setM_prev(map[currentX][currentY]);
+                //Está na lista aberta?
+                if(openList.contains(map[currentX+1][currentY])){
+                    int possibleG;
+                    possibleG = map[currentX][currentY].getM_costG() + 10;
+                    //O custo a partir do tile atual é menor do que o custo previamente calculado?
+                    if(possibleG < map[currentX+1][currentY].getM_costG()){
+                        //Alterando tile pai para o tile atual:
+                        map[currentX+1][currentY].setM_prev(map[currentX][currentY]);
+                        
+                        //Atualizando valores de G e F
+                        map[currentX+1][currentY].setM_costG(possibleG);
+                        map[currentX+1][currentY].setM_totalCostF(possibleG + map[currentX+1][currentY].getM_costH());
+                    }
+                }else{
+                    //Adicionando à lista aberta:
+                    openList.add(map[currentX+1][currentY]);
+                    map[currentX+1][currentY].setM_prev(map[currentX][currentY]);
+                    //Setando valor de G:
+                    costG = map[currentX][currentY].getM_costG() + 10;
+                    map[currentX+1][currentY].setM_costG(costG);
+                    //Setando valor de H:
+                    costH = (Math.abs(destX - currentX+1) + Math.abs(destY - currentY)) * 10;
+                    map[currentX+1][currentY].setM_costH(costH);
+                    //Calculando valor de F:
+                    map[currentX+1][currentY].setM_totalCostF(costG + costH);
+                
+                }
+                
+                //Custo de F é menor que o menor até aqui?
+                if(map[currentX+1][currentY].getM_totalCostF() < lowestF){
+                    lowestF = map[currentX+1][currentY].getM_totalCostF();
+                    nextTile = map[currentX+1][currentY];
+                }
+                
             }
 
             //Tile de cima:
             if(map[currentX][currentY-1].isM_passable() && !(closedList.contains(map[currentX][currentY-1]))){
-                openList.add(map[currentX][currentY-1]);
-                map[currentX][currentY-1].setM_prev(map[currentX][currentY]);
+                //Está na lista aberta?
+                if(openList.contains(map[currentX][currentY-1])){
+                    int possibleG;
+                    possibleG = map[currentX][currentY].getM_costG() + 10;
+                    //O custo a partir do tile atual é menor do que o custo previamente calculado?
+                    if(possibleG < map[currentX][currentY-1].getM_costG()){
+                        //Alterando tile pai para o tile atual:
+                        map[currentX][currentY-1].setM_prev(map[currentX][currentY]);
+                        
+                        //Atualizando valores de G e F
+                        map[currentX][currentY-1].setM_costG(possibleG);
+                        map[currentX][currentY-1].setM_totalCostF(possibleG + map[currentX][currentY-1].getM_costH());
+                    }
+                }else{
+                    //Adicionando à lista aberta:
+                    openList.add(map[currentX][currentY-1]);
+                    map[currentX][currentY-1].setM_prev(map[currentX][currentY]);
+                    //Setando valor de G:
+                    costG = map[currentX][currentY].getM_costG() + 10;
+                    map[currentX][currentY-1].setM_costG(costG);
+                    //Setando valor de H:
+                    costH = (Math.abs(destX - currentX) + Math.abs(destY - currentY-1)) * 10;
+                    map[currentX][currentY-1].setM_costH(costH);
+                    //Calculando valor de F:
+                    map[currentX][currentY-1].setM_totalCostF(costG + costH);
+                }
+                
+                //Custo de F é menor que o menor até aqui?
+                if(map[currentX][currentY-1].getM_totalCostF() < lowestF){
+                    lowestF = map[currentX][currentY-1].getM_totalCostF();
+                    nextTile = map[currentX][currentY-1];
+                }
             }
 
             //Tile de baixo:
             if(map[currentX][currentY+1].isM_passable() && !(closedList.contains(map[currentX][currentY+1]))){
-                openList.add(map[currentX][currentY+1]);
-                map[currentX][currentY+1].setM_prev(map[currentX][currentY]);
+                //Está na lista aberta?
+                if(openList.contains(map[currentX][currentY+1])){
+                    int possibleG;
+                    possibleG = map[currentX][currentY].getM_costG() + 10;
+                    //O custo a partir do tile atual é menor do que o custo previamente calculado?
+                    if(possibleG < map[currentX][currentY+1].getM_costG()){
+                        //Alterando tile pai para o tile atual:
+                        map[currentX][currentY+1].setM_prev(map[currentX][currentY]);
+                        
+                        //Atualizando valores de G e F
+                        map[currentX][currentY+1].setM_costG(possibleG);
+                        map[currentX][currentY+1].setM_totalCostF(possibleG + map[currentX][currentY+1].getM_costH());
+                    }
+                }else{
+                    //Adicionando à lista aberta:
+                    openList.add(map[currentX][currentY+1]);
+                    map[currentX][currentY+1].setM_prev(map[currentX][currentY]);
+                    //Setando valor de G:
+                    costG = map[currentX][currentY].getM_costG() + 10;
+                    map[currentX][currentY+1].setM_costG(costG);
+                    //Setando valor de H:
+                    costH = (Math.abs(destX - currentX) + Math.abs(destY - currentY+1)) * 10;
+                    map[currentX][currentY+1].setM_costH(costH);
+                    //Calculando valor de F:
+                    map[currentX][currentY+1].setM_totalCostF(costG + costH);
+                }
+                
+                //Custo de F é menor que o menor até aqui?
+                if(map[currentX][currentY+1].getM_totalCostF() < lowestF){
+                    lowestF = map[currentX][currentY+1].getM_totalCostF();
+                    nextTile = map[currentX][currentY+1];
+                }
             }
             
             //Removendo tile atual da lista aberta e inserindo-o na lista fechada:
             openList.remove(map[currentX][currentY]);
             closedList.add(map[currentX][currentY]);
+            
+            //Removendo próximo tile da lista aberta e inserindo-o na lista fechada:
+            openList.remove(nextTile);
+            closedList.add(nextTile);
+            
+            //Atualizando o valor para tile atual:
+            currentX = nextTile.getM_mapRelX();
+            currentY = nextTile.getM_mapRelY();
+            
+            
+            //Chegamos ao destino?
+            if(currentX == destX && currentY == destY){
+                gotTarget = true;
+                int cont = 0;
+                while(currentX != origX && currentY != origY){
+                    //Adicionando tile ao caminho a ser percorrido:
+                    destPath.add(cont, map[currentX][currentY]);
+                    
+                    //Andando para trás, em direção ao tile pai:
+                    currentX = map[currentX][currentY].getM_prev().getM_mapRelX();
+                    currentY = map[currentX][currentY].getM_prev().getM_mapRelY();
+                    
+                    cont++;
+                }
+            }
+        }
+        return destPath;
+    }
+    
+    public void moveThroughPath(ArrayList<Tile> path, Map map, TrapManager trm){
+        for(int x = path.size()-2; x >= 0; x--){
+            if(m_teen.getcurrentTile().getM_mapRelX() < path.get(x).getM_mapRelX()){
+                while(m_teen.getM_position().x < path.get(x).getM_mapRelX() + 16){
+                    move(DIR_RIGHT, 1);
+                }
+            }
+            else if(m_teen.getcurrentTile().getM_mapRelX() > path.get(x).getM_mapRelX()){
+                while(m_teen.getM_position().x > path.get(x).getM_mapRelX() + 16){
+                    move(DIR_LEFT, 1);
+                }
+            }
+            
+            if(m_teen.getcurrentTile().getM_mapRelY() < path.get(x).getM_mapRelY()){
+                while(m_teen.getM_position().y < path.get(x).getM_mapRelY() + 16){
+                    move(DIR_DOWN, 1);
+                }
+            }
+            else if(m_teen.getcurrentTile().getM_mapRelY() > path.get(x).getM_mapRelY()){
+                while(m_teen.getM_position().y > path.get(x).getM_mapRelY() + 16){
+                    move(DIR_UP, 1);
+                }
+            }
+            
+            getM_teen().getM_position().add(getM_teen().getM_speed());
+            //Atualizando as colision boxes:
+            getM_teen().getM_colisionBox().setLocation(getM_teen().getM_position().x, getM_teen().getM_position().y + 32);
+            
+            m_teen.setM_currentTile(map.getTileByPosition(m_teen.getM_position().x + 16, m_teen.getM_position().y + 48));
         }
         
+        //A trap foi ativada?
+        if((m_teen.getM_position().distance(m_desiredStaticTrap.getM_position())<= m_desiredStaticTrap.getM_type().getM_triggerDistance()) && gotData == false){
+            //Atualizar dados do teen
+            m_fear += m_desiredStaticTrap.getM_type().getM_fearFactor();
+            m_curiosity += m_desiredStaticTrap.getM_type().getM_curiosityFactor();
+            gotData = true;
+        }
         
-        
-        
-        
-        
-        Tile[] temp = null;
-        return temp;
+        //Colidiu com a trap?
+        if(m_teen.checkColision(m_desiredStaticTrap.getM_colisionBox())){
+            trm.removeStaticTrap(m_desiredStaticTrap);
+            m_isBusy = false;
+            gotData = false;
+            m_teen.setM_movementState(Teenager.MOVEMENT_STATES.STATE_STANDING);
+        }
     }
     
 
