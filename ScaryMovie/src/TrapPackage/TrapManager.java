@@ -5,6 +5,7 @@
 package TrapPackage;
 
 import CharacterPackage.Teenager;
+import MapPackage.Map;
 import java.util.ArrayList;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -59,8 +60,8 @@ public class TrapManager {
     }
     
     //Adiciona Static Trap:
-    public void addStaticTrap(ResourceManager rm, Vector2f position, TrapType.TRAP_ID id){
-        StaticTrap trap = new StaticTrap(rm, position, getM_trapTypes().get(id.m_id));
+    public void addStaticTrap(ResourceManager rm, Vector2f position, TrapType.TRAP_ID id, Map map){
+        StaticTrap trap = new StaticTrap(rm, position, getM_trapTypes().get(id.m_id), map);
         this.getM_staticTraps().add(trap);
     }
     
