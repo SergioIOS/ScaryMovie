@@ -164,17 +164,17 @@ public class TeenAI {
                 break;
             case ACTION_CHASE_STATIC_TRAP:
                 //Fazer ele andar em direção à trap passada.
-                chaseStaticTrap(trm);
-//                if(m_path == null){
-//                    m_path = findPath(map.getM_tiles(), m_teen.getcurrentTile().getM_mapRelX(), m_teen.getcurrentTile().getM_mapRelY(), 
-//                        m_desiredStaticTrap.getM_currentTile().getM_mapRelX(), m_desiredStaticTrap.getM_currentTile().getM_mapRelY());
-//                    
-//                    //O próximo tile:
-//                    m_targetPathIndex = m_path.size() - 2;
-//                }
-//                else{
-//                    moveThroughPath(map, trm);
-//                }
+//                chaseStaticTrap(trm);
+                if(m_path == null){
+                    m_path = findPath(map.getM_tiles(), m_teen.getcurrentTile().getM_mapRelX(), m_teen.getcurrentTile().getM_mapRelY(), 
+                        m_desiredStaticTrap.getM_currentTile().getM_mapRelX(), m_desiredStaticTrap.getM_currentTile().getM_mapRelY());
+                    
+                    //O próximo tile:
+                    m_targetPathIndex = m_path.size() - 2;
+                }
+                else{
+                    moveThroughPath(map, trm);
+                }
                 
                 break;
             case ACTION_CHASE_MOVABLE_TRAP:
@@ -399,8 +399,8 @@ public class TeenAI {
         int currentX, currentY;
         
         //Colocando o tile inicial na lista aberta:
-        openList.add(map[origX][origY]);
-        map[origX][origY].setM_costG(0);
+        openList.add(map[origY][origX]);
+        map[origY][origX].setM_costG(0);
         currentX = origX;
         currentY = origY;
        
@@ -412,153 +412,177 @@ public class TeenAI {
             //Inserindo tiles adjacentes à lista aberta:
 
             //Tile da esquerda:
-            if(map[currentX-1][currentY].isM_passable() && !(closedList.contains(map[currentX-1][currentY]))){
+            if(map[currentY][currentX-1].isM_passable() && !(closedList.contains(map[currentY][currentX-1]))){
                 //Está na lista aberta?
-                if(openList.contains(map[currentX-1][currentY])){
+                if(openList.contains(map[currentY][currentX-1])){
                     int possibleG;
-                    possibleG = map[currentX][currentY].getM_costG() + 10;
+                    possibleG = map[currentY][currentX].getM_costG() + 10;
                     //O custo a partir do tile atual é menor do que o custo previamente calculado?
-                    if(possibleG < map[currentX-1][currentY].getM_costG()){
+                    if(possibleG < map[currentY][currentX-1].getM_costG()){
                         //Alterando tile pai para o tile atual:
-                        map[currentX-1][currentY].setM_prev(map[currentX][currentY]);
+                        map[currentY][currentX-1].setM_prev(map[currentY][currentX]);
                         
                         //Atualizando valores de G e F
-                        map[currentX-1][currentY].setM_costG(possibleG);
-                        map[currentX-1][currentY].setM_totalCostF(possibleG + map[currentX-1][currentY].getM_costH());
+                        map[currentY][currentX-1].setM_costG(possibleG);
+                        map[currentY][currentX-1].setM_totalCostF(possibleG + map[currentY][currentX-1].getM_costH());
                     }
                 }else{
                     //Adicionando à lista aberta:
-                    openList.add(map[currentX-1][currentY]);
-                    map[currentX-1][currentY].setM_prev(map[currentX][currentY]);
+                    openList.add(map[currentY][currentX-1]);
+                    map[currentY][currentX-1].setM_prev(map[currentY][currentX]);
                     //Setando valor de G:
-                    costG = map[currentX][currentY].getM_costG() + 10;
-                    map[currentX-1][currentY].setM_costG(costG);
+                    costG = map[currentY][currentX].getM_costG() + 10;
+                    map[currentY][currentX-1].setM_costG(costG);
                     //Setando valor de H:
-                    costH = (Math.abs(destX - currentX-1) + Math.abs(destY - currentY)) * 10;
-                    map[currentX-1][currentY].setM_costH(costH);
+                    int difX = Math.abs(destX - (currentX-1));
+                    int difY = Math.abs(destY - currentY);
+                    costH = (difX + difY) * 10;
+                    
+                    map[currentY][currentX-1].setM_costH(costH);
                     //Calculando valor de F:
-                    map[currentX-1][currentY].setM_totalCostF(costG + costH);
+                    map[currentY][currentX-1].setM_totalCostF(costG + costH);
                 }
                 
                 
                 //Iniciará sendo o menor custo total de F:
-                lowestF = map[currentX-1][currentY].getM_totalCostF();
-                nextTile = map[currentX-1][currentY];
+                lowestF = map[currentY][currentX-1].getM_totalCostF();
+                nextTile = map[currentY][currentX-1];
             }
 
             //Tile da direita:
-            if(map[currentX+1][currentY].isM_passable() && !(closedList.contains(map[currentX+1][currentY]))){
+            if(map[currentY][currentX+1].isM_passable() && !(closedList.contains(map[currentY][currentX+1]))){
                 //Está na lista aberta?
-                if(openList.contains(map[currentX+1][currentY])){
+                if(openList.contains(map[currentY][currentX+1])){
                     int possibleG;
-                    possibleG = map[currentX][currentY].getM_costG() + 10;
+                    possibleG = map[currentY][currentX].getM_costG() + 10;
                     //O custo a partir do tile atual é menor do que o custo previamente calculado?
-                    if(possibleG < map[currentX+1][currentY].getM_costG()){
+                    if(possibleG < map[currentY][currentX+1].getM_costG()){
                         //Alterando tile pai para o tile atual:
-                        map[currentX+1][currentY].setM_prev(map[currentX][currentY]);
+                        map[currentY][currentX+1].setM_prev(map[currentY][currentX]);
                         
                         //Atualizando valores de G e F
-                        map[currentX+1][currentY].setM_costG(possibleG);
-                        map[currentX+1][currentY].setM_totalCostF(possibleG + map[currentX+1][currentY].getM_costH());
+                        map[currentY][currentX+1].setM_costG(possibleG);
+                        map[currentY][currentX+1].setM_totalCostF(possibleG + map[currentY][currentX+1].getM_costH());
                     }
                 }else{
                     //Adicionando à lista aberta:
-                    openList.add(map[currentX+1][currentY]);
-                    map[currentX+1][currentY].setM_prev(map[currentX][currentY]);
+                    openList.add(map[currentY][currentX+1]);
+                    map[currentY][currentX+1].setM_prev(map[currentY][currentX]);
                     //Setando valor de G:
-                    costG = map[currentX][currentY].getM_costG() + 10;
-                    map[currentX+1][currentY].setM_costG(costG);
-                    //Setando valor de H:
-                    costH = (Math.abs(destX - currentX+1) + Math.abs(destY - currentY)) * 10;
-                    map[currentX+1][currentY].setM_costH(costH);
+                    costG = map[currentY][currentX].getM_costG() + 10;
+                    map[currentY][currentX+1].setM_costG(costG);
+                    //Setando valor de H:int difX = Math.abs(destX - (currentX-1));
+                    int difX = Math.abs(destX - (currentX+1));
+                    int difY = Math.abs(destY - currentY);
+                    costH = (difX + difY) * 10;
+                    map[currentY][currentX+1].setM_costH(costH);
                     //Calculando valor de F:
-                    map[currentX+1][currentY].setM_totalCostF(costG + costH);
+                    map[currentY][currentX+1].setM_totalCostF(costG + costH);
                 
                 }
                 
                 //Custo de F é menor que o menor até aqui?
-                if(map[currentX+1][currentY].getM_totalCostF() < lowestF){
-                    lowestF = map[currentX+1][currentY].getM_totalCostF();
-                    nextTile = map[currentX+1][currentY];
+                if(map[currentY][currentX+1].getM_totalCostF() < lowestF || lowestF == -10 || nextTile == null){
+                    lowestF = map[currentY][currentX+1].getM_totalCostF();
+                    nextTile = map[currentY][currentX+1];
+                }else{
+                    if(map[currentY][currentX+1].getM_totalCostF() == lowestF && nextTile != null && nextTile.getM_costH() > map[currentY][currentX+1].getM_costH()){
+                        lowestF = map[currentY][currentX+1].getM_totalCostF();
+                        nextTile = map[currentY][currentX+1];
+                    }
                 }
                 
             }
 
             //Tile de cima:
-            if(map[currentX][currentY-1].isM_passable() && !(closedList.contains(map[currentX][currentY-1]))){
+            if(map[currentY-1][currentX].isM_passable() && !(closedList.contains(map[currentY-1][currentX]))){
                 //Está na lista aberta?
-                if(openList.contains(map[currentX][currentY-1])){
+                if(openList.contains(map[currentY-1][currentX])){
                     int possibleG;
-                    possibleG = map[currentX][currentY].getM_costG() + 10;
+                    possibleG = map[currentY][currentX].getM_costG() + 10;
                     //O custo a partir do tile atual é menor do que o custo previamente calculado?
-                    if(possibleG < map[currentX][currentY-1].getM_costG()){
+                    if(possibleG < map[currentY-1][currentX].getM_costG()){
                         //Alterando tile pai para o tile atual:
-                        map[currentX][currentY-1].setM_prev(map[currentX][currentY]);
+                        map[currentY-1][currentX].setM_prev(map[currentY][currentX]);
                         
                         //Atualizando valores de G e F
-                        map[currentX][currentY-1].setM_costG(possibleG);
-                        map[currentX][currentY-1].setM_totalCostF(possibleG + map[currentX][currentY-1].getM_costH());
+                        map[currentY-1][currentX].setM_costG(possibleG);
+                        map[currentY-1][currentX].setM_totalCostF(possibleG + map[currentY-1][currentX].getM_costH());
                     }
                 }else{
                     //Adicionando à lista aberta:
-                    openList.add(map[currentX][currentY-1]);
-                    map[currentX][currentY-1].setM_prev(map[currentX][currentY]);
+                    openList.add(map[currentY-1][currentX]);
+                    map[currentY-1][currentX].setM_prev(map[currentY][currentX]);
                     //Setando valor de G:
-                    costG = map[currentX][currentY].getM_costG() + 10;
-                    map[currentX][currentY-1].setM_costG(costG);
+                    costG = map[currentY][currentX].getM_costG() + 10;
+                    map[currentY-1][currentX].setM_costG(costG);
                     //Setando valor de H:
-                    costH = (Math.abs(destX - currentX) + Math.abs(destY - currentY-1)) * 10;
-                    map[currentX][currentY-1].setM_costH(costH);
+                    int difX = Math.abs(destX - currentX);
+                    int difY = Math.abs(destY - (currentY-1));
+                    costH = (difX + difY) * 10;
+                    map[currentY-1][currentX].setM_costH(costH);
                     //Calculando valor de F:
-                    map[currentX][currentY-1].setM_totalCostF(costG + costH);
+                    map[currentY-1][currentX].setM_totalCostF(costG + costH);
                 }
                 
                 //Custo de F é menor que o menor até aqui?
-                if(map[currentX][currentY-1].getM_totalCostF() < lowestF){
-                    lowestF = map[currentX][currentY-1].getM_totalCostF();
-                    nextTile = map[currentX][currentY-1];
+                if(map[currentY-1][currentX].getM_totalCostF() < lowestF || lowestF == -10 || nextTile == null){
+                    lowestF = map[currentY-1][currentX].getM_totalCostF();
+                    nextTile = map[currentY-1][currentX];
+                }else{
+                    if(map[currentY-1][currentX].getM_totalCostF() == lowestF && nextTile != null && nextTile.getM_costH() > map[currentY-1][currentX].getM_costH()){
+                        lowestF = map[currentY-1][currentX].getM_totalCostF();
+                        nextTile = map[currentY-1][currentX];
+                    }
                 }
             }
 
             //Tile de baixo:
-            if(map[currentX][currentY+1].isM_passable() && !(closedList.contains(map[currentX][currentY+1]))){
+            if(map[currentY+1][currentX].isM_passable() && !(closedList.contains(map[currentY+1][currentX]))){
                 //Está na lista aberta?
-                if(openList.contains(map[currentX][currentY+1])){
+                if(openList.contains(map[currentY+1][currentX])){
                     int possibleG;
-                    possibleG = map[currentX][currentY].getM_costG() + 10;
+                    possibleG = map[currentY][currentX].getM_costG() + 10;
                     //O custo a partir do tile atual é menor do que o custo previamente calculado?
-                    if(possibleG < map[currentX][currentY+1].getM_costG()){
+                    if(possibleG < map[currentY+1][currentX].getM_costG()){
                         //Alterando tile pai para o tile atual:
-                        map[currentX][currentY+1].setM_prev(map[currentX][currentY]);
+                        map[currentY+1][currentX].setM_prev(map[currentY][currentX]);
                         
                         //Atualizando valores de G e F
-                        map[currentX][currentY+1].setM_costG(possibleG);
-                        map[currentX][currentY+1].setM_totalCostF(possibleG + map[currentX][currentY+1].getM_costH());
+                        map[currentY+1][currentX].setM_costG(possibleG);
+                        map[currentY+1][currentX].setM_totalCostF(possibleG + map[currentY+1][currentX].getM_costH());
                     }
                 }else{
                     //Adicionando à lista aberta:
-                    openList.add(map[currentX][currentY+1]);
-                    map[currentX][currentY+1].setM_prev(map[currentX][currentY]);
+                    openList.add(map[currentY+1][currentX]);
+                    map[currentY+1][currentX].setM_prev(map[currentY][currentX]);
                     //Setando valor de G:
-                    costG = map[currentX][currentY].getM_costG() + 10;
-                    map[currentX][currentY+1].setM_costG(costG);
+                    costG = map[currentY][currentX].getM_costG() + 10;
+                    map[currentY+1][currentX].setM_costG(costG);
                     //Setando valor de H:
-                    costH = (Math.abs(destX - currentX) + Math.abs(destY - currentY+1)) * 10;
-                    map[currentX][currentY+1].setM_costH(costH);
+                    int difX = Math.abs(destX - currentX);
+                    int difY = Math.abs(destY - (currentY+1));
+                    costH = (difX + difY) * 10;
+                    map[currentY+1][currentX].setM_costH(costH);
                     //Calculando valor de F:
-                    map[currentX][currentY+1].setM_totalCostF(costG + costH);
+                    map[currentY+1][currentX].setM_totalCostF(costG + costH);
                 }
                 
                 //Custo de F é menor que o menor até aqui?
-                if(map[currentX][currentY+1].getM_totalCostF() < lowestF){
-                    lowestF = map[currentX][currentY+1].getM_totalCostF();
-                    nextTile = map[currentX][currentY+1];
+                if(map[currentY+1][currentX].getM_totalCostF() < lowestF || lowestF == -10 || nextTile == null){
+                    lowestF = map[currentY+1][currentX].getM_totalCostF();
+                    nextTile = map[currentY+1][currentX];
+                }else{
+                    if(map[currentY+1][currentX].getM_totalCostF() == lowestF && nextTile != null && nextTile.getM_costH() > map[currentY+1][currentX].getM_costH()){
+                        lowestF = map[currentY+1][currentX].getM_totalCostF();
+                        nextTile = map[currentY+1][currentX];
+                    }
                 }
             }
             
             //Removendo tile atual da lista aberta e inserindo-o na lista fechada:
-            openList.remove(map[currentX][currentY]);
-            closedList.add(map[currentX][currentY]);
+            openList.remove(map[currentY][currentX]);
+            closedList.add(map[currentY][currentX]);
             
             //Removendo próximo tile da lista aberta e inserindo-o na lista fechada:
             openList.remove(nextTile);
@@ -575,11 +599,11 @@ public class TeenAI {
                 int cont = 0;
                 while(currentX != origX && currentY != origY){
                     //Adicionando tile ao caminho a ser percorrido:
-                    destPath.add(cont, map[currentX][currentY]);
+                    destPath.add(cont, map[currentY][currentX]);
                     
                     //Andando para trás, em direção ao tile pai:
-                    currentX = map[currentX][currentY].getM_prev().getM_mapRelX();
-                    currentY = map[currentX][currentY].getM_prev().getM_mapRelY();
+                    currentX = map[currentY][currentX].getM_prev().getM_mapRelX();
+                    currentY = map[currentY][currentX].getM_prev().getM_mapRelY();
                     
                     cont++;
                 }
