@@ -445,8 +445,8 @@ public class TeenAI {
                 
                 
                 //Iniciará sendo o menor custo total de F:
-                lowestF = map[currentY][currentX-1].getM_totalCostF();
-                nextTile = map[currentY][currentX-1];
+//                lowestF = map[currentY][currentX-1].getM_totalCostF();
+//                nextTile = map[currentY][currentX-1];
             }
 
             //Tile da direita:
@@ -481,16 +481,16 @@ public class TeenAI {
                 
                 }
                 
-                //Custo de F é menor que o menor até aqui?
-                if(map[currentY][currentX+1].getM_totalCostF() < lowestF || lowestF == -10 || nextTile == null){
-                    lowestF = map[currentY][currentX+1].getM_totalCostF();
-                    nextTile = map[currentY][currentX+1];
-                }else{
-                    if(map[currentY][currentX+1].getM_totalCostF() == lowestF && nextTile != null && nextTile.getM_costH() > map[currentY][currentX+1].getM_costH()){
-                        lowestF = map[currentY][currentX+1].getM_totalCostF();
-                        nextTile = map[currentY][currentX+1];
-                    }
-                }
+//                //Custo de F é menor que o menor até aqui?
+//                if(map[currentY][currentX+1].getM_totalCostF() <= lowestF || lowestF == -10 || nextTile == null){
+//                    lowestF = map[currentY][currentX+1].getM_totalCostF();
+//                    nextTile = map[currentY][currentX+1];
+//                }else{
+//                    if(map[currentY][currentX+1].getM_totalCostF() == lowestF && nextTile != null && nextTile.getM_costH() > map[currentY][currentX+1].getM_costH()){
+//                        lowestF = map[currentY][currentX+1].getM_totalCostF();
+//                        nextTile = map[currentY][currentX+1];
+//                    }
+//                }
                 
             }
 
@@ -525,16 +525,16 @@ public class TeenAI {
                     map[currentY-1][currentX].setM_totalCostF(costG + costH);
                 }
                 
-                //Custo de F é menor que o menor até aqui?
-                if(map[currentY-1][currentX].getM_totalCostF() < lowestF || lowestF == -10 || nextTile == null){
-                    lowestF = map[currentY-1][currentX].getM_totalCostF();
-                    nextTile = map[currentY-1][currentX];
-                }else{
-                    if(map[currentY-1][currentX].getM_totalCostF() == lowestF && nextTile != null && nextTile.getM_costH() > map[currentY-1][currentX].getM_costH()){
-                        lowestF = map[currentY-1][currentX].getM_totalCostF();
-                        nextTile = map[currentY-1][currentX];
-                    }
-                }
+//                //Custo de F é menor que o menor até aqui?
+//                if(map[currentY-1][currentX].getM_totalCostF() <= lowestF || lowestF == -10 || nextTile == null){
+//                    lowestF = map[currentY-1][currentX].getM_totalCostF();
+//                    nextTile = map[currentY-1][currentX];
+//                }else{
+//                    if(map[currentY-1][currentX].getM_totalCostF() == lowestF && nextTile != null && nextTile.getM_costH() > map[currentY-1][currentX].getM_costH()){
+//                        lowestF = map[currentY-1][currentX].getM_totalCostF();
+//                        nextTile = map[currentY-1][currentX];
+//                    }
+//                }
             }
 
             //Tile de baixo:
@@ -568,21 +568,28 @@ public class TeenAI {
                     map[currentY+1][currentX].setM_totalCostF(costG + costH);
                 }
                 
-                //Custo de F é menor que o menor até aqui?
-                if(map[currentY+1][currentX].getM_totalCostF() < lowestF || lowestF == -10 || nextTile == null){
-                    lowestF = map[currentY+1][currentX].getM_totalCostF();
-                    nextTile = map[currentY+1][currentX];
-                }else{
-                    if(map[currentY+1][currentX].getM_totalCostF() == lowestF && nextTile != null && nextTile.getM_costH() > map[currentY+1][currentX].getM_costH()){
-                        lowestF = map[currentY+1][currentX].getM_totalCostF();
-                        nextTile = map[currentY+1][currentX];
-                    }
-                }
+//                //Custo de F é menor que o menor até aqui?
+//                if(map[currentY+1][currentX].getM_totalCostF() <= lowestF || lowestF == -10 || nextTile == null){
+//                    lowestF = map[currentY+1][currentX].getM_totalCostF();
+//                    nextTile = map[currentY+1][currentX];
+//                }else{
+//                    if(map[currentY+1][currentX].getM_totalCostF() == lowestF && nextTile != null && nextTile.getM_costH() > map[currentY+1][currentX].getM_costH()){
+//                        lowestF = map[currentY+1][currentX].getM_totalCostF();
+//                        nextTile = map[currentY+1][currentX];
+//                    }
+//                }
             }
             
             //Removendo tile atual da lista aberta e inserindo-o na lista fechada:
             openList.remove(map[currentY][currentX]);
             closedList.add(map[currentY][currentX]);
+            
+            for(Tile tile : openList){
+                if(tile.getM_totalCostF() < lowestF || lowestF == -10){
+                    lowestF = tile.getM_totalCostF();
+                    nextTile = tile;
+                }
+            }
             
             //Removendo próximo tile da lista aberta e inserindo-o na lista fechada:
             openList.remove(nextTile);
