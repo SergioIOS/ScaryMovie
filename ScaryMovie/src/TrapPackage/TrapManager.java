@@ -100,7 +100,8 @@ public class TrapManager {
     public StaticTrap checkStaticTrapTeenDistance(Teenager teen){
         for(StaticTrap trap : m_staticTraps){
             //Está vendo alguma trap?
-            if(teen.getM_position().distance(trap.getM_position()) <= teen.getM_ai().getM_viewDistance()){
+            if(teen.getM_position().distance(trap.getM_position()) <= teen.getM_ai().getM_viewDistance() && !(trap.isM_isSighted())){
+                trap.setM_isSighted(true);
                 return trap;
             }
         }

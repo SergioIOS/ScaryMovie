@@ -107,6 +107,15 @@ public class TeenagerManager {
         
         return null;
     }
+    
+    public boolean checkTeenDistance(Vector2f position){
+        for(Teenager teen : this.m_teenagers){
+            if(teen.getM_position().distance(position) <= teen.getM_ai().getM_viewDistance()){
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * @return the m_teenagers

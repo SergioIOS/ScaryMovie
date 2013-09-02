@@ -169,8 +169,9 @@ public class TeenAI {
                     m_path = findPath(map.getM_tiles(), m_teen.getcurrentTile().getM_mapRelX(), m_teen.getcurrentTile().getM_mapRelY(), 
                         m_desiredStaticTrap.getM_currentTile().getM_mapRelX(), m_desiredStaticTrap.getM_currentTile().getM_mapRelY());
                     
+                    System.out.println(m_path.size());
                     //O próximo tile:
-                    m_targetPathIndex = m_path.size() - 2;
+                    m_targetPathIndex = m_path.size() - 1;
                 }
                 else{
                     moveThroughPath(map, trm);
@@ -398,6 +399,16 @@ public class TeenAI {
         destPath = new ArrayList<>();
         int currentX, currentY;
         
+        //Zerando todas as variáveis dos Tiles:
+        for(int x = 0; x < map.length; x++){
+            for(int y = 0; y < map[0].length; y++){
+                map[x][y].setM_costG(0);
+                map[x][y].setM_costH(0);
+                map[x][y].setM_totalCostF(0);
+                map[x][y].setM_prev(null);
+            }
+        }
+        
         //Colocando o tile inicial na lista aberta:
         openList.add(map[origY][origX]);
         map[origY][origX].setM_costG(0);
@@ -621,6 +632,7 @@ public class TeenAI {
     
     public void moveThroughPath(Map map, TrapManager trm){
         boolean moved = false;
+        System.out.println(m_targetPathIndex);
         if(m_teen.getcurrentTile().getM_mapRelX() < m_path.get(m_targetPathIndex).getM_mapRelX()){
             move(DIR_RIGHT, 1);
             moved = true;

@@ -141,7 +141,7 @@ public class Map {
         Random rand = new Random();
         
         //Temps:
-        int qtdTeensToCreate = rand.nextInt(20) + 5;    //de 5 à 19
+        int qtdTeensToCreate = rand.nextInt(3) + 1;    //de 5 à 19
         
         //Escolhendo uma posição:
         for(int x = 0; x < qtdTeensToCreate; x++){

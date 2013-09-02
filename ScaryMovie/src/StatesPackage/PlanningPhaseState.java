@@ -158,7 +158,8 @@ public class PlanningPhaseState extends BasicGameState{
             if(temp.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)){
                 if(!m_map.checkMapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32)) && 
                         !(m_teenManager.checkTeenColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32), null)) &&
-                            !m_trm.checkTrapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32))){
+                            !m_trm.checkTrapColision(new Rectangle(temp.getMouseX() + m_camera.getM_position().x, (temp.getMouseY() + 32) + m_camera.getM_position().y, 32, 32)) &&
+                                !m_teenManager.checkTeenDistance(new Vector2f(temp.getMouseX(), temp.getMouseY()))){
                     Vector2f pos = new Vector2f((temp.getMouseX()+ m_camera.getM_position().x), (temp.getMouseY() + m_camera.getM_position().y));
                     Random rand = new Random();
                     int num = rand.nextInt(2);

@@ -27,6 +27,7 @@ public class StaticTrap implements Trap{
     private Rectangle m_colisionBox;
     private Animation m_sprite;
     private Tile m_currentTile;
+    private boolean m_isSighted;
     
     //Construtor:
     public StaticTrap(ResourceManager rm, Vector2f position, TrapType type, Map map){
@@ -34,6 +35,7 @@ public class StaticTrap implements Trap{
         m_speed = new Vector2f(0,0);
         m_colisionBox = new Rectangle(position.x, position.y, 32, 32);
         m_type = type;
+        m_isSighted = false;
         
         m_currentTile = map.getTileByPosition(m_position.x + 16, m_position.y + 16);
         
@@ -134,6 +136,20 @@ public class StaticTrap implements Trap{
      */
     public void setM_currentTile(Tile m_currentTile) {
         this.m_currentTile = m_currentTile;
+    }
+
+    /**
+     * @return the m_isSighted
+     */
+    public boolean isM_isSighted() {
+        return m_isSighted;
+    }
+
+    /**
+     * @param m_isSighted the m_isSighted to set
+     */
+    public void setM_isSighted(boolean m_isSighted) {
+        this.m_isSighted = m_isSighted;
     }
 
 }
