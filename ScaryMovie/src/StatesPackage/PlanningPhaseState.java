@@ -62,7 +62,7 @@ public class PlanningPhaseState extends BasicGameState{
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         //Criando as Variáveis:
-        m_map = Map.getInstance("apartment");
+        m_map = Map.getInstance("Apartment");
         m_camera = Camera.getInstance(m_map);
         rm = ResourceManager.getInstance();
         m_teenManager = TeenagerManager.getInstance(m_camera);

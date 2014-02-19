@@ -63,7 +63,7 @@ public class Map {
     
     private boolean loadTmxMap(String mapName) throws SlickException{
         //Temps:
-        String mapFileAdress = "data/maps/" + mapName + "/map.tmx";
+        String mapFileAdress = "data/maps/" + mapName + "/Map.tmx";
         String mapBadgeAdress = "data/maps/" + mapName + "/badge.png";
         
         //Começando:
